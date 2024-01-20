@@ -1,6 +1,5 @@
 package frc.robot.subsystems;
 
-
 import frc.robot.Constants;
 import frc.robot.Constants.CANIDs;
 import frc.robot.Constants.DriveConstants;
@@ -35,7 +34,7 @@ import frc.utils.*;
  *
  */
 public class Swerve extends SubsystemBase {
-   public final double kp_driveStraightGyro = 0.0125;
+  public final double kp_driveStraightGyro = 0.0125;
 
   // Create MAXSwerveModules
   private final MAXSwerveModule m_frontLeft = new MAXSwerveModule(
@@ -323,7 +322,6 @@ public class Swerve extends SubsystemBase {
     RobotContainer.getInstance().m_robotDrive.drive(leftY, leftX, rightX, true, false);
   }
 
-
   public ChassisSpeeds getChassisSpeeds() {
 
     return DriveConstants.kDriveKinematics.toChassisSpeeds(m_frontLeft.getState(), m_frontRight.getState(),
@@ -344,4 +342,3 @@ public class Swerve extends SubsystemBase {
   }
 
 }
-

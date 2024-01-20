@@ -18,21 +18,22 @@ import com.revrobotics.CANSparkBase.IdleMode;
  */
 public class CommonLogic {
 
-  public static void setSparkParamsBase(CANSparkMax NewSpark, boolean inverted, int StallLimit, int RollLimit, IdleMode breakMode){
-        NewSpark.setInverted(inverted);
-        NewSpark.setSmartCurrentLimit(StallLimit, RollLimit);
-        NewSpark.setIdleMode(breakMode);
-        NewSpark.burnFlash();
-        
+  public static void setSparkParamsBase(CANSparkMax NewSpark, boolean inverted, int StallLimit, int RollLimit,
+      IdleMode breakMode) {
+    NewSpark.setInverted(inverted);
+    NewSpark.setSmartCurrentLimit(StallLimit, RollLimit);
+    NewSpark.setIdleMode(breakMode);
+    NewSpark.burnFlash();
+
   }
 
-  public static void setSparkParamsPIDF(CANSparkMax NewSpark, double P, double I, double D, double F){
-      SparkPIDController SPID = NewSpark.getPIDController();
-      SPID.setP(P);
-      SPID.setI(I);
-      SPID.setD(D);
-      SPID.setFF(F);
-      NewSpark.burnFlash();
+  public static void setSparkParamsPIDF(CANSparkMax NewSpark, double P, double I, double D, double F) {
+    SparkPIDController SPID = NewSpark.getPIDController();
+    SPID.setP(P);
+    SPID.setI(I);
+    SPID.setD(D);
+    SPID.setFF(F);
+    NewSpark.burnFlash();
 
   }
 
@@ -100,21 +101,23 @@ public class CommonLogic {
     if ((dist2_accel * 2) > dist_inch) {
       // it is triangle and we never reach curise speed;
       // this happens with short move distances and high speeds with low accel
-     // retValue = (time2_accel * 2 * Profiler_Constants_DriveTrain.profileEndTimeScalar);
+      // retValue = (time2_accel * 2 *
+      // Profiler_Constants_DriveTrain.profileEndTimeScalar);
     } else {
       // it is trapazoid and we do cruise for a while
       double inchAtCruise = dist_inch - (2 * dist2_accel);
       double timeAtCruise = inchAtCruise / vel_inch_sec;
-    //  retValue = ((2 * time2_accel) + timeAtCruise) * Profiler_Constants_DriveTrain.profileEndTimeScalar;
+      // retValue = ((2 * time2_accel) + timeAtCruise) *
+      // Profiler_Constants_DriveTrain.profileEndTimeScalar;
     }
     return retValue;
   }
-  public static double gotoPosPIDF(double P, double F_hold,double currentPos, double targetPos){
+
+  public static double gotoPosPIDF(double P, double F_hold, double currentPos, double targetPos) {
     double delta = targetPos - currentPos;
 
     return (delta / P) + F_hold;
 
-}
-
+  }
 
 }

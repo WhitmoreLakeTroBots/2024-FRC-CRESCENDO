@@ -1,29 +1,23 @@
 package frc.robot.subsystems;
 
-
 //import frc.robot.commands.*;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 import edu.wpi.first.wpilibj.DigitalInput;
 
-
-
 /**
  *
  */
 public class Sensors extends SubsystemBase {
-   
-private DigitalInput digitalInput1;
 
-    
+    private DigitalInput digitalInput1;
+
     /**
     *
     */
     public Sensors() {
-digitalInput1 = new DigitalInput(0);
- addChild("Digital Input 1", digitalInput1);
- 
-
+        digitalInput1 = new DigitalInput(0);
+        addChild("Digital Input 1", digitalInput1);
 
     }
 
@@ -43,4 +37,3 @@ digitalInput1 = new DigitalInput(0);
     // here. Call these from Commands.
 
 }
-

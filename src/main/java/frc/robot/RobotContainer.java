@@ -19,13 +19,15 @@ import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
 
-
-
 /**
- * This class is where the bulk of the robot should be declared.  Since Command-based is a
- * "declarative" paradigm, very little robot logic should actually be handled in the {@link Robot}
- * periodic methods (other than the scheduler calls).  Instead, the structure of the robot
- * (including subsystems, commands, and button mappings) should be declared here.
+ * This class is where the bulk of the robot should be declared. Since
+ * Command-based is a
+ * "declarative" paradigm, very little robot logic should actually be handled in
+ * the {@link Robot}
+ * periodic methods (other than the scheduler calls). Instead, the structure of
+ * the robot
+ * (including subsystems, commands, and button mappings) should be declared
+ * here.
  */
 public class RobotContainer {
     // The robot's subsystems
@@ -44,7 +46,7 @@ public class RobotContainer {
         configureButtonBindings();
         m_Chooser.addOption("Test Path Planner Auto", new PathPlannerAuto("test_auto"));
         m_Chooser.addOption("Test Path Straight", new PathPlannerAuto("test_auto2"));
-                      
+
         SmartDashboard.putData("Auto Mode", m_Chooser);
     }
 
@@ -74,22 +76,21 @@ public class RobotContainer {
      * @return the command to run in autonomous
      */
     public Command getAutonomousCommand() {
-                return m_Chooser.getSelected();
-       }
+        return m_Chooser.getSelected();
+    }
 
     public void updateSmartDashboard() {
         SmartDashboard.putNumber("heading", m_robotDrive.getHeading());
-        SmartDashboard.putData("Auto Mode",m_Chooser);
-        SmartDashboard.putNumber("Distance Traveled", m_robotDrive.getDistanceTraveledInches(new Pose2d(2.0, 7.0, new Rotation2d())));
+        SmartDashboard.putData("Auto Mode", m_Chooser);
+        SmartDashboard.putNumber("Distance Traveled",
+                m_robotDrive.getDistanceTraveledInches(new Pose2d(2.0, 7.0, new Rotation2d())));
         SmartDashboard.putNumber("X pos", m_robotDrive.m_odometry.getPoseMeters().getX());
         SmartDashboard.putNumber("Y pos", m_robotDrive.m_odometry.getPoseMeters().getY());
         SmartDashboard.putNumber("Rotation", m_robotDrive.m_odometry.getPoseMeters().getRotation().getDegrees());
-    }   
-
+    }
 
     public static RobotContainer getInstance() {
         return m_robotContainer;
 
     }
 }
-

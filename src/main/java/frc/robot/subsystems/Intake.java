@@ -1,54 +1,47 @@
 package frc.robot.subsystems;
 
-
 //import frc.robot.commands.*;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants.CANIDs;
 import frc.utils.CommonLogic;
 
-import com.revrobotics.CANSparkBase;
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.CANSparkBase.IdleMode;
-
-import edu.wpi.first.wpilibj.motorcontrol.PWMSparkMax;
-
 
 /**
  *
  */
 public class Intake extends SubsystemBase {
-    
+
     private RollerStatus CRollerStatus = RollerStatus.STOP;
     private PivotPos targetPivotPos = PivotPos.START;
 
+    private CANSparkMax rotMotor;
+    private CANSparkMax pivMotor;
+    private double pivP = 10.0;
+    private double pivF = 0.0;
 
+    private double minPivPower = -0.4;
+    private double maxPivPower = 0.4;
 
-private CANSparkMax rotMotor;
-private CANSparkMax pivMotor;
-private double pivP = 10.0;
-private double pivF = 0.0;
-
-private double minPivPower = -0.4;
-private double maxPivPower = 0.4;
-
-    
     /**
     *
     */
     public Intake() {
-rotMotor = new CANSparkMax(CANIDs.RotMotorId, CANSparkMax.MotorType.kBrushless);
- CommonLogic.setSparkParamsBase(rotMotor, false,10, 30, IdleMode.kCoast);
- 
+        rotMotor = new CANSparkMax(CANIDs.RotMotorId, CANSparkMax.MotorType.kBrushless);
+        CommonLogic.setSparkParamsBase(rotMotor, false, 10, 30, IdleMode.kCoast);
 
- pivMotor = new CANSparkMax(CANIDs.PivMotorId, CANSparkMax.MotorType.kBrushless);
- CommonLogic.setSparkParamsBase(pivMotor, false,10, 30, IdleMode.kBrake);
+        pivMotor = new CANSparkMax(CANIDs.PivMotorId, CANSparkMax.MotorType.kBrushless);
+        CommonLogic.setSparkParamsBase(pivMotor, false, 10, 30, IdleMode.kBrake);
 
     }
 
     @Override
     public void periodic() {
         // This method will be called once per scheduler run
-        pivMotor.set(CommonLogic.CapMotorPower(CommonLogic.gotoPosPIDF(pivP, pivF, pivMotor.getEncoder().getPosition(),targetPivotPos.pos), minPivPower, maxPivPower));
+        pivMotor.set(CommonLogic.CapMotorPower(
+                CommonLogic.gotoPosPIDF(pivP, pivF, pivMotor.getEncoder().getPosition(), targetPivotPos.pos),
+                minPivPower, maxPivPower));
     }
 
     @Override
@@ -57,11 +50,11 @@ rotMotor = new CANSparkMax(CANIDs.RotMotorId, CANSparkMax.MotorType.kBrushless);
 
     }
 
-    public void setPivotPos(PivotPos newPos){
+    public void setPivotPos(PivotPos newPos) {
         targetPivotPos = newPos;
     }
 
-    public void setRollerStatus(RollerStatus newStatus){
+    public void setRollerStatus(RollerStatus newStatus) {
         switch (newStatus) {
             case STOP:
                 rotMotor.set(newStatus.pow);
@@ -86,32 +79,40 @@ rotMotor = new CANSparkMax(CANIDs.RotMotorId, CANSparkMax.MotorType.kBrushless);
 
     // Put methods for controlling this subsystem
     // here. Call these from Commands.
+    public RollerStatus getCurRollerStatus() {
+        return CRollerStatus;
+    }
 
-    public enum RollerStatus{
+    public enum RollerStatus {
         STOP(0.0),
         FORWARD(0.4),
         REVERSE(-0.4);
+
         private final double pow;
-        public double getPow(){
+
+        public double getPow() {
             return pow;
         }
-        RollerStatus(double pow){
+
+        RollerStatus(double pow) {
             this.pow = pow;
         }
     }
 
-    public enum PivotPos{
+    public enum PivotPos {
         START(0.0),
         IN(0.0),
         OUT(0.0);
+
         private final double pos;
-        public double getPos(){
+
+        public double getPos() {
             return pos;
         }
-        PivotPos(double pos){
+
+        PivotPos(double pos) {
             this.pos = pos;
         }
     }
 
 }
-
