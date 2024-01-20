@@ -2,6 +2,7 @@ package frc.robot.subsystems;
 
 
 import frc.robot.Constants;
+import frc.robot.Constants.CANIDs;
 import frc.robot.Constants.DriveConstants;
 import frc.robot.Constants.OIConstants;
 import frc.robot.RobotContainer;
@@ -38,23 +39,23 @@ public class Swerve extends SubsystemBase {
 
   // Create MAXSwerveModules
   private final MAXSwerveModule m_frontLeft = new MAXSwerveModule(
-      DriveConstants.kFrontLeftDrivingCanId,
-      DriveConstants.kFrontLeftTurningCanId,
+      CANIDs.kFrontLeftDrivingCanId,
+      CANIDs.kFrontLeftTurningCanId,
       DriveConstants.kFrontLeftChassisAngularOffset);
 
   private final MAXSwerveModule m_frontRight = new MAXSwerveModule(
-      DriveConstants.kFrontRightDrivingCanId,
-      DriveConstants.kFrontRightTurningCanId,
+      CANIDs.kFrontRightDrivingCanId,
+      CANIDs.kFrontRightTurningCanId,
       DriveConstants.kFrontRightChassisAngularOffset);
 
   private final MAXSwerveModule m_rearLeft = new MAXSwerveModule(
-      DriveConstants.kRearLeftDrivingCanId,
-      DriveConstants.kRearLeftTurningCanId,
+      CANIDs.kRearLeftDrivingCanId,
+      CANIDs.kRearLeftTurningCanId,
       DriveConstants.kBackLeftChassisAngularOffset);
 
   private final MAXSwerveModule m_rearRight = new MAXSwerveModule(
-      DriveConstants.kRearRightDrivingCanId,
-      DriveConstants.kRearRightTurningCanId,
+      CANIDs.kRearRightDrivingCanId,
+      CANIDs.kRearRightTurningCanId,
       DriveConstants.kBackRightChassisAngularOffset);
 
   // private List<MAXSwerveModule> m_swerveModules;

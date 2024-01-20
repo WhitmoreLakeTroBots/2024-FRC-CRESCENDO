@@ -37,9 +37,11 @@ public class Constants {
     public static final double kBackLeftChassisAngularOffset = Math.PI;
     public static final double kBackRightChassisAngularOffset = Math.PI / 2;
 
-    // **CAN IDs**
+    public static final boolean kGyroReversed = false;
+  }
 
-    // Drive Motor Can IDS
+    public static final class CANIDs {
+     // Drive Motor Can IDS
     public static final int kFrontLeftDrivingCanId = 1;
     public static final int kRearLeftDrivingCanId = 3;
     public static final int kFrontRightDrivingCanId = 7;
@@ -50,7 +52,10 @@ public class Constants {
     public static final int kFrontRightTurningCanId = 8;
     public static final int kRearRightTurningCanId = 6;
 
-    public static final boolean kGyroReversed = false;
+    //Intake Motor Can IDS
+    public static final int RotMotorId = 9;
+    public static final int PivMotorId = 10;
+    
   }
 
   public static final class ModuleConstants {

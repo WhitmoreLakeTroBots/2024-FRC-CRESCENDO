@@ -7,12 +7,34 @@
 
 package frc.utils;
 
+import com.revrobotics.CANSparkMax;
+import com.revrobotics.SparkPIDController;
+import com.revrobotics.CANSparkBase.IdleMode;
+
 // import frc.robot.Constants.Profiler_Constants_DriveTrain;
 
 /**
  * Add your docs here.
  */
 public class CommonLogic {
+
+  public static void setSparkParamsBase(CANSparkMax NewSpark, boolean inverted, int StallLimit, int RollLimit, IdleMode breakMode){
+        NewSpark.setInverted(inverted);
+        NewSpark.setSmartCurrentLimit(StallLimit, RollLimit);
+        NewSpark.setIdleMode(breakMode);
+        NewSpark.burnFlash();
+        
+  }
+
+  public static void setSparkParamsPIDF(CANSparkMax NewSpark, double P, double I, double D, double F){
+      SparkPIDController SPID = NewSpark.getPIDController();
+      SPID.setP(P);
+      SPID.setI(I);
+      SPID.setD(D);
+      SPID.setFF(F);
+      NewSpark.burnFlash();
+
+  }
 
   public static double CapMotorPower(double MotorPower, double negCapValue, double posCapValue) {
     // logic to cap the motor power between a good range
