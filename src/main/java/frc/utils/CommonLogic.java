@@ -109,8 +109,8 @@ public class CommonLogic {
     }
     return retValue;
   }
-  public static double gotoPosPIDF(double P, double F_hold,int currentPos, int targetPos){
-    int delta = targetPos - currentPos;
+  public static double gotoPosPIDF(double P, double F_hold,double currentPos, double targetPos){
+    double delta = targetPos - currentPos;
 
     return (delta / P) + F_hold;
 

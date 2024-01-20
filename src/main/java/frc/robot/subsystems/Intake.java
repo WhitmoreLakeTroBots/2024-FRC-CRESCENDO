@@ -25,9 +25,12 @@ public class Intake extends SubsystemBase {
 
 private CANSparkMax rotMotor;
 private CANSparkMax pivMotor;
+private double pivP = 10.0;
+private double pivF = 0.0;
 
-private double rotForwardP = 0.4;
-private double rotBackP = -0.4;
+private double minPivPower = -0.4;
+private double maxPivPower = 0.4;
+
     
     /**
     *
@@ -45,7 +48,7 @@ rotMotor = new CANSparkMax(CANIDs.RotMotorId, CANSparkMax.MotorType.kBrushless);
     @Override
     public void periodic() {
         // This method will be called once per scheduler run
-
+        pivMotor.set(CommonLogic.CapMotorPower(CommonLogic.gotoPosPIDF(pivP, pivF, pivMotor.getEncoder().getPosition(),targetPivotPos.pos), minPivPower, maxPivPower));
     }
 
     @Override
@@ -55,23 +58,23 @@ rotMotor = new CANSparkMax(CANIDs.RotMotorId, CANSparkMax.MotorType.kBrushless);
     }
 
     public void setPivotPos(PivotPos newPos){
-        
+        targetPivotPos = newPos;
     }
 
     public void setRollerStatus(RollerStatus newStatus){
         switch (newStatus) {
             case STOP:
-                rotMotor.set(0);
+                rotMotor.set(newStatus.pow);
                 CRollerStatus = newStatus;
                 break;
 
             case FORWARD:
-                rotMotor.set(rotForwardP);
+                rotMotor.set(newStatus.pow);
                 CRollerStatus = newStatus;
                 break;
 
             case REVERSE:
-                rotMotor.set(rotBackP);
+                rotMotor.set(newStatus.pow);
                 CRollerStatus = newStatus;
                 break;
 
@@ -85,9 +88,16 @@ rotMotor = new CANSparkMax(CANIDs.RotMotorId, CANSparkMax.MotorType.kBrushless);
     // here. Call these from Commands.
 
     public enum RollerStatus{
-        STOP,
-        FORWARD,
-        REVERSE;
+        STOP(0.0),
+        FORWARD(0.4),
+        REVERSE(-0.4);
+        private final double pow;
+        public double getPow(){
+            return pow;
+        }
+        RollerStatus(double pow){
+            this.pow = pow;
+        }
     }
 
     public enum PivotPos{
