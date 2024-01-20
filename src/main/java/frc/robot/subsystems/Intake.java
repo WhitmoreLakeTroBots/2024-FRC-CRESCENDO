@@ -11,16 +11,20 @@ import edu.wpi.first.wpilibj.motorcontrol.PWMSparkMax;
  */
 public class Intake extends SubsystemBase {
     
-private PWMSparkMax motorController1;
+    private RollerStatus CRollerStatus = RollerStatus.STOP;
+
+
+
+private PWMSparkMax rotMotor;
 
     
     /**
     *
     */
     public Intake() {
-motorController1 = new PWMSparkMax(1);
- addChild("Motor Controller 1",motorController1);
- motorController1.setInverted(false);
+rotMotor = new PWMSparkMax(1);
+ addChild("rotMotor",rotMotor);
+ rotMotor.setInverted(false);
 
 
     }
@@ -37,8 +41,30 @@ motorController1 = new PWMSparkMax(1);
 
     }
 
+    public void setRollerStatus(RollerStatus newStatus){
+        switch (newStatus) {
+            case STOP:
+                
+                break;
+            case FORWARD:
+
+                break;
+            case REVERSE:
+                
+                break;
+            default:
+                break;
+        }
+    }
+
     // Put methods for controlling this subsystem
     // here. Call these from Commands.
+
+    public enum RollerStatus{
+        STOP,
+        FORWARD,
+        REVERSE;
+    }
 
 }
 
