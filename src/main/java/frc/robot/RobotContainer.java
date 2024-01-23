@@ -32,6 +32,7 @@ import edu.wpi.first.wpilibj2.command.button.Trigger;
 public class RobotContainer {
     // The robot's subsystems
     public final Swerve m_robotDrive = new Swerve();
+    public final Intake m_Intake = new Intake();
     private static RobotContainer m_robotContainer = new RobotContainer();
     SendableChooser<Command> m_Chooser = new SendableChooser<>();
     // The driver's controller
