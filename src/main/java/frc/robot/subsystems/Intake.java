@@ -15,6 +15,7 @@ public class Intake extends SubsystemBase {
 
     private RollerStatus CRollerStatus = RollerStatus.STOP;
     private PivotPos targetPivotPos = PivotPos.START;
+    private double pivPosTol = 5;
 
     private CANSparkMax rotMotor;
     private CANSparkMax pivMotor;
@@ -81,6 +82,14 @@ public class Intake extends SubsystemBase {
     // here. Call these from Commands.
     public RollerStatus getCurRollerStatus() {
         return CRollerStatus;
+    }
+
+    public boolean getPivotStatus(){
+        return(CommonLogic.isInRange(pivMotor.getEncoder().getPosition(), targetPivotPos.pos, pivPosTol));
+    }
+
+    public double getCurPivotPos(){
+        return pivMotor.getEncoder().getPosition();
     }
 
     public enum RollerStatus {
