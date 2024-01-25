@@ -174,9 +174,11 @@ public class SubPoseEstimator extends SubsystemBase {
                 visionPose3d_str = String.format("vision: %f2.2\t%f2.2\t%f3.0",
                      robotFieldPose.getX(),
                      robotFieldPose.getY(),
-                     robotFieldPose.getRotation().getZ());
+                     Math.toDegrees(robotFieldPose.getRotation().getZ()));
             } 
         }
+        visionPose3d_str = String.format("vision: %f2.2\t%f2.2\t%f3.0",
+                     99.0, 99.0, 0.0);
     }
 
     public double getDistanceFromTagInInches(int tagID){

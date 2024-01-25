@@ -343,11 +343,26 @@ public class Swerve extends SubsystemBase {
 
   //used to put data to the dashboard
   public String getPose2dString (){
-    return String.format("odometry: %f2.2\t%f2.2\t%f3.0",
-    m_odometry.getPoseMeters().getTranslation().getX(),
-    m_odometry.getPoseMeters().getTranslation().getY(),
-    m_odometry.getPoseMeters().getRotation().getDegrees());
-  
+
+    double x = m_odometry.getPoseMeters().getTranslation().getX();
+    double y = m_odometry.getPoseMeters().getTranslation().getY();
+    double deg = m_odometry.getPoseMeters().getRotation().getDegrees();
+
+    if (Double.isNaN(x)){
+      x = 99;
+    }
+
+    if (Double.isNaN(y)){
+      y = 99;
+    }
+
+    if (Double.isNaN(deg)){
+      deg = 999;
+    }
+
+    return String.format("odometry: %f2.2\t%f2.2\t%f3.0", x, y, deg);
+
+
   }
 
 }
