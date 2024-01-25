@@ -22,6 +22,7 @@ private Intake.RollerStatus setStatus;
     public void initialize() {
         RobotContainer.getInstance().m_Intake.setRollerStatus(setStatus);
         bDone = true;
+        end(false);
     }
 
     // Called every time the scheduler runs while the command is scheduled.

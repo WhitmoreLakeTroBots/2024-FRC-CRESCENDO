@@ -1,7 +1,9 @@
 package frc.robot;
 
+import frc.robot.commands.intakeCommands.intakeCmd;
 //import frc.robot.commands.*;
 import frc.robot.subsystems.*;
+import frc.robot.subsystems.Intake.RollerStatus;
 
 import com.pathplanner.lib.commands.PathPlannerAuto;
 
@@ -38,6 +40,7 @@ public class RobotContainer {
     SendableChooser<Command> m_Chooser = new SendableChooser<>();
     // The driver's controller
     public final CommandXboxController m_driverController = new CommandXboxController(0);
+    public final CommandXboxController m_articController = new CommandXboxController(1);
 
     /**
      * The container for the robot. Contains subsystems, OI devices, and commands.
@@ -62,13 +65,70 @@ public class RobotContainer {
      * {@link JoystickButton}.
      */
     private void configureButtonBindings() {
+        
+        
+        Trigger A_drive = m_driverController.a();
+
+        Trigger B_drive = m_driverController.b();
+
         Trigger X_drive = m_driverController.x();
         X_drive.whileTrue(new RunCommand(
                 () -> m_robotDrive.setX(),
                 m_robotDrive));
+        Trigger Y_drive = m_driverController.y();
+
+        Trigger DUp_drive = m_driverController.povUp();
+
+        Trigger DLeft_drive = m_driverController.povLeft();
+
+        Trigger DDown_drive = m_driverController.povDown();
+
+        Trigger DRight_drive = m_driverController.povRight();
+
         Trigger BACK_drive = m_driverController.back();
         BACK_drive.whileTrue(new RunCommand(
                 () -> m_robotDrive.zeroHeading()));
+        Trigger START_drive = m_driverController.start();
+
+        Trigger LBump_drive = m_driverController.leftBumper();
+
+        Trigger LTrig_drive = m_driverController.leftTrigger();
+
+        Trigger RBump_drive = m_driverController.rightBumper();
+        
+        Trigger RTrig_drive = m_driverController.rightTrigger();
+
+//Articulation Controller*************************************************
+        Trigger A_Artic = m_articController.a();
+
+        Trigger B_Artic = m_articController.b();
+
+        Trigger X_Artic = m_articController.x();
+
+        Trigger Y_Artic = m_articController.y();
+
+        Trigger DUp_Artic = m_articController.povUp();
+
+        Trigger DLeft_Artic = m_articController.povLeft();
+
+        Trigger DDown_Artic = m_articController.povDown();
+
+        Trigger DRight_Artic = m_articController.povRight();
+
+        Trigger BACK_Artic = m_articController.back();
+        BACK_Artic.onTrue(new intakeCmd(Intake.RollerStatus.STOP));
+        Trigger START_Artic = m_articController.start();
+
+         Trigger LBump_Artic = m_articController.leftBumper();
+        LBump_Artic.onTrue(new intakeCmd(RollerStatus.REVERSE));
+        Trigger LTrig_Artic = m_articController.leftTrigger();
+
+        Trigger RBump_Artic = m_articController.rightBumper();
+        RBump_Artic.onTrue(new intakeCmd(RollerStatus.FORWARD));
+        Trigger RTrig_Artic = m_articController.rightTrigger();
+
+        
+        
 
     }
 
@@ -89,6 +149,8 @@ public class RobotContainer {
         SmartDashboard.putNumber("X pos", m_robotDrive.m_odometry.getPoseMeters().getX());
         SmartDashboard.putNumber("Y pos", m_robotDrive.m_odometry.getPoseMeters().getY());
         SmartDashboard.putNumber("Rotation", m_robotDrive.m_odometry.getPoseMeters().getRotation().getDegrees());
+        SmartDashboard.putNumber("PivotLocation", m_Intake.getCurPivotPos());
+        SmartDashboard.putNumber("RollerStatus", m_Intake.getCurRollerStatus().getPow());
         SmartDashboard.putBoolean("BeamBreak1", m_Sensors.BeamBreak1.get());
     }
 

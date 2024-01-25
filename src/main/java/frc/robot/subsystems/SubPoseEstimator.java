@@ -23,18 +23,18 @@ import java.util.Optional;
  */
 public class SubPoseEstimator extends SubsystemBase {
     Pose3d robotFieldPose = null;
-    private final Pose3d nullPose = new Pose3d(new Translation3d(-99, -99, -99), new Rotation3d(0.0, 0.0, 0.0));
-    private final PhotonCamera cam11 = new PhotonCamera("photon12");
+  //  private final Pose3d nullPose = new Pose3d(new Translation3d(-99, -99, -99), new Rotation3d(0.0, 0.0, 0.0));
+    private final PhotonCamera cam12 = new PhotonCamera("10.36.68.12");
 
     // default camera position
-    private final Transform3d cam11_2_robotTransform3d = new Transform3d(new Translation3d(0, 0, .45),
+    private final Transform3d cam12_2_robotTransform3d = new Transform3d(new Translation3d(0, 0, .45),
             new Rotation3d(Math.toRadians(0), Math.toRadians(0), Math.toRadians(9)));
     // The parameter for loadFromResource() will be different depending on the game.
     private AprilTagFieldLayout aprilTagFieldLayout = null;
 
-    private double m_cam11_x = 0.0;
-    private double m_cam11_y = 0.0;
-    private double m_cam11_z = 0.0;
+    private double m_cam12_x = 0.0;
+    private double m_cam12_y = 0.0;
+    private double m_cam12_z = 0.0;
 
     private int m_tag_ID = 0;
     private double m_field_x = 0.0;
@@ -73,7 +73,7 @@ public class SubPoseEstimator extends SubsystemBase {
     @Override
     public void periodic() {
         // This method will be called once per scheduler run
-        tags = cam11.getLatestResult().getTargets();
+        tags = cam12.getLatestResult().getTargets();
         processTags();
     }
 
@@ -86,8 +86,8 @@ public class SubPoseEstimator extends SubsystemBase {
     // Put methods for controlling this subsystem
     // here. Call these from Commands.
 
-    private void NullThePose() {
-        robotFieldPose = nullPose;
+    /*private void NullThePose() {
+       // robotFieldPose = nullPose;
         m_field_x = robotFieldPose.getX();
         m_field_y = robotFieldPose.getY();
         m_field_z = robotFieldPose.getZ();
@@ -97,11 +97,11 @@ public class SubPoseEstimator extends SubsystemBase {
         m_field_yawRad = robotFieldPose.getRotation().getZ();
         m_field_pitchRad = robotFieldPose.getRotation().getY();
 
-        m_cam11_x = 0.0;
-        m_cam11_y = 0.0;
-        m_cam11_z = 0.0;
+        m_cam12_x = 0.0;
+        m_cam12_y = 0.0;
+        m_cam12_z = 0.0;
         m_HasTargets = false;
-    }
+    }*/
 
     public Pose3d getRobotFieldPose() {
         return robotFieldPose;
@@ -112,15 +112,15 @@ public class SubPoseEstimator extends SubsystemBase {
     }
 
     public double getCameraX() {
-        return m_cam11_x;
+        return m_cam12_x;
     }
 
     public double getCameraY() {
-        return m_cam11_y;
+        return m_cam12_y;
     }
 
     public double getCameraZ() {
-        return m_cam11_z;
+        return m_cam12_z;
     }
 
     public double getFieldX() {
@@ -148,7 +148,7 @@ public class SubPoseEstimator extends SubsystemBase {
     }
 
     private void processTags(){
-        var results = cam11.getLatestResult();
+        var results = cam12.getLatestResult();
 
         if (results.hasTargets()) {
             m_tag_ID = results.getBestTarget().getFiducialId();
@@ -159,7 +159,7 @@ public class SubPoseEstimator extends SubsystemBase {
                 robotFieldPose = PhotonUtils.estimateFieldToRobotAprilTag(
                         results.getBestTarget().getBestCameraToTarget(),
                         bestTagPose.get(),
-                        cam11_2_robotTransform3d);
+                        cam12_2_robotTransform3d);
 
                 m_field_x = robotFieldPose.getX();
                 m_field_y = robotFieldPose.getY();
@@ -168,15 +168,11 @@ public class SubPoseEstimator extends SubsystemBase {
                 m_field_yawRad = robotFieldPose.getRotation().getZ();
                 m_field_pitchRad = robotFieldPose.getRotation().getY();
 
-                m_cam11_x = results.getBestTarget().getBestCameraToTarget().getX();
-                m_cam11_y = results.getBestTarget().getBestCameraToTarget().getY();
-                m_cam11_z = results.getBestTarget().getBestCameraToTarget().getZ();
+                m_cam12_x = results.getBestTarget().getBestCameraToTarget().getX();
+                m_cam12_y = results.getBestTarget().getBestCameraToTarget().getY();
+                m_cam12_z = results.getBestTarget().getBestCameraToTarget().getZ();
 
-            } else {
-                NullThePose();
-            }
-        } else {
-            NullThePose();
+            } 
         }
     }
 
@@ -196,45 +192,4 @@ public class SubPoseEstimator extends SubsystemBase {
         catch(Exception e){return -99;}
     }
 
-    public enum targetPoses {
-
-        NULLPOSE("Null pose", -99, -99, new Pose3d(new Translation3d(-99, -99, -99), new Rotation3d(0.0, 0.0, 0.0))),
-        TAGID1("April Tag 1", 1, 1, new Pose3d(new Translation3d(14.4, 1.70, 0.5), new Rotation3d(0.0, 0.0, 0.0))),
-
-        BLUE_GAME_PIECE_1("blue game 1", 1, 1, new Pose3d(new Translation3d(7.061, 0.914, 0.0), new Rotation3d(0.0, 0.0, 0.0))),
-        BLUE_GAME_PIECE_2("blue game 2", 1, 1, new Pose3d(new Translation3d(7.061, 2.134, 0.0), new Rotation3d(0.0, 0.0, 0.0))),
-        BLUE_GAME_PIECE_3("blue game 3", 1, 1, new Pose3d(new Translation3d(7.061, 3.404, 0.0), new Rotation3d(0.0, 0.0, 0.0))),
-        BLUE_GAME_PIECE_4("blue game 4", 1, 1, new Pose3d(new Translation3d(7.061, 4.572, 0.0), new Rotation3d(0.0, 0.0, 0.0))),
-
-        RED_GAME_PIECE_1("red game 1", 1, 1, new Pose3d(new Translation3d(9.448, 0.914, 0.0), new Rotation3d(0.0, 0.0, 0.0))),
-        RED_GAME_PIECE_2("red game 2", 1, 1, new Pose3d(new Translation3d(9.448, 2.134, 0.0), new Rotation3d(0.0, 0.0, 0.0))),
-        RED_GAME_PIECE_3("red game 3", 1, 1, new Pose3d(new Translation3d(9.448, 3.404, 0.0), new Rotation3d(0.0, 0.0, 0.0))),
-        RED_GAME_PIECE_4("red game 4", 1, 1, new Pose3d(new Translation3d(9.448, 4.572, 0.0), new Rotation3d(0.0, 0.0, 0.0)));
-
-
-        private final String name;
-        private final Pose3d pose;
-        private final int grid;
-        private final int column;
-
-        public Pose3d getPose() {
-            return pose;
-        }
-
-        public String getName() {
-            return name;
-        }
-
-        public Pose3d getPoseByPos(int grid, int column) {
-            return pose;
-
-        }
-
-        targetPoses(String name, int grid, int column, Pose3d pose) {
-            this.name = name;
-            this.pose = pose;
-            this.grid = grid;
-            this.column = column;
-        }
-    }
 }
