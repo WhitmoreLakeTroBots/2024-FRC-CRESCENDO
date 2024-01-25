@@ -341,4 +341,13 @@ public class Swerve extends SubsystemBase {
     m_rearRight.setDesiredState(swerveModuleStates[3]);
   }
 
+  //used to put data to the dashboard
+  public String getPose2dString (){
+    return String.format("odometry: %f2.2\t%f2.2\t%f3.0",
+    m_odometry.getPoseMeters().getTranslation().getX(),
+    m_odometry.getPoseMeters().getTranslation().getY(),
+    m_odometry.getPoseMeters().getRotation().getDegrees());
+  
+  }
+
 }

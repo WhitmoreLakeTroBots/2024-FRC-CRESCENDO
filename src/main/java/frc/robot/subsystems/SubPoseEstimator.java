@@ -57,7 +57,7 @@ public class SubPoseEstimator extends SubsystemBase {
     public double calcDiffY;
 
     public List<PhotonTrackedTarget> tags;
-
+    private String visionPose3d_str = "";
     public SubPoseEstimator() {
 
         try {
@@ -171,7 +171,10 @@ public class SubPoseEstimator extends SubsystemBase {
                 m_cam12_x = results.getBestTarget().getBestCameraToTarget().getX();
                 m_cam12_y = results.getBestTarget().getBestCameraToTarget().getY();
                 m_cam12_z = results.getBestTarget().getBestCameraToTarget().getZ();
-
+                visionPose3d_str = String.format("vision: %f2.2\t%f2.2\t%f3.0",
+                     robotFieldPose.getX(),
+                     robotFieldPose.getY(),
+                     robotFieldPose.getRotation().getZ());
             } 
         }
     }
@@ -191,5 +194,10 @@ public class SubPoseEstimator extends SubsystemBase {
         }
         catch(Exception e){return -99;}
     }
+
+     //used to put data to the dashboard
+  public String getPose2dString (){
+    return visionPose3d_str;
+  }
 
 }

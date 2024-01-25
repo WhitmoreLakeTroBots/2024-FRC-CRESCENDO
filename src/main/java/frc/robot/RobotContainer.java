@@ -36,6 +36,7 @@ public class RobotContainer {
     public final Swerve m_robotDrive = new Swerve();
     public final Intake m_Intake = new Intake();
     public final Sensors m_Sensors = new Sensors();
+    public final SubPoseEstimator m_Photon = new SubPoseEstimator();
     private static RobotContainer m_robotContainer = new RobotContainer();
     SendableChooser<Command> m_Chooser = new SendableChooser<>();
     // The driver's controller
@@ -146,13 +147,15 @@ public class RobotContainer {
         SmartDashboard.putData("Auto Mode", m_Chooser);
         SmartDashboard.putNumber("Distance Traveled",
                 m_robotDrive.getDistanceTraveledInches(new Pose2d(2.0, 7.0, new Rotation2d())));
-        SmartDashboard.putNumber("X pos", m_robotDrive.m_odometry.getPoseMeters().getX());
-        SmartDashboard.putNumber("Y pos", m_robotDrive.m_odometry.getPoseMeters().getY());
-        SmartDashboard.putNumber("Rotation", m_robotDrive.m_odometry.getPoseMeters().getRotation().getDegrees());
-        SmartDashboard.putNumber("PivotLocation", m_Intake.getCurPivotPos());
+                SmartDashboard.putNumber("PivotLocation", m_Intake.getCurPivotPos());
         SmartDashboard.putNumber("RollerStatus", m_Intake.getCurRollerStatus().getPow());
-        SmartDashboard.putBoolean("BeamBreak1", m_Sensors.BeamBreak1.get());
-    }
+        SmartDashboard.putBoolean("BeamBreak1", m_Sensors.getBB1());
+    
+    
+        SmartDashboard.putString("odo", m_robotDrive.getPose2dString());
+        SmartDashboard.putString("vis", m_Photon.getPose2dString());
+    
+}
 
     public static RobotContainer getInstance() {
         return m_robotContainer;

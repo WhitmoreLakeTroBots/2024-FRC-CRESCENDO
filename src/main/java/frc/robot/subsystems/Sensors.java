@@ -17,14 +17,14 @@ public class Sensors extends SubsystemBase {
     */
     public Sensors() {
         BeamBreak1 = new DigitalInput(0);
-        addChild("Digital Input 1", BeamBreak1);
+        //addChild("Digital Input 1" , BeamBreak1);
 
     }
 
     @Override
     public void periodic() {
         // This method will be called once per scheduler run
-
+        
     
     }
 
@@ -36,5 +36,9 @@ public class Sensors extends SubsystemBase {
 
     // Put methods for controlling this subsystem
     // here. Call these from Commands.
+
+public boolean getBB1(){
+    return BeamBreak1.get();
+}
 
 }
