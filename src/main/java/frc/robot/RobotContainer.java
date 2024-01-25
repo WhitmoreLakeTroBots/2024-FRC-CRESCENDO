@@ -33,6 +33,7 @@ public class RobotContainer {
     // The robot's subsystems
     public final Swerve m_robotDrive = new Swerve();
     public final Intake m_Intake = new Intake();
+    public final Sensors m_Sensors = new Sensors();
     private static RobotContainer m_robotContainer = new RobotContainer();
     SendableChooser<Command> m_Chooser = new SendableChooser<>();
     // The driver's controller
@@ -88,6 +89,7 @@ public class RobotContainer {
         SmartDashboard.putNumber("X pos", m_robotDrive.m_odometry.getPoseMeters().getX());
         SmartDashboard.putNumber("Y pos", m_robotDrive.m_odometry.getPoseMeters().getY());
         SmartDashboard.putNumber("Rotation", m_robotDrive.m_odometry.getPoseMeters().getRotation().getDegrees());
+        SmartDashboard.putBoolean("BeamBreak1", m_Sensors.BeamBreak1.get());
     }
 
     public static RobotContainer getInstance() {

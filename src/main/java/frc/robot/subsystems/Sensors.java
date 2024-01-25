@@ -10,14 +10,14 @@ import edu.wpi.first.wpilibj.DigitalInput;
  */
 public class Sensors extends SubsystemBase {
 
-    private DigitalInput digitalInput1;
+    public DigitalInput BeamBreak1;
 
     /**
     *
     */
     public Sensors() {
-        digitalInput1 = new DigitalInput(0);
-        addChild("Digital Input 1", digitalInput1);
+        BeamBreak1 = new DigitalInput(0);
+        addChild("Digital Input 1", BeamBreak1);
 
     }
 
@@ -25,6 +25,7 @@ public class Sensors extends SubsystemBase {
     public void periodic() {
         // This method will be called once per scheduler run
 
+    
     }
 
     @Override
