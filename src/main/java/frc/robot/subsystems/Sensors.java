@@ -40,7 +40,7 @@ public class Sensors extends SubsystemBase {
     // here. Call these from Commands.
 
 public boolean getBB1(){
-    return IntakeSen.get();
+    return !IntakeSen.get();
 }
 
 public void checkIntake(){
