@@ -164,7 +164,10 @@ public class RobotContainer {
     
     
         SmartDashboard.putString("odo", m_robotDrive.getPose2dString());
-        SmartDashboard.putString("vis", m_Photon.getPose2dString());
+        SmartDashboard.putString("visAVG", m_Photon.getPoseAVG());
+        SmartDashboard.putString("vis11A", m_Photon.getPose11A());
+        SmartDashboard.putString("vis11B", m_Photon.getPose11B());
+
 
         //Launcher
         SmartDashboard.putNumber("LauncherTargetRPM", m_Launcher.getTargetRPM());
