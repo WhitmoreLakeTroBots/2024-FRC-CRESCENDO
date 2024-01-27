@@ -1,7 +1,8 @@
 package frc.robot;
 
-import frc.robot.commands.intakeCommands.intakeCmd;
+import frc.robot.commands.intakeCommands.*;
 //import frc.robot.commands.*;
+import frc.robot.commands.LauncherCommands.*;
 import frc.robot.subsystems.*;
 import frc.robot.subsystems.Intake.RollerStatus;
 
@@ -97,10 +98,12 @@ public class RobotContainer {
         Trigger LTrig_drive = m_driverController.leftTrigger();
 
         Trigger RBump_drive = m_driverController.rightBumper();
+        RBump_drive.onTrue(new pivotCmd(Intake.PivotPos.OUT, false))
+        .onTrue(new intakeCmd(RollerStatus.FORWARD));
         
         Trigger RTrig_drive = m_driverController.rightTrigger();
 
-//Articulation Controller*************************************************
+//Articulion Controller*************************************************
         Trigger A_Artic = m_articController.a();
 
         Trigger B_Artic = m_articController.b();
@@ -110,10 +113,12 @@ public class RobotContainer {
         Trigger Y_Artic = m_articController.y();
 
         Trigger DUp_Artic = m_articController.povUp();
+        DUp_Artic.onTrue(new SetLauncherRPM(3500));
 
         Trigger DLeft_Artic = m_articController.povLeft();
 
         Trigger DDown_Artic = m_articController.povDown();
+        DDown_Artic.onTrue(new SetLauncherRPM(0));
 
         Trigger DRight_Artic = m_articController.povRight();
 
@@ -122,13 +127,16 @@ public class RobotContainer {
         Trigger START_Artic = m_articController.start();
 
          Trigger LBump_Artic = m_articController.leftBumper();
-        LBump_Artic.onTrue(new intakeCmd(RollerStatus.REVERSE));
+        LBump_Artic.onTrue(new pivotCmd(Intake.PivotPos.OUT, false));
+
         Trigger LTrig_Artic = m_articController.leftTrigger();
+        LTrig_Artic.onTrue(new intakeCmd(RollerStatus.REVERSE));
 
         Trigger RBump_Artic = m_articController.rightBumper();
-        RBump_Artic.onTrue(new intakeCmd(RollerStatus.FORWARD));
+        RBump_Artic.onTrue(new pivotCmd(Intake.PivotPos.IN, false));
+        
         Trigger RTrig_Artic = m_articController.rightTrigger();
-
+        RTrig_Artic.onTrue(new intakeCmd(RollerStatus.FORWARD));
         
         
 
