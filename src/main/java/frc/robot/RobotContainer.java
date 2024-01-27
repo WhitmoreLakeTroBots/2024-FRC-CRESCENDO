@@ -38,6 +38,7 @@ public class RobotContainer {
     public final Intake m_Intake = new Intake();
     public final Sensors m_Sensors = new Sensors();
     public final Launcher m_Launcher = new Launcher();
+    public final Lighting m_Lighting = new Lighting();
     public final SubPoseEstimator m_Photon = new SubPoseEstimator();
     private static RobotContainer m_robotContainer = new RobotContainer();
     SendableChooser<Command> m_Chooser = new SendableChooser<>();
@@ -95,8 +96,9 @@ public class RobotContainer {
 
         Trigger LBump_drive = m_driverController.leftBumper();
 
-        Trigger LTrig_drive = m_driverController.leftTrigger();
-
+        //Trigger LTrig_drive = m_driverController.leftTrigger();
+        //Left Trigger being used as brake, see Swerve class for details
+       
         Trigger RBump_drive = m_driverController.rightBumper();
         RBump_drive.onTrue(new pivotCmd(Intake.PivotPos.OUT, false))
         .onTrue(new intakeCmd(RollerStatus.FORWARD));

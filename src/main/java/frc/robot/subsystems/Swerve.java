@@ -82,6 +82,9 @@ public class Swerve extends SubsystemBase {
           m_rearRight.getPosition()
       });
 
+      //Adding MAXBRAKE
+      private final static double MAX_BRAKE = 0.8;
+
   public Swerve() {
 
     // All other subsystem initialization
@@ -304,7 +307,7 @@ public class Swerve extends SubsystemBase {
     return (RobotMath.metersToInches(curPose_Meters.getTranslation().getDistance(startPose2d.getTranslation())));
   }
 
-  public void cmdTeleOp(CommandXboxController driveController) {
+  public void cmdTeleOp() {
     // Apply Deadband
     double leftY = -MathUtil.applyDeadband(RobotContainer.getInstance().m_driverController.getLeftY(),
         OIConstants.kDriveDeadband);
@@ -313,7 +316,15 @@ public class Swerve extends SubsystemBase {
     double rightX = -MathUtil.applyDeadband(RobotContainer.getInstance().m_driverController.getRightX(),
         OIConstants.kDriveDeadband);
 
-    // square them to make them usefully curved
+    //Adding brake
+    leftY = leftY - (Math.signum(leftY) * CommonLogic.CapMotorPower( 
+              RobotContainer.getInstance().m_driverController.getLeftTriggerAxis(),0,MAX_BRAKE)); 
+    leftY = leftX - (Math.signum(leftX) * CommonLogic.CapMotorPower( 
+              RobotContainer.getInstance().m_driverController.getLeftTriggerAxis(),0,MAX_BRAKE));
+    rightX = rightX - (Math.signum(rightX) * CommonLogic.CapMotorPower(  
+              RobotContainer.getInstance().m_driverController.getLeftTriggerAxis(),0,MAX_BRAKE));
+    
+        // square them to make them usefully curved
     leftY = Math.signum(leftY) * leftY * leftY;
     leftX = Math.signum(leftX) * leftX * leftX;
     rightX = Math.signum(rightX) * rightX * rightX;

@@ -1,42 +1,35 @@
-package frc.robot.commands.intakeCommands;
+package frc.robot.commands.LightingCommands;
 
 import edu.wpi.first.wpilibj2.command.Command;
-import frc.robot.RobotContainer;
-import frc.robot.subsystems.Intake;
-
 //import java.util.function.DoubleSupplier;
+import frc.robot.RobotContainer;
+import frc.robot.subsystems.Lighting;
+import frc.robot.subsystems.Lighting.lightPattern;
 
 /**
  *
  */
-public class pivotCmd extends Command {
-    private boolean bDone = false;
-    private boolean bWait = false;
-    private Intake.PivotPos nPivotPos;
+public class setBaseColor extends Command {
 
-    public pivotCmd(Intake.PivotPos newPivotPos, boolean Wait) {
-        nPivotPos = newPivotPos;
-        bWait = Wait;
+    private boolean bDone = false;
+    private Lighting.lightPattern newLPattern = lightPattern.BLACK;
+
+    public setBaseColor(Lighting.lightPattern nLightPattern) {
+        newLPattern = nLightPattern;
 
     }
 
     // Called when the command is initially scheduled.
     @Override
     public void initialize() {
-        RobotContainer.getInstance().m_Intake.setPivotPos(nPivotPos);
-        if(!bWait){
-            bDone = true;
-            end(false);
-        }
+    RobotContainer.getInstance().m_Lighting.setNewBaseColor(newLPattern.getValue());
+        bDone = true;
+        end(false);
     }
 
     // Called every time the scheduler runs while the command is scheduled.
     @Override
     public void execute() {
-        if(RobotContainer.getInstance().m_Intake.getPivotStatus()){
-            bDone = true;
-            end(false);
-        }
     }
 
     // Called once the command ends or is interrupted.
