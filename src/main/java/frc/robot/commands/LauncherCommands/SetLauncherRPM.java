@@ -1,20 +1,28 @@
-package frc.robot.commands;
+package frc.robot.commands.LauncherCommands;
 
 import edu.wpi.first.wpilibj2.command.Command;
-import java.util.function.DoubleSupplier;
+//import java.util.function.DoubleSupplier;
+import frc.robot.RobotContainer;
 
 /**
  *
  */
-public class TemplateCommand extends Command {
+public class SetLauncherRPM extends Command {
 
-    public TemplateCommand() {
+    private boolean bDone = false;
+    private double newRPM = 0;
+
+    public SetLauncherRPM(double nRPM) {
+        newRPM = nRPM;
 
     }
 
     // Called when the command is initially scheduled.
     @Override
     public void initialize() {
+    RobotContainer.getInstance().m_Launcher.setTargetRPM(newRPM);
+        bDone = true;
+        end(false);
     }
 
     // Called every time the scheduler runs while the command is scheduled.
@@ -30,7 +38,7 @@ public class TemplateCommand extends Command {
     // Returns true when the command should end.
     @Override
     public boolean isFinished() {
-        return false;
+        return bDone;
     }
 
     @Override

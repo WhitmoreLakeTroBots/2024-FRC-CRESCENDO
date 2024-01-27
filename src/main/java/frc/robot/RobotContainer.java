@@ -36,6 +36,7 @@ public class RobotContainer {
     public final Swerve m_robotDrive = new Swerve();
     public final Intake m_Intake = new Intake();
     public final Sensors m_Sensors = new Sensors();
+    public final Launcher m_Launcher = new Launcher();
     public final SubPoseEstimator m_Photon = new SubPoseEstimator();
     private static RobotContainer m_robotContainer = new RobotContainer();
     SendableChooser<Command> m_Chooser = new SendableChooser<>();
@@ -154,6 +155,10 @@ public class RobotContainer {
     
         SmartDashboard.putString("odo", m_robotDrive.getPose2dString());
         SmartDashboard.putString("vis", m_Photon.getPose2dString());
+
+        //Launcher
+        SmartDashboard.putNumber("LauncherTargetRPM", m_Launcher.getTargetRPM());
+        SmartDashboard.putNumber("LauncherActualRPM", m_Launcher.getActualRPM());
     
 }
 

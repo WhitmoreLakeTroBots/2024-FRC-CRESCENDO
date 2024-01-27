@@ -56,6 +56,11 @@ public class Constants {
     public static final int RotMotorId = 9;
     public static final int PivMotorId = 10;
 
+    //Launcher Motors Can IDs
+    public static final int LauncherMotorTopId = 11;
+    public static final int LauncherMotorBottomId = 12;
+    public static final int FeederMotorId = 13;
+
   }
 
   public static final class ModuleConstants {

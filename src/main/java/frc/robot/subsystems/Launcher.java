@@ -1,6 +1,10 @@
 package frc.robot.subsystems;
 
 import com.revrobotics.CANSparkMax;
+import com.revrobotics.CANSparkBase.IdleMode;
+
+import frc.robot.Constants;
+import frc.utils.*;
 
 //import frc.robot.commands.*;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
@@ -10,14 +14,16 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
  *
  */
 public class Launcher extends SubsystemBase {
- public double kP, kI, kD, kIz, kFF, maxRPM, minVEL;
+ private double kP, kI, kD, kIz, kFF, maxRPM, minVEL;
     public final double kMaxOutput = 1.0;
     public final double kMinOutput = 0.0;
     public PID PIDcalc;
     private double iTargetRPM = 0;
     private double iActualRPM = 0;
     private boolean bAutoRPMEnabled = false;
-    public CANSparkMax CanSpark_launcher;
+    private CANSparkMax LaunchMotorTop;
+    private CANSparkMax LaunchMotorBottom;
+    private CANSparkMax FeederMotor;
     private double currRequestedPower = 0.0; // current power requests
     private double currActualPower = 0.0;
     private double currPowerStep = 0; // how large of steps to take for ramping
@@ -27,6 +33,7 @@ public class Launcher extends SubsystemBase {
     private final double STEP_RANGE = POWER_STEP_INCREMENT + .01;
     private final int MAX_STEP_COUNT = 25;
     private int currPowerStepCounter = 0;
+    private double FeederMotorOffset = 1.0;
 
     // private double rampWaitEndTime = 0.0;
     // private final double rampWaitTime = .5;
@@ -43,13 +50,34 @@ public class Launcher extends SubsystemBase {
     *
     */
     public Launcher() {
+        LaunchMotorTop = new CANSparkMax(Constants.CANIDs.LauncherMotorTopId, CANSparkMax.MotorType.kBrushless);
+        LaunchMotorBottom = new CANSparkMax(Constants.CANIDs.LauncherMotorBottomId, CANSparkMax.MotorType.kBrushless);
+        CommonLogic.setSparkParamsBase(LaunchMotorTop, false, 10, 30, IdleMode.kCoast);
+        CommonLogic.setSparkParamsBase(LaunchMotorBottom, true, 10, 30, IdleMode.kCoast);
 
+        kP = 0.0;
+        kI = 0.0;
+        kD = 0.0;
+        kIz = 0;
+        kFF = 0;
+        PIDcalc = new PID(kP, kI, kD);
+
+        FeederMotor = new CANSparkMax(Constants.CANIDs.FeederMotorId, CANSparkMax.MotorType.kBrushless);
+        CommonLogic.setSparkParamsBase(FeederMotor, false, 10, 30, IdleMode.kCoast);
+
+    }
+
+    private void setLaunchPwr(double pwr){
+        LaunchMotorTop.set(pwr);
+        LaunchMotorBottom.set(pwr);
+        FeederMotor.set(pwr*FeederMotorOffset);
+    
     }
 
     @Override
     public void periodic() {
         // This method will be called once per scheduler run
-            iActualRPM = CanSpark_launcher.getVelocity();
+            iActualRPM = LaunchMotorTop.getEncoder().getVelocity();
 
                    switch (currLauncherMode)
 
@@ -122,7 +150,7 @@ public class Launcher extends SubsystemBase {
     private void setpower(double power) {
         // be sure to cap the power between 0.0 (stopped) and 1.0;
         currActualPower = CommonLogic.CapMotorPower(power, kMinOutput, kMaxOutput);
-        CanSpark_launcher.set(currActualPower);
+        setLaunchPwr(currActualPower);
         currPowerStepCounter = currPowerStepCounter + 1;
     }
 
