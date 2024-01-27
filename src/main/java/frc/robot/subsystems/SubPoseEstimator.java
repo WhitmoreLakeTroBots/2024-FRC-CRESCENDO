@@ -6,6 +6,7 @@ import frc.utils.RobotMath;
 
 import java.io.IOException;
 
+import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Pose3d;
 import edu.wpi.first.math.geometry.Rotation3d;
 import edu.wpi.first.math.geometry.Transform3d;
@@ -13,8 +14,10 @@ import edu.wpi.first.math.geometry.Translation3d;
 import edu.wpi.first.apriltag.AprilTagFieldLayout;
 import edu.wpi.first.apriltag.AprilTagFields;
 import org.photonvision.*;
+import org.photonvision.PhotonPoseEstimator.PoseStrategy;
 import org.photonvision.targeting.PhotonTrackedTarget;
 import java.util.List;
+import org.photonvision.PhotonPoseEstimator;
 
 import java.util.Optional;
 
@@ -24,7 +27,7 @@ import java.util.Optional;
 public class SubPoseEstimator extends SubsystemBase {
     Pose3d robotFieldPose = null;
   //  private final Pose3d nullPose = new Pose3d(new Translation3d(-99, -99, -99), new Rotation3d(0.0, 0.0, 0.0));
-    private final PhotonCamera cam12 = new PhotonCamera("10.36.68.12");
+    private final PhotonCamera cam12 = new PhotonCamera("photon11");
 
     // default camera position
     private final Transform3d cam12_2_robotTransform3d = new Transform3d(new Translation3d(0, 0, .45),
@@ -55,6 +58,7 @@ public class SubPoseEstimator extends SubsystemBase {
 
     public double calcDiffX;
     public double calcDiffY;
+    private PhotonPoseEstimator poseEstimator;
 
     public List<PhotonTrackedTarget> tags;
     private String visionPose3d_str = "";
@@ -62,12 +66,12 @@ public class SubPoseEstimator extends SubsystemBase {
 
         try {
             aprilTagFieldLayout = AprilTagFieldLayout
-                    .loadFromResource(AprilTagFields.k2023ChargedUp.m_resourceFile);
+                    .loadFromResource(AprilTagFields.k2024Crescendo.m_resourceFile);
         } catch (IOException e) {
             System.err.println("Could not load april tag field layout");
             System.out.println(e);
         }
-
+        PhotonPoseEstimator poseEstimator = new PhotonPoseEstimator(aprilTagFieldLayout, PoseStrategy.CLOSEST_TO_REFERENCE_POSE, cam12, cam12_2_robotTransform3d);
     }
 
     @Override
@@ -146,39 +150,36 @@ public class SubPoseEstimator extends SubsystemBase {
     public double getFieldPitchRad() {
         return m_field_pitchRad;
     }
-
+    public Optional<EstimatedRobotPose> getEstimatedGlobalPose(Pose2d prevEstimatedRobotPose) {
+        poseEstimator.setReferencePose(prevEstimatedRobotPose);
+        return poseEstimator.update();
+    }
+     
     private void processTags(){
         var results = cam12.getLatestResult();
 
         if (results.hasTargets()) {
             m_tag_ID = results.getBestTarget().getFiducialId();
             Optional<Pose3d> bestTagPose = aprilTagFieldLayout.getTagPose(m_tag_ID);
-
+               // visionPose3d_str = "HasTargets";
             if (bestTagPose.isPresent()) {
                 m_HasTargets = results.hasTargets();
                 robotFieldPose = PhotonUtils.estimateFieldToRobotAprilTag(
                         results.getBestTarget().getBestCameraToTarget(),
                         bestTagPose.get(),
                         cam12_2_robotTransform3d);
-
-                m_field_x = robotFieldPose.getX();
-                m_field_y = robotFieldPose.getY();
-                m_field_z = robotFieldPose.getZ();
-                m_field_rollRad = robotFieldPose.getRotation().getX();
-                m_field_yawRad = robotFieldPose.getRotation().getZ();
-                m_field_pitchRad = robotFieldPose.getRotation().getY();
-
-                m_cam12_x = results.getBestTarget().getBestCameraToTarget().getX();
-                m_cam12_y = results.getBestTarget().getBestCameraToTarget().getY();
-                m_cam12_z = results.getBestTarget().getBestCameraToTarget().getZ();
-                visionPose3d_str = String.format("vision: %f2.2\t%f2.2\t%f3.0",
+                       
+            
+                visionPose3d_str = String.format("vision: %.2f    %.2f    %.0f", 
                      robotFieldPose.getX(),
                      robotFieldPose.getY(),
-                     Math.toDegrees(robotFieldPose.getRotation().getZ()));
+                     Math.toDegrees(robotFieldPose.getRotation().getZ())); 
             } 
-        }
-        visionPose3d_str = String.format("vision: %f2.2\t%f2.2\t%f3.0",
+             else {visionPose3d_str = String.format("vision: %.2f    %.2f    %.0f",
                      99.0, 99.0, 0.0);
+        }
+    }
+       
     }
 
     public double getDistanceFromTagInInches(int tagID){

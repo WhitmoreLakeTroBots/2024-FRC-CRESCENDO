@@ -360,7 +360,7 @@ public class Swerve extends SubsystemBase {
       deg = 999;
     }
 
-    return String.format("odometry: %f2.2\t%f2.2\t%f3.0", x, y, deg);
+    return String.format("odometry: %.2f    %.2f    %.0f", x, y, deg);
 
 
   }
