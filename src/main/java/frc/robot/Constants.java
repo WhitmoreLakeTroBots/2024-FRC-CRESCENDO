@@ -61,11 +61,15 @@ public class Constants {
     public static final int LauncherMotorBottomId = 12;
     public static final int FeederMotorId = 13;
 
+    //Climb Motors Can IDs
+    public static final int ClimbMotorLeftId = 14;
+    public static final int ClimbMotorRightId = 15;
+
   }
 
   public static final class ModuleConstants {
 
-    public static final int kDrivingMotorPinionTeeth = 12;
+    public static final int kDrivingMotorPinionTeeth = 17;
 
     // Invert the turning encoder, since the output shaft rotates in the opposite
     // direction of
@@ -78,7 +82,7 @@ public class Constants {
     public static final double kWheelCircumferenceMeters = kWheelDiameterMeters * Math.PI;
     // 45 teeth on the wheel's bevel gear, 22 teeth on the first-stage spur gear, 15
     // teeth on the bevel pinion
-    public static final double kDrivingMotorReduction = (45.0 * 22) / (kDrivingMotorPinionTeeth * 15);
+    public static final double kDrivingMotorReduction = (45.0 * 19) / (kDrivingMotorPinionTeeth * 15);
     public static final double kDriveWheelFreeSpeedRps = (kDrivingMotorFreeSpeedRps * kWheelCircumferenceMeters)
         / kDrivingMotorReduction;
 
