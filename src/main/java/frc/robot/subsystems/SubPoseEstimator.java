@@ -9,6 +9,7 @@ import java.io.IOException;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Pose3d;
 import edu.wpi.first.math.geometry.Rotation3d;
+import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Transform3d;
 import edu.wpi.first.math.geometry.Translation3d;
 import edu.wpi.first.apriltag.AprilTagFieldLayout;
@@ -17,15 +18,13 @@ import org.photonvision.*;
 import org.photonvision.PhotonPoseEstimator.PoseStrategy;
 import org.photonvision.targeting.PhotonTrackedTarget;
 import java.util.List;
-import org.photonvision.PhotonPoseEstimator;
-
 import java.util.Optional;
 
 /**
  *
  */
 public class SubPoseEstimator extends SubsystemBase {
-    Pose3d robotFieldPose = null;
+    Pose3d robotFieldPose = new Pose3d(0.0, 0.0, 0.0, new Rotation3d());
   //  private final Pose3d nullPose = new Pose3d(new Translation3d(-99, -99, -99), new Rotation3d(0.0, 0.0, 0.0));
     private final PhotonCamera cam12 = new PhotonCamera("photon11");
 
@@ -62,6 +61,8 @@ public class SubPoseEstimator extends SubsystemBase {
 
     public List<PhotonTrackedTarget> tags;
     private String visionPose3d_str = "";
+    private EstimatedRobotPose prev_EstimatedRobotPose = null;
+    private EstimatedRobotPose curr_EstimatedRobotPose = null;
     public SubPoseEstimator() {
 
         try {
@@ -71,14 +72,20 @@ public class SubPoseEstimator extends SubsystemBase {
             System.err.println("Could not load april tag field layout");
             System.out.println(e);
         }
-        PhotonPoseEstimator poseEstimator = new PhotonPoseEstimator(aprilTagFieldLayout, PoseStrategy.CLOSEST_TO_REFERENCE_POSE, cam12, cam12_2_robotTransform3d);
+
+        prev_EstimatedRobotPose = new EstimatedRobotPose(robotFieldPose, calcDiffX, tags, null);
+        curr_EstimatedRobotPose = new EstimatedRobotPose(robotFieldPose, calcDiffX, tags, null);
+
+         poseEstimator = new PhotonPoseEstimator(aprilTagFieldLayout,
+         PoseStrategy.MULTI_TAG_PNP_ON_COPROCESSOR, cam12, cam12_2_robotTransform3d);
     }
 
     @Override
     public void periodic() {
         // This method will be called once per scheduler run
         tags = cam12.getLatestResult().getTargets();
-        processTags();
+        //processTags();
+        getVisionPose();
     }
 
     @Override
@@ -153,6 +160,17 @@ public class SubPoseEstimator extends SubsystemBase {
     public Optional<EstimatedRobotPose> getEstimatedGlobalPose(Pose2d prevEstimatedRobotPose) {
         poseEstimator.setReferencePose(prevEstimatedRobotPose);
         return poseEstimator.update();
+    }
+
+    private void getVisionPose(){
+        prev_EstimatedRobotPose = curr_EstimatedRobotPose;
+        curr_EstimatedRobotPose = getEstimatedGlobalPose(prev_EstimatedRobotPose.estimatedPose.toPose2d())
+                    .orElse(prev_EstimatedRobotPose);
+
+        visionPose3d_str = String.format("vision: %.2f    %.2f    %.0f", 
+                     curr_EstimatedRobotPose.estimatedPose.getX(),
+                     curr_EstimatedRobotPose.estimatedPose.getY(),
+                     Math.toDegrees(curr_EstimatedRobotPose.estimatedPose.getRotation().getZ())); 
     }
      
     private void processTags(){
