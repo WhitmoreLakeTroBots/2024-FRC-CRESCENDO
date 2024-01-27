@@ -92,6 +92,10 @@ public class Intake extends SubsystemBase {
         return pivMotor.getEncoder().getPosition();
     }
 
+    public PivotPos getTargPivotPos() {
+        return targetPivotPos;
+    }
+
     public enum RollerStatus {
         STOP(0.0),
         FORWARD(0.4),
