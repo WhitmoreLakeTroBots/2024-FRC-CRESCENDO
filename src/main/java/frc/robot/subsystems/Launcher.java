@@ -221,6 +221,7 @@ public class Launcher extends SubsystemBase {
 
       public void setAnglePos(ANGLEPOS newPos) {
         curAnglePos = newPos;
+        setTargetRPM(curAnglePos.RPM);
     }
 
     public ANGLEPOS getAnglePos(){
@@ -229,12 +230,14 @@ public class Launcher extends SubsystemBase {
 
     public enum ANGLEPOS{
 
-        START(90, 0.0, 0);
+        START(0.0, 0.0, 0),
+        UNDERSPEAKER(85.0, 40, 4000);
+
     
 
         private final double angle;
         private final double pos;
-        private final int RPM;
+        private final double RPM;
 
     public double getangle(){
         return angle;
@@ -242,11 +245,11 @@ public class Launcher extends SubsystemBase {
     public double getpos(){
         return pos;
     }
-    public int getRPM(){
+    public double getRPM(){
         return RPM;
     }
 
-ANGLEPOS(double angle, double pos, int RPM){
+ANGLEPOS(double angle, double pos, double RPM){
     this.angle = angle;
     this.pos = pos;
     this.RPM = RPM;
