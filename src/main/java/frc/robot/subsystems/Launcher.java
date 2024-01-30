@@ -4,6 +4,7 @@ import com.revrobotics.CANSparkMax;
 import com.revrobotics.CANSparkBase.IdleMode;
 
 import frc.robot.Constants;
+import frc.robot.subsystems.Intake.PivotPos;
 import frc.utils.*;
 
 //import frc.robot.commands.*;
@@ -24,6 +25,7 @@ public class Launcher extends SubsystemBase {
     private CANSparkMax LaunchMotorTop;
     private CANSparkMax LaunchMotorBottom;
     private CANSparkMax FeederMotor;
+    private CANSparkMax LaunchAngleMotor;
     private double currRequestedPower = 0.0; // current power requests
     private double currActualPower = 0.0;
     private double currPowerStep = 0; // how large of steps to take for ramping
@@ -34,6 +36,12 @@ public class Launcher extends SubsystemBase {
     private final int MAX_STEP_COUNT = 25;
     private int currPowerStepCounter = 0;
     private double FeederMotorOffset = 1.0;
+    private double pivP = 10.0;
+    private double pivF = 0.0;
+    private double angleMaxPow = 0.6;
+    private double angleMinPow = -0.6;
+    private ANGLEPOS curAnglePos = ANGLEPOS.START;
+    private double angleMotorTol = 5.0;
 
     // private double rampWaitEndTime = 0.0;
     // private final double rampWaitTime = .5;
@@ -65,6 +73,9 @@ public class Launcher extends SubsystemBase {
         FeederMotor = new CANSparkMax(Constants.CANIDs.FeederMotorId, CANSparkMax.MotorType.kBrushless);
         CommonLogic.setSparkParamsBase(FeederMotor, false, 10, 30, IdleMode.kCoast);
 
+        LaunchAngleMotor = new CANSparkMax(Constants.CANIDs.LaunchAngleMotorId , CANSparkMax.MotorType.kBrushless);
+        CommonLogic.setSparkParamsBase(LaunchAngleMotor, false, 10, 30, IdleMode.kBrake);
+
     }
 
     private void setLaunchPwr(double pwr){
@@ -79,8 +90,11 @@ public class Launcher extends SubsystemBase {
         // This method will be called once per scheduler run
             iActualRPM = LaunchMotorTop.getEncoder().getVelocity();
 
-                   switch (currLauncherMode)
+            LaunchAngleMotor.set(CommonLogic.CapMotorPower(
+                CommonLogic.gotoPosPIDF(pivP, pivF, LaunchAngleMotor.getEncoder().getPosition(), curAnglePos.pos),
+                angleMinPow, angleMaxPow));
 
+                   switch (currLauncherMode)
         {
             case RAMPING:
                 // we are ramping to corret power
@@ -200,5 +214,45 @@ public class Launcher extends SubsystemBase {
     public void AutoRPM_toggle() {
         bAutoRPMEnabled = !bAutoRPMEnabled;
     }
+
+    public boolean getAngleStatus(){
+        return(CommonLogic.isInRange(LaunchAngleMotor.getEncoder().getPosition(), curAnglePos.pos, angleMotorTol));
+    }
+
+      public void setAnglePos(ANGLEPOS newPos) {
+        curAnglePos = newPos;
+    }
+
+    public ANGLEPOS getAnglePos(){
+        return curAnglePos;
+    }
+
+    public enum ANGLEPOS{
+
+        START(90, 0.0, 0);
+    
+
+        private final double angle;
+        private final double pos;
+        private final int RPM;
+
+    public double getangle(){
+        return angle;
+    }
+    public double getpos(){
+        return pos;
+    }
+    public int getRPM(){
+        return RPM;
+    }
+
+ANGLEPOS(double angle, double pos, int RPM){
+    this.angle = angle;
+    this.pos = pos;
+    this.RPM = RPM;
+}
+
+    }
+    
 
 }

@@ -172,6 +172,8 @@ public class RobotContainer {
         //Launcher
         SmartDashboard.putNumber("LauncherTargetRPM", m_Launcher.getTargetRPM());
         SmartDashboard.putNumber("LauncherActualRPM", m_Launcher.getActualRPM());
+        SmartDashboard.putBoolean("LaunchAngleStatus", m_Launcher.getAngleStatus());
+        SmartDashboard.putNumber("LaunchTargetAngle", m_Launcher.getAnglePos().getangle());
     
 }
 

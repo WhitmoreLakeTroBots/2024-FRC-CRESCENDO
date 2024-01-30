@@ -60,10 +60,11 @@ public class Constants {
     public static final int LauncherMotorTopId = 11;
     public static final int LauncherMotorBottomId = 12;
     public static final int FeederMotorId = 13;
+    public static final int LaunchAngleMotorId = 14;
 
     //Climb Motors Can IDs
-    public static final int ClimbMotorLeftId = 14;
-    public static final int ClimbMotorRightId = 15;
+    public static final int ClimbMotorLeftId = 15;
+    public static final int ClimbMotorRightId = 16;
 
   }
 
