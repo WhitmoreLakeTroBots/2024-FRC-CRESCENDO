@@ -34,13 +34,13 @@ import edu.wpi.first.wpilibj2.command.button.Trigger;
  */
 public class RobotContainer {
     // The robot's subsystems
+    private static RobotContainer m_robotContainer = new RobotContainer();
+    public final SubPoseEstimator m_Photon = new SubPoseEstimator();
     public final Swerve m_robotDrive = new Swerve();
     public final Intake m_Intake = new Intake();
     public final Sensors m_Sensors = new Sensors();
     public final Launcher m_Launcher = new Launcher();
     public final Lighting m_Lighting = new Lighting();
-    public final SubPoseEstimator m_Photon = new SubPoseEstimator();
-    private static RobotContainer m_robotContainer = new RobotContainer();
     SendableChooser<Command> m_Chooser = new SendableChooser<>();
     // The driver's controller
     public final CommandXboxController m_driverController = new CommandXboxController(0);

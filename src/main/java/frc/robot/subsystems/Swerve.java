@@ -15,9 +15,12 @@ import com.pathplanner.lib.util.PIDConstants;
 import com.pathplanner.lib.util.ReplanningConfig;
 
 import edu.wpi.first.math.MathUtil;
+import edu.wpi.first.math.estimator.SwerveDrivePoseEstimator;
 import edu.wpi.first.math.filter.SlewRateLimiter;
 import edu.wpi.first.math.geometry.Pose2d;
+import edu.wpi.first.math.geometry.Pose3d;
 import edu.wpi.first.math.geometry.Rotation2d;
+import edu.wpi.first.math.geometry.Rotation3d;
 import edu.wpi.first.math.kinematics.ChassisSpeeds;
 import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
 import edu.wpi.first.math.kinematics.SwerveDriveOdometry;
@@ -72,7 +75,14 @@ public class Swerve extends SubsystemBase {
   private double m_prevTime = WPIUtilJNI.now() * 1e-6;
 
   // Odometry class for tracking robot pose
-  public SwerveDriveOdometry m_odometry = new SwerveDriveOdometry(
+  public SwerveDrivePoseEstimator m_odometry;
+
+      //Adding MAXBRAKE
+      private final static double MAX_BRAKE = 0.8;
+
+  public Swerve() {
+
+     m_odometry = new SwerveDrivePoseEstimator(
       DriveConstants.kDriveKinematics,
       Rotation2d.fromDegrees(-m_gyro.getAngle()),
       new SwerveModulePosition[] {
@@ -80,13 +90,8 @@ public class Swerve extends SubsystemBase {
           m_frontRight.getPosition(),
           m_rearLeft.getPosition(),
           m_rearRight.getPosition()
-      });
-
-      //Adding MAXBRAKE
-      private final static double MAX_BRAKE = 0.8;
-
-  public Swerve() {
-
+        },
+      new Pose2d(0.0, 0.0, new Rotation2d()));
     // All other subsystem initialization
     // ...
     // Configure AutoBuilder last
@@ -125,6 +130,8 @@ public class Swerve extends SubsystemBase {
   @Override
   public void periodic() {
     // Update the odometry in the periodic block
+    m_odometry.addVisionMeasurement(RobotContainer.getInstance().m_Photon.robotFieldPose.toPose2d()
+,0.0);
     m_odometry.update(
         Rotation2d.fromDegrees(-m_gyro.getAngle()),
         new SwerveModulePosition[] {
@@ -133,6 +140,7 @@ public class Swerve extends SubsystemBase {
             m_rearLeft.getPosition(),
             m_rearRight.getPosition()
         });
+        
   }
 
   /**
@@ -141,7 +149,7 @@ public class Swerve extends SubsystemBase {
    * @return The pose.
    */
   public Pose2d getPose() {
-    return m_odometry.getPoseMeters();
+    return m_odometry.getEstimatedPosition();
   }
 
   /**
@@ -303,7 +311,7 @@ public class Swerve extends SubsystemBase {
 
   // Get the distance traveled from a start pose2d
   public double getDistanceTraveledInches(Pose2d startPose2d) {
-    Pose2d curPose_Meters = m_odometry.getPoseMeters();
+    Pose2d curPose_Meters = m_odometry.getEstimatedPosition();
     return (RobotMath.metersToInches(curPose_Meters.getTranslation().getDistance(startPose2d.getTranslation())));
   }
 
@@ -355,9 +363,9 @@ public class Swerve extends SubsystemBase {
   //used to put data to the dashboard
   public String getPose2dString (){
 
-    double x = m_odometry.getPoseMeters().getTranslation().getX();
-    double y = m_odometry.getPoseMeters().getTranslation().getY();
-    double deg = m_odometry.getPoseMeters().getRotation().getDegrees();
+    double x = m_odometry.getEstimatedPosition().getX();
+    double y = m_odometry.getEstimatedPosition().getY();
+    double deg = m_odometry.getEstimatedPosition().getRotation().getDegrees();
 
     if (Double.isNaN(x)){
       x = 99;
