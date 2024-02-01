@@ -1,6 +1,7 @@
 package frc.robot.subsystems;
 
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import frc.robot.RobotContainer;
 import frc.utils.RobotMath;
 import java.io.IOException;
 import edu.wpi.first.math.geometry.Pose3d;
@@ -31,6 +32,7 @@ public class SubPoseEstimator extends SubsystemBase {
     private String visionPose3d_strAVG = "";
     private PhotonPipelineResult cam11AResult = null;
     private PhotonPipelineResult cam11BResult = null;
+    public double averageLatency = 0.0;
 
     private AprilTagFieldLayout aprilTagFieldLayout = null;
     // default camera position
@@ -61,12 +63,16 @@ public class SubPoseEstimator extends SubsystemBase {
     @Override
     public void periodic() {
         // This method will be called once per scheduler run
-
-        cam11AFieldPose = processTags(cam11A.getLatestResult(), cam11A_RobotTransform);
-        cam11BFieldPose = processTags(cam11B.getLatestResult(), cam11B_RobotTransform);
+        cam11AResult = cam11A.getLatestResult();
+        cam11BResult = cam11B.getLatestResult();
+        cam11AFieldPose = processTags(cam11AResult, cam11A_RobotTransform);
+        cam11BFieldPose = processTags(cam11BResult, cam11B_RobotTransform);
 
         robotFieldPose = averageFieldPose();
-
+        averageLatency = average(cam11AResult.getLatencyMillis(), cam11BResult.getLatencyMillis());
+        if(robotFieldPose != null){
+            RobotContainer.getInstance().m_robotDrive.resetOdometry(robotFieldPose.toPose2d());
+        }
     }
 
     @Override

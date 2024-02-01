@@ -130,8 +130,8 @@ public class Swerve extends SubsystemBase {
   @Override
   public void periodic() {
     // Update the odometry in the periodic block
-    m_odometry.addVisionMeasurement(RobotContainer.getInstance().m_Photon.robotFieldPose.toPose2d()
-,0.0);
+   // m_odometry.addVisionMeasurement(RobotContainer.getInstance().m_Photon.robotFieldPose.toPose2d()
+//,RobotContainer.getInstance().m_Photon.averageLatency);
     m_odometry.update(
         Rotation2d.fromDegrees(-m_gyro.getAngle()),
         new SwerveModulePosition[] {
