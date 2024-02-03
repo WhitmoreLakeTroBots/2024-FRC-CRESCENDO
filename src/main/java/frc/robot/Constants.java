@@ -42,19 +42,19 @@ public class Constants {
 
   public static final class CANIDs {
     // Drive Motor Can IDS
-    public static final int kFrontLeftDrivingCanId = 1;
+    public static final int kFrontLeftDrivingCanId = 5;
     public static final int kRearLeftDrivingCanId = 3;
-    public static final int kFrontRightDrivingCanId = 7;
-    public static final int kRearRightDrivingCanId = 5;
+    public static final int kFrontRightDrivingCanId = 1;
+    public static final int kRearRightDrivingCanId = 7;
     // Turn Motor Can IDS
-    public static final int kFrontLeftTurningCanId = 2;
+    public static final int kFrontLeftTurningCanId = 6;
     public static final int kRearLeftTurningCanId = 4;
-    public static final int kFrontRightTurningCanId = 8;
-    public static final int kRearRightTurningCanId = 6;
+    public static final int kFrontRightTurningCanId = 2;
+    public static final int kRearRightTurningCanId = 8;
 
     // Intake Motor Can IDS
-    public static final int RotMotorId = 9;
-    public static final int PivMotorId = 10;
+    public static final int RotMotorId = 10;
+    public static final int PivMotorId = 9;
 
     //Launcher Motors Can IDs
     public static final int LauncherMotorTopId = 11;

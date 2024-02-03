@@ -59,7 +59,7 @@ public class Vibration extends SubsystemBase {
 
             case ARTIC:
 
-                break;
+                break;  
         
             default:
                 break;
