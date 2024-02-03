@@ -16,7 +16,7 @@ public class Intake extends SubsystemBase {
 
     private RollerStatus CRollerStatus = RollerStatus.STOP;
     private PivotPos targetPivotPos = PivotPos.START;
-    private double pivPosTol = 0.05;
+    private double pivPosTol = 0.1;
 
     private CANSparkMax rotMotor;
     private CANSparkMax pivMotor;

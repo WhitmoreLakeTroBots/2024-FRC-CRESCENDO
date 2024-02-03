@@ -65,7 +65,7 @@ public class Vibration extends SubsystemBase {
 
             case ARTIC:
                 //start vib
-
+                driverController.getHID().setRumble(newAlert.rum, newAlert.intense);
                 //set timer target
 
                 break;  
