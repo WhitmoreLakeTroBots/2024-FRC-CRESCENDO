@@ -1,4 +1,4 @@
-package frc.utils;
+package frc.robot.subsystems;
 import edu.wpi.first.math.geometry.Pose3d;
 
 import java.io.IOException;
@@ -8,11 +8,13 @@ import org.photonvision.*;
 import org.photonvision.targeting.PhotonPipelineResult;
 import org.photonvision.targeting.PhotonTrackedTarget;
 import edu.wpi.first.math.geometry.Transform3d;
+import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import frc.utils.CommonLogic;
 import edu.wpi.first.apriltag.AprilTagFieldLayout;
 import edu.wpi.first.apriltag.AprilTagFields;
 
 
-public class WL_PhotonCamera {
+public class WL_PhotonCamera extends SubsystemBase{
     private AprilTagFieldLayout aprilTagFieldLayout = null;
     private PhotonCamera cam;
     private PhotonPipelineResult result;
@@ -23,9 +25,9 @@ public class WL_PhotonCamera {
     private String msg = "";
     private String camName = "";
 
-    WL_PhotonCamera (String name , Transform3d cam2robot_transform_3d){
-        camName = name;
-        cam = new PhotonCamera(name);
+    WL_PhotonCamera (PhotonCamera cam , Transform3d cam2robot_transform_3d){
+        camName = cam.getName();
+        this.cam = cam;
         robot2CameraTransform = cam2robot_transform_3d;
         timeStamp = 0;
 
@@ -79,6 +81,9 @@ public class WL_PhotonCamera {
 
     public double getLatencyMillis() {
         return result.getLatencyMillis();
+    }
+    public String toString() {
+        return msg;
     }
 
 }

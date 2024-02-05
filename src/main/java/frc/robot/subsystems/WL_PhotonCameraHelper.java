@@ -1,4 +1,4 @@
-package frc.utils;
+package frc.robot.subsystems;
 
 import java.util.Map;
 import java.io.IOException;
@@ -10,20 +10,21 @@ import org.photonvision.targeting.PhotonTrackedTarget;
 import edu.wpi.first.apriltag.AprilTagFieldLayout;
 import edu.wpi.first.apriltag.AprilTagFields;
 import edu.wpi.first.math.geometry.Transform3d;
+import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
-public class PhotonCameraHelper {
+public class WL_PhotonCameraHelper extends SubsystemBase{
 
     Map <String, WL_PhotonCamera> cameras = new HashMap <String, WL_PhotonCamera>();
 
-    PhotonCameraHelper () {
+    WL_PhotonCameraHelper () {
 
 
 
     }
 
-    public void add (String key, Transform3d t3d){
+    public void add (WL_PhotonCamera cam){
 
-        cameras.put(key, new WL_PhotonCamera(key, t3d));
+        cameras.put(cam.getName(), cam);
 
     }
 
@@ -38,7 +39,5 @@ public class PhotonCameraHelper {
             e.getValue().periodic();
         }
     }
-
-
 
 }
