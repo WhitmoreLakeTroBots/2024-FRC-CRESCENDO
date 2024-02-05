@@ -7,6 +7,7 @@ import frc.utils.CommonLogic;
 
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.CANSparkBase.IdleMode;
+import com.revrobotics.SparkAbsoluteEncoder.Type;
 
 /**
  *
@@ -15,15 +16,15 @@ public class Intake extends SubsystemBase {
 
     private RollerStatus CRollerStatus = RollerStatus.STOP;
     private PivotPos targetPivotPos = PivotPos.START;
-    private double pivPosTol = 5;
+    private double pivPosTol = 0.1;
 
     private CANSparkMax rotMotor;
     private CANSparkMax pivMotor;
-    private double pivP = 10.0;
+    private double pivP = 0.1;
     private double pivF = 0.0;
 
-    private double minPivPower = -0.4;
-    private double maxPivPower = 0.4;
+    private double minPivPower = -0.2;
+    private double maxPivPower = 0.2;
 
     /**
     *
@@ -89,7 +90,7 @@ public class Intake extends SubsystemBase {
     }
 
     public double getCurPivotPos(){
-        return pivMotor.getEncoder().getPosition();
+        return pivMotor.getAbsoluteEncoder(Type.kDutyCycle).getPosition();
     }
 
     public PivotPos getTargPivotPos() {
@@ -115,7 +116,7 @@ public class Intake extends SubsystemBase {
     public enum PivotPos {
         START(0.0),
         IN(0.0),
-        OUT(0.0);
+        OUT(0.89);
 
         private final double pos;
 

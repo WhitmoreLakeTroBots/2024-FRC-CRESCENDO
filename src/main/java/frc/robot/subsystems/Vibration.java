@@ -6,6 +6,7 @@ import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import frc.robot.RobotContainer;
 import frc.robot.commands.intakeCommands.intakeCmd;
 import frc.robot.commands.intakeCommands.pivotCmd;
+import frc.utils.RobotMath;
 import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.GenericHID.RumbleType;
 
@@ -17,13 +18,14 @@ public class Vibration extends SubsystemBase {
     private CommandXboxController driverController;
     private CommandXboxController articController;
 
-    private long curTime;
+    private double curTime;
 
     private STATUS dStatus = STATUS.STOPPED;
     private STATUS aStatus = STATUS.STOPPED;
 
-    private long dDur;
-    private long aDur;
+
+    private double dDur;
+    private double aDur;
 
     /**
     *
@@ -36,8 +38,10 @@ public class Vibration extends SubsystemBase {
     @Override
     public void periodic() {
         // This method will be called once per scheduler run
+        //example for triggering vib
+        //driverController.getHID().setRumble(RumbleType.kBothRumble, 1);
 
-        driverController.getHID().setRumble(RumbleType.kBothRumble, 1);
+        //call runVib() to check and end vibs
     
     }
 
@@ -54,10 +58,15 @@ public class Vibration extends SubsystemBase {
         //Set up Alert, and reset timer to start timer
         switch (newAlert.con) {
             case DRIVE:
+                //start vib 
                 driverController.getHID().setRumble(newAlert.rum, newAlert.intense);
+                //set timer target  
                 break;
 
             case ARTIC:
+                //start vib
+                driverController.getHID().setRumble(newAlert.rum, newAlert.intense);
+                //set timer target
 
                 break;  
         
@@ -69,6 +78,14 @@ public class Vibration extends SubsystemBase {
     }
 
     private void RunVib(){
+        //should check the status of both Driver and Artic controller vibrations and end based on timmers
+
+        //look for difference between driver vib time target vs runtime
+        
+        //example for get current time in Seconds
+        //RobotMath.getTime();
+
+        //look for difference between artic vib time target vs runtime
 
     }
 

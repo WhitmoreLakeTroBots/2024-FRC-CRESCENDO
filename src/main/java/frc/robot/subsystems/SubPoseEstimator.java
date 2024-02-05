@@ -50,6 +50,10 @@ public class SubPoseEstimator extends SubsystemBase {
     // -8 24 34
     public SubPoseEstimator() {
 
+
+        cam11A.setVersionCheckEnabled(false);
+        cam11B.setVersionCheckEnabled(false); 
+
         try {
             aprilTagFieldLayout = AprilTagFieldLayout
                     .loadFromResource(AprilTagFields.k2024Crescendo.m_resourceFile);
@@ -63,7 +67,7 @@ public class SubPoseEstimator extends SubsystemBase {
     @Override
     public void periodic() {
         // This method will be called once per scheduler run
-        cam11AResult = cam11A.getLatestResult();
+        cam11AResult = cam11A.getLatestResult();  
         cam11BResult = cam11B.getLatestResult();
         cam11AFieldPose = processTags(cam11AResult, cam11A_RobotTransform);
         cam11BFieldPose = processTags(cam11BResult, cam11B_RobotTransform);
