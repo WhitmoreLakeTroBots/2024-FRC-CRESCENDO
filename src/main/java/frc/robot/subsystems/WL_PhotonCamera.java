@@ -71,6 +71,10 @@ public class WL_PhotonCamera extends SubsystemBase{
         }
     }
 
+    public boolean hasTargets (){
+        return result.hasTargets();
+    }
+
     public Pose3d getRobotPose3d() {
         return currPose3d;
     }
