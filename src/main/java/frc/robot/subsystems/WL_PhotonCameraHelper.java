@@ -16,8 +16,7 @@ public class WL_PhotonCameraHelper extends SubsystemBase{
 
     Map <String, WL_PhotonCamera> cameras = new HashMap <String, WL_PhotonCamera>();
 
-    WL_PhotonCameraHelper () {
-
+    public WL_PhotonCameraHelper () {
 
 
     }
@@ -29,15 +28,14 @@ public class WL_PhotonCameraHelper extends SubsystemBase{
     }
 
 
-    public void remove (String key) {
-        cameras.remove (key);
-
-    }
-
     public void periodic () {
         for (Map.Entry<String, WL_PhotonCamera> e : cameras.entrySet()){
-            e.getValue().periodic();
+
         }
+    }
+
+    public String getCamString(String camName){
+        return cameras.get(camName).toString();
     }
 
 }

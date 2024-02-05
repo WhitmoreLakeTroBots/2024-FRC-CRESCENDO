@@ -25,7 +25,7 @@ public class WL_PhotonCamera extends SubsystemBase{
     private String msg = "";
     private String camName = "";
 
-    WL_PhotonCamera (PhotonCamera cam , Transform3d cam2robot_transform_3d){
+    public WL_PhotonCamera (PhotonCamera cam , Transform3d cam2robot_transform_3d){
         camName = cam.getName();
         this.cam = cam;
         robot2CameraTransform = cam2robot_transform_3d;

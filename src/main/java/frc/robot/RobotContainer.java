@@ -6,6 +6,8 @@ import frc.robot.commands.LauncherCommands.*;
 import frc.robot.subsystems.*;
 import frc.robot.subsystems.Intake.RollerStatus;
 
+import org.photonvision.PhotonCamera;
+
 import com.pathplanner.lib.commands.PathPlannerAuto;
 
 import edu.wpi.first.math.geometry.Pose2d;
@@ -41,6 +43,15 @@ public class RobotContainer {
     public final Sensors m_Sensors = new Sensors();
     public final Launcher m_Launcher = new Launcher();
     public final Lighting m_Lighting = new Lighting();
+    public final WL_PhotonCamera m_cam1 = new WL_PhotonCamera (new PhotonCamera(Constants.Cam1Constants.name),
+        Constants.Cam1Constants.cam2robotTransform3d);
+
+
+    public final WL_PhotonCamera m_cam2 = new WL_PhotonCamera (new PhotonCamera(Constants.Cam2Constants.name),
+        Constants.Cam2Constants.cam2robotTransform3d);
+
+    public final WL_PhotonCameraHelper m_CameraHelper = new WL_PhotonCameraHelper();
+
     SendableChooser<Command> m_Chooser = new SendableChooser<>();
     // The driver's controller
     public final CommandXboxController m_driverController = new CommandXboxController(0);
@@ -57,6 +68,9 @@ public class RobotContainer {
         m_Chooser.addOption("Test Path Straight", new PathPlannerAuto("test_auto2"));
 
         SmartDashboard.putData("Auto Mode", m_Chooser);
+
+        m_CameraHelper.add(m_cam1);
+        m_CameraHelper.add(m_cam2);
     }
 
     /**
@@ -69,8 +83,8 @@ public class RobotContainer {
      * {@link JoystickButton}.
      */
     private void configureButtonBindings() {
-        
-        
+
+
         Trigger A_drive = m_driverController.a();
 
         Trigger B_drive = m_driverController.b();
@@ -98,11 +112,11 @@ public class RobotContainer {
 
         //Trigger LTrig_drive = m_driverController.leftTrigger();
         //Left Trigger being used as brake, see Swerve class for details
-       
+
         Trigger RBump_drive = m_driverController.rightBumper();
         RBump_drive.onTrue(new pivotCmd(Intake.PivotPos.OUT, false))
         .onTrue(new intakeCmd(RollerStatus.FORWARD));
-        
+
         Trigger RTrig_drive = m_driverController.rightTrigger();
 
 //Articulion Controller*************************************************
@@ -136,11 +150,11 @@ public class RobotContainer {
 
         Trigger RBump_Artic = m_articController.rightBumper();
         RBump_Artic.onTrue(new pivotCmd(Intake.PivotPos.IN, false));
-        
+
         Trigger RTrig_Artic = m_articController.rightTrigger();
         RTrig_Artic.onTrue(new intakeCmd(RollerStatus.FORWARD));
-        
-        
+
+
 
     }
 
@@ -161,20 +175,19 @@ public class RobotContainer {
                 SmartDashboard.putNumber("PivotLocation", m_Intake.getCurPivotPos());
         SmartDashboard.putNumber("RollerStatus", m_Intake.getCurRollerStatus().getPow());
         SmartDashboard.putBoolean("BeamBreak1", m_Sensors.getBB1());
-    
-    
+
+
         SmartDashboard.putString("odo", m_robotDrive.getPose2dString());
         SmartDashboard.putString("visAVG", m_Photon.getPoseAVG());
-        SmartDashboard.putString("vis11A", m_Photon.getPose11A());
-        SmartDashboard.putString("vis11B", m_Photon.getPose11B());
-
+        SmartDashboard.putString("vis11A", m_CameraHelper.getCamString(Constants.Cam1Constants.name));
+        SmartDashboard.putString("vis11B", m_CameraHelper.getCamString(Constants.Cam2Constants.name));
 
         //Launcher
         SmartDashboard.putNumber("LauncherTargetRPM", m_Launcher.getTargetRPM());
         SmartDashboard.putNumber("LauncherActualRPM", m_Launcher.getActualRPM());
         SmartDashboard.putBoolean("LaunchAngleStatus", m_Launcher.getAngleStatus());
         SmartDashboard.putNumber("LaunchTargetAngle", m_Launcher.getAnglePos().getangle());
-    
+
 }
 
     public static RobotContainer getInstance() {
