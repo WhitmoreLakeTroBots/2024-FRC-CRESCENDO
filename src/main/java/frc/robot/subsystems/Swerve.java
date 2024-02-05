@@ -327,7 +327,7 @@ public class Swerve extends SubsystemBase {
     //Adding brake
     leftY = leftY - (Math.signum(leftY) * CommonLogic.CapMotorPower( 
               RobotContainer.getInstance().m_driverController.getLeftTriggerAxis(),0,MAX_BRAKE)); 
-    leftY = leftX - (Math.signum(leftX) * CommonLogic.CapMotorPower( 
+    leftX = leftX - (Math.signum(leftX) * CommonLogic.CapMotorPower( 
               RobotContainer.getInstance().m_driverController.getLeftTriggerAxis(),0,MAX_BRAKE));
     rightX = rightX - (Math.signum(rightX) * CommonLogic.CapMotorPower(  
               RobotContainer.getInstance().m_driverController.getLeftTriggerAxis(),0,MAX_BRAKE));
