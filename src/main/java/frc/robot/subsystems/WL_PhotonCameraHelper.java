@@ -73,7 +73,17 @@ public class WL_PhotonCameraHelper extends SubsystemBase{
     }
 
     public String getCamString(String camName){
-        return cameras.get(camName).toString();
+        String retString = "";
+
+        try {
+            retString = cameras.get(camName).toString();
+        }
+
+        catch(NullPointerException ex)
+        {
+            retString = String.format("Camera %s not Found", camName);
+        }
+        return retString;
     }
 
 
