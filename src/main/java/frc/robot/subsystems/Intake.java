@@ -16,7 +16,7 @@ public class Intake extends SubsystemBase {
 
     private RollerStatus CRollerStatus = RollerStatus.STOP;
     private PivotPos targetPivotPos = PivotPos.START;
-    private double pivPosTol = 0.1;
+    private double pivPosTol = 10;
 
     private CANSparkMax rotMotor;
     private CANSparkMax pivMotor;
@@ -42,7 +42,7 @@ public class Intake extends SubsystemBase {
     public void periodic() {
         // This method will be called once per scheduler run
         pivMotor.set(CommonLogic.CapMotorPower(
-                CommonLogic.gotoPosPIDF(pivP, pivF, pivMotor.getEncoder().getPosition(), targetPivotPos.pos),
+                CommonLogic.gotoPosPIDF(pivP, pivF, pivNormalize(pivMotor.getEncoder().getPosition()), pivNormalize(targetPivotPos.pos)),
                 minPivPower, maxPivPower));
     }
 
@@ -74,7 +74,7 @@ public class Intake extends SubsystemBase {
                 break;
 
             default:
-                rotMotor.set(0);
+                rotMotor.set(0);   
                 break;
         }
     }
@@ -113,10 +113,25 @@ public class Intake extends SubsystemBase {
         }
     }
 
+    public double pivNormalize(double heading) {
+        // takes the full turns out of heading
+        // gives us values from 0 to 180 for the right side of the robot
+        // and values from 0 to -179 degrees for the left side of the robot
+        double degrees = heading % 360;
+    
+        if (degrees > 180) {
+          degrees = degrees - 360;
+        }
+        if (degrees < -179) {
+          degrees = degrees + 360;
+        }
+        return degrees;
+      }
+
     public enum PivotPos {
-        START(0.0),
-        IN(0.0),
-        OUT(0.89);
+        START(0),
+        IN(0),
+        OUT(195);
 
         private final double pos;
 
