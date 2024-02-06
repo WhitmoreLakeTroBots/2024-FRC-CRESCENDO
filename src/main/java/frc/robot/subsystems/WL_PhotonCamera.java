@@ -1,5 +1,6 @@
 package frc.robot.subsystems;
 import edu.wpi.first.math.geometry.Pose3d;
+import edu.wpi.first.math.geometry.Rotation3d;
 
 import java.io.IOException;
 import java.util.Optional;
@@ -8,6 +9,8 @@ import org.photonvision.*;
 import org.photonvision.targeting.PhotonPipelineResult;
 import org.photonvision.targeting.PhotonTrackedTarget;
 import edu.wpi.first.math.geometry.Transform3d;
+import edu.wpi.first.math.geometry.Translation3d;
+import edu.wpi.first.math.proto.Wpimath;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.utils.CommonLogic;
 import edu.wpi.first.apriltag.AprilTagFieldLayout;
@@ -47,8 +50,22 @@ public class WL_PhotonCamera extends SubsystemBase{
     public void periodic () {
         result = cam.getLatestResult();
 
-        if (result.hasTargets()) {
-            Optional<Pose3d> bestTagPose = aprilTagFieldLayout.getTagPose(result.getBestTarget().getFiducialId());
+        // multiple tags are visible with one camera... Best case use them both
+        if (result.getMultiTagResult().estimatedPose.isPresent) {
+            Transform3d fieldToCamera = result.getMultiTagResult().estimatedPose.best;
+            // https://docs.wpilib.org/en/stable/docs/software/basic-programming/coordinate-system.html
+            // https://docs.photonvision.org/en/latest/docs/apriltag-pipelines/coordinate-systems.html
+
+            currPose3d = new Pose3d (fieldToCamera.plus(robot2CameraTransform).getTranslation(),
+                                     fieldToCamera.plus(robot2CameraTransform).getRotation());
+
+            msg = String.format ("Cam: %s Tag: %s X: %.2f Y: %.2f Yaw: %.0f",
+                    camName, result.getMultiTagResult().fiducialIDsUsed.toString(),
+                    currPose3d.getX(), currPose3d.getY(), currPose3d.getRotation().getZ());
+        }
+        // only one tag visible... use it but it is not as accurate as multiple tags.
+        else if (result.hasTargets()) {
+            Optional <Pose3d> bestTagPose = aprilTagFieldLayout.getTagPose(result.getBestTarget().getFiducialId());
             if (bestTagPose.isPresent()) {
                 timeStamp = CommonLogic.getTime();
                 target = result.getBestTarget();
@@ -63,9 +80,10 @@ public class WL_PhotonCamera extends SubsystemBase{
                     currPose3d.getX(), currPose3d.getY(), currPose3d.getRotation().getZ());
             }
             else {
-                msg = String.format("%s, No Tags Visible.", camName);
+                msg = String.format("%s, Invalid Tag ID", camName);
             }
         }
+
         else {
             msg = String.format("%s, No Tags Visible.", camName);
         }
