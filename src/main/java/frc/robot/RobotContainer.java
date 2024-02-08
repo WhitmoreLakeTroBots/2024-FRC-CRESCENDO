@@ -180,7 +180,7 @@ public class RobotContainer {
         SmartDashboard.putString("odo", m_robotDrive.getPose2dString());
         SmartDashboard.putString("visAVG", m_Photon.getPoseAVG());
         SmartDashboard.putString(Constants.Cam1Constants.name, m_CameraHelper.getCamString(Constants.Cam1Constants.name));
-        SmartDashboard.putString(Constants.Cam1Constants.name, m_CameraHelper.getCamString(Constants.Cam2Constants.name));
+        SmartDashboard.putString(Constants.Cam2Constants.name, m_CameraHelper.getCamString(Constants.Cam2Constants.name));
 
         //Launcher
         SmartDashboard.putNumber("LauncherTargetRPM", m_Launcher.getTargetRPM());

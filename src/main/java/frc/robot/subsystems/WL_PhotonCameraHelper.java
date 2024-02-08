@@ -27,32 +27,38 @@ public class WL_PhotonCameraHelper extends SubsystemBase{
 
     public void add (WL_PhotonCamera cam){
 
-        cameras.put(cam.getName(), cam);
+        cameras.put(cam.getCamName(), cam);
 
     }
 
 
     public void periodic () {
         CameraWithTags localCameraTags = CameraWithTags.NoCamerasWithTags;
-        //average
+        /*
         double sum_x = 0.0;
         double sum_y = 0.0;
         double sum_z = 0.0;
         double sum_yaw = 0.0;
         double sum_pitch = 0.0;
         double sum_roll = 0.0;
+        */
         int cameras_withTags = 0;
 
+        Pose3d sumPose = new Pose3d();
         for (Map.Entry<String, WL_PhotonCamera> e : cameras.entrySet()){
             if (e.getValue().hasTargets()) {
                 localCameraTags = CameraWithTags.SomeCamerasWithTags;
+                /*
                 sum_x = sum_x + e.getValue().getRobotPose3d().getX();
                 sum_y = sum_y + e.getValue().getRobotPose3d().getY();
                 sum_z = sum_z + e.getValue().getRobotPose3d().getZ();
                 sum_yaw = sum_yaw + e.getValue().getRobotPose3d().getRotation().getZ();
                 sum_pitch = sum_pitch + e.getValue().getRobotPose3d().getRotation().getX();
                 sum_roll = sum_roll + e.getValue().getRobotPose3d().getRotation().getY();
+                */
                 cameras_withTags++;
+                sumPose = sumPose.plus(new Transform3d (e.getValue().getRobotPose3d().getTranslation(), e.getValue().getRobotPose3d().getRotation()));
+
             }
             else {
                 // Currently not sure what to do here.
@@ -60,8 +66,10 @@ public class WL_PhotonCameraHelper extends SubsystemBase{
         }
 
         if (cameras_withTags > 0) {
-            AveragePose3d = new Pose3d(sum_x/cameras_withTags,        sum_y/cameras_withTags,     sum_z/cameras_withTags,
+            /*AveragePose3d = new Pose3d(sum_x/cameras_withTags,        sum_y/cameras_withTags,     sum_z/cameras_withTags,
                             new Rotation3d(sum_roll/cameras_withTags, sum_pitch/cameras_withTags, sum_yaw/cameras_withTags));
+            */
+            AveragePose3d = sumPose.div(cameras_withTags);
 
             // TODO : we have vision add it to the current robot pose
         }
@@ -81,7 +89,7 @@ public class WL_PhotonCameraHelper extends SubsystemBase{
 
         catch(NullPointerException ex)
         {
-            retString = String.format("Camera %s not Found", camName);
+            retString = String.format("%s not Found. %s", camName, cameras.size());
         }
         return retString;
     }

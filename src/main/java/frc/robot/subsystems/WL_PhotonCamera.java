@@ -59,8 +59,8 @@ public class WL_PhotonCamera extends SubsystemBase{
             currPose3d = new Pose3d (fieldToCamera.plus(robot2CameraTransform).getTranslation(),
                                      fieldToCamera.plus(robot2CameraTransform).getRotation());
 
-            msg = String.format ("Cam: %s Tag: %s X: %.2f Y: %.2f Yaw: %.0f",
-                    camName, result.getMultiTagResult().fiducialIDsUsed.toString(),
+            msg = String.format ("Tag: %s X: %.2f Y: %.2f Yaw: %.0f",
+                    result.getMultiTagResult().fiducialIDsUsed.toString(),
                     currPose3d.getX(), currPose3d.getY(), currPose3d.getRotation().getZ());
         }
         // only one tag visible... use it but it is not as accurate as multiple tags.
@@ -75,18 +75,22 @@ public class WL_PhotonCamera extends SubsystemBase{
                         // aprilTagFieldLayout.getTagPose(m_tag_ID).orElse(null),
                         robot2CameraTransform);
 
-                msg = String.format ("Cam: %s Tag: %s X: %.2f Y: %.2f Yaw: %.0f",
-                    camName, target.getFiducialId(),
+                msg = String.format ("Tag: %s X: %.2f Y: %.2f Yaw: %.0f",
+                    target.getFiducialId(),
                     currPose3d.getX(), currPose3d.getY(), currPose3d.getRotation().getZ());
             }
             else {
-                msg = String.format("%s, Invalid Tag ID", camName);
+                msg = String.format("Invalid Tag ID");
             }
         }
 
         else {
-            msg = String.format("%s, No Tags Visible.", camName);
+            msg = String.format("No Tags Visible.");
         }
+    }
+
+    public String getCamName () {
+        return this.camName;
     }
 
     public boolean hasTargets (){

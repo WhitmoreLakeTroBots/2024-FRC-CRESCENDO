@@ -44,6 +44,8 @@ public class Intake extends SubsystemBase {
         pivMotor.set(CommonLogic.CapMotorPower(
                 CommonLogic.gotoPosPIDF(pivP, pivF, pivNormalize(pivMotor.getEncoder().getPosition()), pivNormalize(targetPivotPos.pos)),
                 minPivPower, maxPivPower));
+
+
     }
 
     @Override
@@ -74,7 +76,7 @@ public class Intake extends SubsystemBase {
                 break;
 
             default:
-                rotMotor.set(0);   
+                rotMotor.set(0);
                 break;
         }
     }
@@ -118,7 +120,7 @@ public class Intake extends SubsystemBase {
         // gives us values from 0 to 180 for the right side of the robot
         // and values from 0 to -179 degrees for the left side of the robot
         double degrees = heading % 360;
-    
+
         if (degrees > 180) {
           degrees = degrees - 360;
         }
