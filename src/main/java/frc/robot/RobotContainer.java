@@ -158,7 +158,7 @@ public class RobotContainer {
         SmartDashboard.putData("Auto Mode", m_Chooser);
         SmartDashboard.putNumber("Distance Traveled",
                 m_robotDrive.getDistanceTraveledInches(new Pose2d(2.0, 7.0, new Rotation2d())));
-                SmartDashboard.putNumber("PivotLocation", m_Intake.pivNormalize(m_Intake.getCurPivotPos()));
+                SmartDashboard.putNumber("PivotLocation", m_Intake.getCurPivotPos());
         SmartDashboard.putNumber("RollerStatus", m_Intake.getCurRollerStatus().getPow());
         SmartDashboard.putBoolean("BeamBreak1", m_Sensors.getBB1());
     
