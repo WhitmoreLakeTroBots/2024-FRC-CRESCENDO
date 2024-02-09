@@ -2,6 +2,7 @@ package frc.robot.subsystems;
 
 //import frc.robot.commands.*;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import frc.robot.RobotContainer;
 import frc.robot.Constants.CANIDs;
 import frc.utils.CommonLogic;
 
@@ -20,11 +21,11 @@ public class Intake extends SubsystemBase {
 
     private CANSparkMax rotMotor;
     private CANSparkMax pivMotor;
-    private double pivP = 0.1;
+    private double pivP = 0.01;
     private double pivF = 0.0;
 
-    private double minPivPower = -0.2;
-    private double maxPivPower = 0.2;
+    private double minPivPower = -0.5;
+    private double maxPivPower = 0.5;
 
     /**
     *
@@ -42,8 +43,15 @@ public class Intake extends SubsystemBase {
     public void periodic() {
         // This method will be called once per scheduler run
         pivMotor.set(CommonLogic.CapMotorPower(
-                CommonLogic.gotoPosPIDF(pivP, pivF, pivNormalize(pivMotor.getEncoder().getPosition()), pivNormalize(targetPivotPos.pos)),
+                CommonLogic.gotoPosPIDF(pivP, pivF, getCurPivotPos(), targetPivotPos.pos),
                 minPivPower, maxPivPower));
+
+        if ((getCurRollerStatus() == RollerStatus.FORWARD) && (Math.abs(rotMotor.getAppliedOutput()) > 0.0)
+         && (RobotContainer.getInstance().m_Sensors.getBB1() == true)) {
+
+            rotMotor.set(0);
+            setRollerStatus(RollerStatus.STOP);
+        }
 
 
     }
@@ -88,7 +96,7 @@ public class Intake extends SubsystemBase {
     }
 
     public boolean getPivotStatus(){
-        return(CommonLogic.isInRange(pivMotor.getEncoder().getPosition(), targetPivotPos.pos, pivPosTol));
+        return(CommonLogic.isInRange(getCurPivotPos(), targetPivotPos.pos, pivPosTol));
     }
 
     public double getCurPivotPos(){
@@ -131,8 +139,8 @@ public class Intake extends SubsystemBase {
       }
 
     public enum PivotPos {
-        START(0),
-        IN(0),
+        START(3),
+        IN(3),
         OUT(195);
 
         private final double pos;
