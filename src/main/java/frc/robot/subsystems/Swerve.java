@@ -129,9 +129,7 @@ public class Swerve extends SubsystemBase {
 
   @Override
   public void periodic() {
-    // Update the odometry in the periodic block
-   // m_odometry.addVisionMeasurement(RobotContainer.getInstance().m_Photon.robotFieldPose.toPose2d()
-//,RobotContainer.getInstance().m_Photon.averageLatency);
+
     m_odometry.update(
         Rotation2d.fromDegrees(-m_gyro.getAngle()),
         new SwerveModulePosition[] {
@@ -140,7 +138,11 @@ public class Swerve extends SubsystemBase {
             m_rearLeft.getPosition(),
             m_rearRight.getPosition()
         });
-        
+
+  }
+
+  public void addVision (Pose2d currPose2d, double timeStamp){
+    m_odometry.addVisionMeasurement(currPose2d, timeStamp);
   }
 
   /**
@@ -325,13 +327,13 @@ public class Swerve extends SubsystemBase {
         OIConstants.kDriveDeadband);
 
     //Adding brake
-    leftY = leftY - (Math.signum(leftY) * CommonLogic.CapMotorPower( 
-              RobotContainer.getInstance().m_driverController.getLeftTriggerAxis(),0,MAX_BRAKE)); 
-    leftX = leftX - (Math.signum(leftX) * CommonLogic.CapMotorPower( 
+    leftY = leftY - (Math.signum(leftY) * CommonLogic.CapMotorPower(
               RobotContainer.getInstance().m_driverController.getLeftTriggerAxis(),0,MAX_BRAKE));
-    rightX = rightX - (Math.signum(rightX) * CommonLogic.CapMotorPower(  
+    leftX = leftX - (Math.signum(leftX) * CommonLogic.CapMotorPower(
               RobotContainer.getInstance().m_driverController.getLeftTriggerAxis(),0,MAX_BRAKE));
-    
+    rightX = rightX - (Math.signum(rightX) * CommonLogic.CapMotorPower(
+              RobotContainer.getInstance().m_driverController.getLeftTriggerAxis(),0,MAX_BRAKE));
+
         // square them to make them usefully curved
     leftY = Math.signum(leftY) * leftY * leftY;
     leftX = Math.signum(leftX) * leftX * leftX;

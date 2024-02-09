@@ -13,6 +13,7 @@ import edu.wpi.first.math.geometry.Pose3d;
 import edu.wpi.first.math.geometry.Transform3d;
 import edu.wpi.first.math.geometry.Rotation3d;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import frc.robot.RobotContainer;
 
 public class WL_PhotonCameraHelper extends SubsystemBase{
 
@@ -34,30 +35,17 @@ public class WL_PhotonCameraHelper extends SubsystemBase{
 
     public void periodic () {
         CameraWithTags localCameraTags = CameraWithTags.NoCamerasWithTags;
-        /*
-        double sum_x = 0.0;
-        double sum_y = 0.0;
-        double sum_z = 0.0;
-        double sum_yaw = 0.0;
-        double sum_pitch = 0.0;
-        double sum_roll = 0.0;
-        */
-        int cameras_withTags = 0;
 
+        int cameras_withTags = 0;
+        double sumLatencyMillis = 0;
         Pose3d sumPose = new Pose3d();
         for (Map.Entry<String, WL_PhotonCamera> e : cameras.entrySet()){
             if (e.getValue().hasTargets()) {
                 localCameraTags = CameraWithTags.SomeCamerasWithTags;
-                /*
-                sum_x = sum_x + e.getValue().getRobotPose3d().getX();
-                sum_y = sum_y + e.getValue().getRobotPose3d().getY();
-                sum_z = sum_z + e.getValue().getRobotPose3d().getZ();
-                sum_yaw = sum_yaw + e.getValue().getRobotPose3d().getRotation().getZ();
-                sum_pitch = sum_pitch + e.getValue().getRobotPose3d().getRotation().getX();
-                sum_roll = sum_roll + e.getValue().getRobotPose3d().getRotation().getY();
-                */
+
                 cameras_withTags++;
                 sumPose = sumPose.plus(new Transform3d (e.getValue().getRobotPose3d().getTranslation(), e.getValue().getRobotPose3d().getRotation()));
+                sumLatencyMillis = sumLatencyMillis + e.getValue().getLatencyMillis();
 
             }
             else {
@@ -66,12 +54,9 @@ public class WL_PhotonCameraHelper extends SubsystemBase{
         }
 
         if (cameras_withTags > 0) {
-            /*AveragePose3d = new Pose3d(sum_x/cameras_withTags,        sum_y/cameras_withTags,     sum_z/cameras_withTags,
-                            new Rotation3d(sum_roll/cameras_withTags, sum_pitch/cameras_withTags, sum_yaw/cameras_withTags));
-            */
             AveragePose3d = sumPose.div(cameras_withTags);
+            RobotContainer.getInstance().m_robotDrive.addVision(AveragePose3d.toPose2d(),(sumLatencyMillis / cameras_withTags) );
 
-            // TODO : we have vision add it to the current robot pose
         }
         else {
             AveragePose3d = new Pose3d (0.0, 0.0, 0.0, new Rotation3d (0.0, 0.0, 0.0));
