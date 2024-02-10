@@ -11,7 +11,7 @@ public class Constants {
 
   public static final class DriveConstants {
 
-    public static final double kMaxSpeedMetersPerSecond = 4.11;
+    public static final double kMaxSpeedMetersPerSecond = 6.0;
     public static final double kMaxAngularSpeed = 2 * Math.PI; // radians per second
 
     public static final double kDirectionSlewRate = 5.0; // radians per second
@@ -105,7 +105,7 @@ public class Constants {
     public static final double kDrivingMinOutput = -1;
     public static final double kDrivingMaxOutput = 1;
 
-    public static final double kTurningP = 0.1;
+    public static final double kTurningP = 1.0;
     public static final double kTurningI = 0;
     public static final double kTurningD = 0;
     public static final double kTurningFF = 0;
@@ -115,8 +115,8 @@ public class Constants {
     public static final IdleMode kDrivingMotorIdleMode = IdleMode.kBrake;
     public static final IdleMode kTurningMotorIdleMode = IdleMode.kBrake;
 
-    public static final int kDrivingMotorCurrentLimit = 40; // amps
-    public static final int kTurningMotorCurrentLimit = 20; // amps
+    public static final int kDrivingMotorCurrentLimit = 50; // amps
+    public static final int kTurningMotorCurrentLimit = 30; // amps
   }
 
   public static final class OIConstants {

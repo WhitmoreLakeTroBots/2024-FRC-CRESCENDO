@@ -36,13 +36,14 @@ public class Launcher extends SubsystemBase {
     private final double STEP_RANGE = POWER_STEP_INCREMENT + .01;
     private final int MAX_STEP_COUNT = 25;
     private int currPowerStepCounter = 0;
-    private double FeederMotorOffset = 1.0;
-    private double pivP = 0.001;
+    private double FeederMotorOffset = 2.0;
+    private double pivP = 0.02;
     private double pivF = 0.0;
     private double angleMaxPow = 0.2;
     private double angleMinPow = -0.2;
     private ANGLEPOS curAnglePos = ANGLEPOS.START;
     private double angleMotorTol = 5.0;
+    private double maxPosition = 65.0; // Don't go past this
 
     // private double rampWaitEndTime = 0.0;
     // private final double rampWaitTime = .5;
@@ -235,10 +236,10 @@ public class Launcher extends SubsystemBase {
 
     public enum ANGLEPOS{
 
-        START(55.0, 55.0, 0),
-        TEST(50.0, 50.0, 0),
-        UNDERSPEAKER(50.0, 50.0, 3500),
-        MIDRANGE(50.0, 50, 4000);
+        START(50.0, 50.0, 0),
+        TEST(30.0, 30.0, 0),
+        UNDERSPEAKER(55.0, 55, 1750),
+        MIDRANGE(30.0, 30, 3500);
 
     
 

@@ -32,7 +32,7 @@ public class Intake extends SubsystemBase {
     */
     public Intake() {
         rotMotor = new CANSparkMax(CANIDs.RotMotorId, CANSparkMax.MotorType.kBrushless);
-        CommonLogic.setSparkParamsBase(rotMotor, false, 20, 30, IdleMode.kCoast);
+        CommonLogic.setSparkParamsBase(rotMotor, false, 30, 40, IdleMode.kCoast);
 
         pivMotor = new CANSparkMax(CANIDs.PivMotorId, CANSparkMax.MotorType.kBrushless);
         CommonLogic.setSparkParamsBase(pivMotor, false, 40, 40, IdleMode.kBrake);
@@ -109,7 +109,7 @@ public class Intake extends SubsystemBase {
 
     public enum RollerStatus {
         STOP(0.0),
-        FORWARD(0.4),
+        FORWARD(0.6),
         REVERSE(-0.7);
 
         private final double pow;
@@ -141,7 +141,7 @@ public class Intake extends SubsystemBase {
     public enum PivotPos {
         START(3, 0.0027, 0),
         IN(3, 0.0025, 0),
-        OUT(195, 0.003, 0.0);
+        OUT(205, 0.003, 0.0);
 
         private final double pos;
         private final double P;

@@ -172,6 +172,7 @@ public class RobotContainer {
         SmartDashboard.putString("vis11A", m_Photon.getPose11A());
         SmartDashboard.putString("vis11B", m_Photon.getPose11B());
 
+        SmartDashboard.putNumber("launcher angle", m_Launcher.getAnglePosActual());
 
         //Launcher
         SmartDashboard.putNumber("LauncherTargetRPM", m_Launcher.getTargetRPM());
