@@ -74,6 +74,7 @@ public class RobotContainer {
         
         
         Trigger A_drive = m_driverController.a();
+        A_drive.onTrue(new AngleCmd(ANGLEPOS.AMP, false));
 
         Trigger B_drive = m_driverController.b();
 
@@ -110,11 +111,11 @@ public class RobotContainer {
         RTrig_drive.onFalse(new intakeCmd(RollerStatus.STOP));
 //Articulion Controller*************************************************
         Trigger A_Artic = m_articController.a();
+        A_Artic.onTrue(new AngleCmd(ANGLEPOS.AMP, false));
 
         Trigger B_Artic = m_articController.b();
 
         Trigger X_Artic = m_articController.x();
-        X_Artic.onTrue(new AngleCmd(ANGLEPOS.AMP, false));
         Trigger Y_Artic = m_articController.y();
 
         Trigger DUp_Artic = m_articController.povUp();
