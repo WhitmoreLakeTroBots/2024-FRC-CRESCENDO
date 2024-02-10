@@ -107,14 +107,14 @@ public class RobotContainer {
         
         Trigger RTrig_drive = m_driverController.rightTrigger();
         RTrig_drive.onTrue(new intakeCmd(Intake.RollerStatus.REVERSE));
-
+        RTrig_drive.onFalse(new intakeCmd(RollerStatus.STOP));
 //Articulion Controller*************************************************
         Trigger A_Artic = m_articController.a();
 
         Trigger B_Artic = m_articController.b();
 
         Trigger X_Artic = m_articController.x();
-
+        X_Artic.onTrue(new AngleCmd(ANGLEPOS.AMP, false));
         Trigger Y_Artic = m_articController.y();
 
         Trigger DUp_Artic = m_articController.povUp();
@@ -137,8 +137,8 @@ public class RobotContainer {
         LBump_Artic.onTrue(new pivotCmd(Intake.PivotPos.OUT, false));
 
         Trigger LTrig_Artic = m_articController.leftTrigger();
-        LTrig_Artic.onTrue(new intakeCmd(RollerStatus.REVERSE));
-
+        LTrig_Artic.whileTrue(new intakeCmd(RollerStatus.REVERSE));
+        LTrig_Artic.onFalse(new intakeCmd(RollerStatus.STOP));
         Trigger RBump_Artic = m_articController.rightBumper();
         RBump_Artic.onTrue(new pivotCmd(Intake.PivotPos.IN, false));
         
