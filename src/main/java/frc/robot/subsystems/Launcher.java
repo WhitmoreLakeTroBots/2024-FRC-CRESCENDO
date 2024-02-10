@@ -237,7 +237,8 @@ public class Launcher extends SubsystemBase {
 
         START(55.0, 55.0, 0),
         TEST(50.0, 50.0, 0),
-        UNDERSPEAKER(50.0, 50.0, 1700);
+        UNDERSPEAKER(50.0, 50.0, 3500),
+        MIDRANGE(50.0, 50, 4000);
 
     
 

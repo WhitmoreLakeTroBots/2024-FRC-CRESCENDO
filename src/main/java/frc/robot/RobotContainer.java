@@ -126,6 +126,7 @@ public class RobotContainer {
         DDown_Artic.onTrue(new AngleCmd(ANGLEPOS.START, false));
 
         Trigger DRight_Artic = m_articController.povRight();
+        DRight_Artic.onTrue(new AngleCmd(ANGLEPOS.MIDRANGE, false));
 
         Trigger BACK_Artic = m_articController.back();
         BACK_Artic.onTrue(new intakeCmd(Intake.RollerStatus.STOP));
