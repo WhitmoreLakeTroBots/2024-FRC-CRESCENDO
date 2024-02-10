@@ -5,6 +5,8 @@ import frc.robot.commands.intakeCommands.*;
 import frc.robot.commands.LauncherCommands.*;
 import frc.robot.subsystems.*;
 import frc.robot.subsystems.Intake.RollerStatus;
+import frc.robot.subsystems.Launcher.ANGLEPOS;
+import frc.robot.subsystems.Launcher.LauncherModes;
 
 import com.pathplanner.lib.commands.PathPlannerAuto;
 
@@ -115,12 +117,13 @@ public class RobotContainer {
         Trigger Y_Artic = m_articController.y();
 
         Trigger DUp_Artic = m_articController.povUp();
-        DUp_Artic.onTrue(new SetLauncherRPM(3500));
+        DUp_Artic.onTrue(new AngleCmd(ANGLEPOS.UNDERSPEAKER, false));
 
         Trigger DLeft_Artic = m_articController.povLeft();
+        DLeft_Artic.onTrue(new AngleCmd(ANGLEPOS.TEST, false));
 
         Trigger DDown_Artic = m_articController.povDown();
-        DDown_Artic.onTrue(new SetLauncherRPM(0));
+        DDown_Artic.onTrue(new AngleCmd(ANGLEPOS.START, false));
 
         Trigger DRight_Artic = m_articController.povRight();
 

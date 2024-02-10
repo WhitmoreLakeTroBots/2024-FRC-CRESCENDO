@@ -36,10 +36,10 @@ public class Launcher extends SubsystemBase {
     private final int MAX_STEP_COUNT = 25;
     private int currPowerStepCounter = 0;
     private double FeederMotorOffset = 1.0;
-    private double pivP = 10.0;
+    private double pivP = 0.0;
     private double pivF = 0.0;
-    private double angleMaxPow = 0.6;
-    private double angleMinPow = -0.6;
+    private double angleMaxPow = 0.2;
+    private double angleMinPow = -0.2;
     private ANGLEPOS curAnglePos = ANGLEPOS.START;
     private double angleMotorTol = 5.0;
 
@@ -60,8 +60,8 @@ public class Launcher extends SubsystemBase {
     public Launcher() {
         LaunchMotorTop = new CANSparkMax(Constants.CANIDs.LauncherMotorTopId, CANSparkMax.MotorType.kBrushless);
         LaunchMotorBottom = new CANSparkMax(Constants.CANIDs.LauncherMotorBottomId, CANSparkMax.MotorType.kBrushless);
-        CommonLogic.setSparkParamsBase(LaunchMotorTop, false, 10, 30, IdleMode.kCoast);
-        CommonLogic.setSparkParamsBase(LaunchMotorBottom, true, 10, 30, IdleMode.kCoast);
+        CommonLogic.setSparkParamsBase(LaunchMotorTop, true, 10, 30, IdleMode.kCoast);
+        CommonLogic.setSparkParamsBase(LaunchMotorBottom, false, 10, 30, IdleMode.kCoast);
 
         kP = 0.0;
         kI = 0.0;
@@ -230,8 +230,9 @@ public class Launcher extends SubsystemBase {
 
     public enum ANGLEPOS{
 
-        START(0.0, 0.0, 0),
-        UNDERSPEAKER(85.0, 40, 4000);
+        START(55.0, 55.0, 0),
+        TEST(50.0, 50.0, 0),
+        UNDERSPEAKER(50.0, 50.0, 1700);
 
     
 

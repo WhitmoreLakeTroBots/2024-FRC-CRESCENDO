@@ -21,11 +21,11 @@ public class Intake extends SubsystemBase {
 
     private CANSparkMax rotMotor;
     private CANSparkMax pivMotor;
-    private double pivP = 0.01;
+    private double pivP = 0.004;
     private double pivF = 0.0;
 
-    private double minPivPower = -0.5;
-    private double maxPivPower = 0.5;
+    private double minPivPower = -0.85;
+    private double maxPivPower = 0.85;
 
     /**
     *
@@ -35,7 +35,7 @@ public class Intake extends SubsystemBase {
         CommonLogic.setSparkParamsBase(rotMotor, false, 10, 30, IdleMode.kCoast);
 
         pivMotor = new CANSparkMax(CANIDs.PivMotorId, CANSparkMax.MotorType.kBrushless);
-        CommonLogic.setSparkParamsBase(pivMotor, false, 10, 30, IdleMode.kBrake);
+        CommonLogic.setSparkParamsBase(pivMotor, false, 10, 40, IdleMode.kBrake);
 
     }
 
