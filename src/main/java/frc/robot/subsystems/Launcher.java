@@ -1,6 +1,7 @@
 package frc.robot.subsystems;
 
 import com.revrobotics.CANSparkMax;
+import com.revrobotics.SparkAbsoluteEncoder.Type;
 import com.revrobotics.CANSparkBase.IdleMode;
 
 import frc.robot.Constants;
@@ -91,7 +92,7 @@ public class Launcher extends SubsystemBase {
             iActualRPM = LaunchMotorTop.getEncoder().getVelocity();
 
             LaunchAngleMotor.set(CommonLogic.CapMotorPower(
-                CommonLogic.gotoPosPIDF(pivP, pivF, LaunchAngleMotor.getEncoder().getPosition(), curAnglePos.pos),
+                CommonLogic.gotoPosPIDF(pivP, pivF, getAnglePosActual(), curAnglePos.pos),
                 angleMinPow, angleMaxPow));
 
                    switch (currLauncherMode)
@@ -216,7 +217,7 @@ public class Launcher extends SubsystemBase {
     }
 
     public boolean getAngleStatus(){
-        return(CommonLogic.isInRange(LaunchAngleMotor.getEncoder().getPosition(), curAnglePos.pos, angleMotorTol));
+        return(CommonLogic.isInRange(getAnglePosActual(), curAnglePos.pos, angleMotorTol));
     }
 
       public void setAnglePos(ANGLEPOS newPos) {
@@ -226,6 +227,10 @@ public class Launcher extends SubsystemBase {
 
     public ANGLEPOS getAnglePos(){
         return curAnglePos;
+    }
+
+    public double getAnglePosActual(){
+        return LaunchAngleMotor.getAbsoluteEncoder(Type.kDutyCycle).getPosition();
     }
 
     public enum ANGLEPOS{
