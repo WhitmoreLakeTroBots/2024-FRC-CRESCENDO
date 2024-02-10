@@ -37,7 +37,7 @@ public class Launcher extends SubsystemBase {
     private final int MAX_STEP_COUNT = 25;
     private int currPowerStepCounter = 0;
     private double FeederMotorOffset = 1.0;
-    private double pivP = 0.0;
+    private double pivP = 0.001;
     private double pivF = 0.0;
     private double angleMaxPow = 0.2;
     private double angleMinPow = -0.2;
@@ -75,7 +75,7 @@ public class Launcher extends SubsystemBase {
         CommonLogic.setSparkParamsBase(FeederMotor, false, 10, 30, IdleMode.kCoast);
 
         LaunchAngleMotor = new CANSparkMax(Constants.CANIDs.LaunchAngleMotorId , CANSparkMax.MotorType.kBrushless);
-        CommonLogic.setSparkParamsBase(LaunchAngleMotor, false, 10, 30, IdleMode.kBrake);
+        CommonLogic.setSparkParamsBase(LaunchAngleMotor, false, 20, 30, IdleMode.kBrake);
 
     }
 
