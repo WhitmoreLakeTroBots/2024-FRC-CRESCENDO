@@ -32,7 +32,7 @@ public class Intake extends SubsystemBase {
     */
     public Intake() {
         rotMotor = new CANSparkMax(CANIDs.RotMotorId, CANSparkMax.MotorType.kBrushless);
-        CommonLogic.setSparkParamsBase(rotMotor, false, 10, 30, IdleMode.kCoast);
+        CommonLogic.setSparkParamsBase(rotMotor, false, 20, 30, IdleMode.kCoast);
 
         pivMotor = new CANSparkMax(CANIDs.PivMotorId, CANSparkMax.MotorType.kBrushless);
         CommonLogic.setSparkParamsBase(pivMotor, false, 40, 40, IdleMode.kBrake);

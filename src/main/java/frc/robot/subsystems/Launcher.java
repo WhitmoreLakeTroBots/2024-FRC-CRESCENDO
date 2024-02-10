@@ -61,8 +61,8 @@ public class Launcher extends SubsystemBase {
     public Launcher() {
         LaunchMotorTop = new CANSparkMax(Constants.CANIDs.LauncherMotorTopId, CANSparkMax.MotorType.kBrushless);
         LaunchMotorBottom = new CANSparkMax(Constants.CANIDs.LauncherMotorBottomId, CANSparkMax.MotorType.kBrushless);
-        CommonLogic.setSparkParamsBase(LaunchMotorTop, true, 10, 30, IdleMode.kCoast);
-        CommonLogic.setSparkParamsBase(LaunchMotorBottom, false, 10, 30, IdleMode.kCoast);
+        CommonLogic.setSparkParamsBase(LaunchMotorTop, true, 20, 30, IdleMode.kCoast);
+        CommonLogic.setSparkParamsBase(LaunchMotorBottom, false, 20, 30, IdleMode.kCoast);
 
         kP = 0.0;
         kI = 0.0;
