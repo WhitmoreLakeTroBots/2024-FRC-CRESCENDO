@@ -235,12 +235,12 @@ public class Launcher extends SubsystemBase {
     }
 
     public enum ANGLEPOS{
-
-        START(50.0, 50.0, 0),
+        MAX(65,65,0),
+        START(20.0, 20.0, 0), // DDown
         TEST(30.0, 30.0, 0),
-        UNDERSPEAKER(55.0, 55, 1750),
-        MIDRANGE(30.0, 30, 3500);
-
+        UNDERSPEAKER(55.0, 55, 2000), //DUp
+        MIDRANGE(20, 20, 3500), //DRight
+        PODIUM(35,35,3500); //DLeft
     
 
         private final double angle;

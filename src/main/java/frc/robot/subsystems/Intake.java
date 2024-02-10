@@ -51,6 +51,7 @@ public class Intake extends SubsystemBase {
 
             rotMotor.set(0);
             setRollerStatus(RollerStatus.STOP);
+            setPivotPos(PivotPos.IN);
         }
     }
 
