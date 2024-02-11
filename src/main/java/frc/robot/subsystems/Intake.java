@@ -21,21 +21,21 @@ public class Intake extends SubsystemBase {
 
     private CANSparkMax rotMotor;
     private CANSparkMax pivMotor;
-    private double pivP = 0.01;
-    private double pivF = 0.0;
+    private double pivP = 0.0; // now controlled by position
+    private double pivF = 0.0; // now controlled by position
 
-    private double minPivPower = -0.5;
-    private double maxPivPower = 0.5;
+    private double minPivPower = -0.85;
+    private double maxPivPower = 0.85;
 
     /**
     *
     */
     public Intake() {
         rotMotor = new CANSparkMax(CANIDs.RotMotorId, CANSparkMax.MotorType.kBrushless);
-        CommonLogic.setSparkParamsBase(rotMotor, false, 10, 30, IdleMode.kCoast);
+        CommonLogic.setSparkParamsBase(rotMotor, false, 30, 40, IdleMode.kCoast);
 
         pivMotor = new CANSparkMax(CANIDs.PivMotorId, CANSparkMax.MotorType.kBrushless);
-        CommonLogic.setSparkParamsBase(pivMotor, false, 10, 30, IdleMode.kBrake);
+        CommonLogic.setSparkParamsBase(pivMotor, false, 40, 40, IdleMode.kBrake);
 
     }
 
@@ -45,12 +45,13 @@ public class Intake extends SubsystemBase {
         pivMotor.set(CommonLogic.CapMotorPower(
                 CommonLogic.gotoPosPIDF(pivP, pivF, getCurPivotPos(), targetPivotPos.pos),
                 minPivPower, maxPivPower));
-
+    
         if ((getCurRollerStatus() == RollerStatus.FORWARD) && (Math.abs(rotMotor.getAppliedOutput()) > 0.0)
          && (RobotContainer.getInstance().m_Sensors.getBB1() == true)) {
 
             rotMotor.set(0);
             setRollerStatus(RollerStatus.STOP);
+            setPivotPos(PivotPos.IN);
         }
 
 
@@ -64,6 +65,8 @@ public class Intake extends SubsystemBase {
 
     public void setPivotPos(PivotPos newPos) {
         targetPivotPos = newPos;
+        pivP = targetPivotPos.P;
+        pivF = targetPivotPos.F;
     }
 
     public void setRollerStatus(RollerStatus newStatus) {
@@ -109,8 +112,8 @@ public class Intake extends SubsystemBase {
 
     public enum RollerStatus {
         STOP(0.0),
-        FORWARD(0.4),
-        REVERSE(-0.4);
+        FORWARD(0.6),
+        REVERSE(-0.7);
 
         private final double pow;
 
@@ -139,18 +142,28 @@ public class Intake extends SubsystemBase {
       }
 
     public enum PivotPos {
-        START(3),
-        IN(3),
-        OUT(195);
+        START(3, 0.0027, 0),
+        IN(3, 0.0025, 0),
+        OUT(205, 0.003, 0.0);
 
         private final double pos;
+        private final double P;
+        private final double F;
 
         public double getPos() {
             return pos;
         }
+        public double getP() {
+            return P;
+        }
+        public double getF() {
+            return F;
+        }
 
-        PivotPos(double pos) {
+        PivotPos(double pos, double P, double F){
             this.pos = pos;
+            this.P = P;
+            this.F = F;
         }
     }
 

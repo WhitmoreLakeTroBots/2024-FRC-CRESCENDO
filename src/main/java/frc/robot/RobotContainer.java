@@ -5,7 +5,8 @@ import frc.robot.commands.intakeCommands.*;
 import frc.robot.commands.LauncherCommands.*;
 import frc.robot.subsystems.*;
 import frc.robot.subsystems.Intake.RollerStatus;
-
+import frc.robot.subsystems.Launcher.ANGLEPOS;
+import frc.robot.subsystems.Launcher.LauncherModes;
 import org.photonvision.PhotonCamera;
 
 import com.pathplanner.lib.commands.PathPlannerAuto;
@@ -86,6 +87,7 @@ public class RobotContainer {
 
 
         Trigger A_drive = m_driverController.a();
+        A_drive.onTrue(new AngleCmd(ANGLEPOS.AMP, false));
 
         Trigger B_drive = m_driverController.b();
 
@@ -118,25 +120,28 @@ public class RobotContainer {
         .onTrue(new intakeCmd(RollerStatus.FORWARD));
 
         Trigger RTrig_drive = m_driverController.rightTrigger();
-
+        RTrig_drive.onTrue(new intakeCmd(Intake.RollerStatus.REVERSE));
+        RTrig_drive.onFalse(new intakeCmd(RollerStatus.STOP));
 //Articulion Controller*************************************************
         Trigger A_Artic = m_articController.a();
+        A_Artic.onTrue(new AngleCmd(ANGLEPOS.AMP, false));
 
         Trigger B_Artic = m_articController.b();
 
         Trigger X_Artic = m_articController.x();
-
         Trigger Y_Artic = m_articController.y();
 
         Trigger DUp_Artic = m_articController.povUp();
-        DUp_Artic.onTrue(new SetLauncherRPM(3500));
+        DUp_Artic.onTrue(new AngleCmd(ANGLEPOS.UNDERSPEAKER, false));
 
         Trigger DLeft_Artic = m_articController.povLeft();
+        DLeft_Artic.onTrue(new AngleCmd(ANGLEPOS.PODIUM, false));
 
         Trigger DDown_Artic = m_articController.povDown();
-        DDown_Artic.onTrue(new SetLauncherRPM(0));
+        DDown_Artic.onTrue(new AngleCmd(ANGLEPOS.START, false));
 
         Trigger DRight_Artic = m_articController.povRight();
+        DRight_Artic.onTrue(new AngleCmd(ANGLEPOS.MIDRANGE, false));
 
         Trigger BACK_Artic = m_articController.back();
         BACK_Artic.onTrue(new intakeCmd(Intake.RollerStatus.STOP));
@@ -146,8 +151,8 @@ public class RobotContainer {
         LBump_Artic.onTrue(new pivotCmd(Intake.PivotPos.OUT, false));
 
         Trigger LTrig_Artic = m_articController.leftTrigger();
-        LTrig_Artic.onTrue(new intakeCmd(RollerStatus.REVERSE));
-
+        LTrig_Artic.whileTrue(new intakeCmd(RollerStatus.REVERSE));
+        LTrig_Artic.onFalse(new intakeCmd(RollerStatus.STOP));
         Trigger RBump_Artic = m_articController.rightBumper();
         RBump_Artic.onTrue(new pivotCmd(Intake.PivotPos.IN, false));
 
@@ -181,6 +186,8 @@ public class RobotContainer {
         SmartDashboard.putString("visAVG", m_Photon.getPoseAVG());
         SmartDashboard.putString(Constants.Cam1Constants.name, m_CameraHelper.getCamString(Constants.Cam1Constants.name));
         SmartDashboard.putString(Constants.Cam2Constants.name, m_CameraHelper.getCamString(Constants.Cam2Constants.name));
+
+        SmartDashboard.putNumber("launcher angle", m_Launcher.getAnglePosActual());
 
         //Launcher
         SmartDashboard.putNumber("LauncherTargetRPM", m_Launcher.getTargetRPM());

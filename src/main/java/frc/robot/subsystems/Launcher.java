@@ -1,6 +1,7 @@
 package frc.robot.subsystems;
 
 import com.revrobotics.CANSparkMax;
+import com.revrobotics.SparkAbsoluteEncoder.Type;
 import com.revrobotics.CANSparkBase.IdleMode;
 
 import frc.robot.Constants;
@@ -36,12 +37,13 @@ public class Launcher extends SubsystemBase {
     private final int MAX_STEP_COUNT = 25;
     private int currPowerStepCounter = 0;
     private double FeederMotorOffset = 1.0;
-    private double pivP = 10.0;
+    private double pivP = 0.02;
     private double pivF = 0.0;
-    private double angleMaxPow = 0.6;
-    private double angleMinPow = -0.6;
+    private double angleMaxPow = 0.2;
+    private double angleMinPow = -0.2;
     private ANGLEPOS curAnglePos = ANGLEPOS.START;
     private double angleMotorTol = 5.0;
+    private double maxPosition = 65.0; // Don't go past this
 
     // private double rampWaitEndTime = 0.0;
     // private final double rampWaitTime = .5;
@@ -60,8 +62,8 @@ public class Launcher extends SubsystemBase {
     public Launcher() {
         LaunchMotorTop = new CANSparkMax(Constants.CANIDs.LauncherMotorTopId, CANSparkMax.MotorType.kBrushless);
         LaunchMotorBottom = new CANSparkMax(Constants.CANIDs.LauncherMotorBottomId, CANSparkMax.MotorType.kBrushless);
-        CommonLogic.setSparkParamsBase(LaunchMotorTop, false, 10, 30, IdleMode.kCoast);
-        CommonLogic.setSparkParamsBase(LaunchMotorBottom, true, 10, 30, IdleMode.kCoast);
+        CommonLogic.setSparkParamsBase(LaunchMotorTop, true, 20, 30, IdleMode.kCoast);
+        CommonLogic.setSparkParamsBase(LaunchMotorBottom, false, 20, 30, IdleMode.kCoast);
 
         kP = 0.0;
         kI = 0.0;
@@ -74,7 +76,7 @@ public class Launcher extends SubsystemBase {
         CommonLogic.setSparkParamsBase(FeederMotor, false, 10, 30, IdleMode.kCoast);
 
         LaunchAngleMotor = new CANSparkMax(Constants.CANIDs.LaunchAngleMotorId , CANSparkMax.MotorType.kBrushless);
-        CommonLogic.setSparkParamsBase(LaunchAngleMotor, false, 10, 30, IdleMode.kBrake);
+        CommonLogic.setSparkParamsBase(LaunchAngleMotor, false, 20, 30, IdleMode.kBrake);
 
     }
 
@@ -91,7 +93,7 @@ public class Launcher extends SubsystemBase {
             iActualRPM = LaunchMotorTop.getEncoder().getVelocity();
 
             LaunchAngleMotor.set(CommonLogic.CapMotorPower(
-                CommonLogic.gotoPosPIDF(pivP, pivF, LaunchAngleMotor.getEncoder().getPosition(), curAnglePos.pos),
+                CommonLogic.gotoPosPIDF(pivP, pivF, getAnglePosActual(), curAnglePos.pos),
                 angleMinPow, angleMaxPow));
 
                    switch (currLauncherMode)
@@ -216,7 +218,7 @@ public class Launcher extends SubsystemBase {
     }
 
     public boolean getAngleStatus(){
-        return(CommonLogic.isInRange(LaunchAngleMotor.getEncoder().getPosition(), curAnglePos.pos, angleMotorTol));
+        return(CommonLogic.isInRange(getAnglePosActual(), curAnglePos.pos, angleMotorTol));
     }
 
       public void setAnglePos(ANGLEPOS newPos) {
@@ -228,11 +230,18 @@ public class Launcher extends SubsystemBase {
         return curAnglePos;
     }
 
+    public double getAnglePosActual(){
+        return LaunchAngleMotor.getAbsoluteEncoder(Type.kDutyCycle).getPosition();
+    }
+
     public enum ANGLEPOS{
-
-        START(0.0, 0.0, 0),
-        UNDERSPEAKER(85.0, 40, 4000);
-
+        MAX(65,65,0),
+        START(20.0, 20.0, 0), // DDown
+        TEST(30.0, 30.0, 0),
+        UNDERSPEAKER(55.0, 55, 2000), //DUp
+        AMP(52.0, 52, 1000), //X
+        MIDRANGE(28, 28, 4000), //DRight
+        PODIUM(35,35,3500); //DLeft
     
 
         private final double angle;

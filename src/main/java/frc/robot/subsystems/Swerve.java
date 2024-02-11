@@ -79,7 +79,7 @@ public class Swerve extends SubsystemBase {
 
       //Adding MAXBRAKE
       private final static double MAX_BRAKE = 0.8;
-
+    private final double slowSpeed = 0.5;
   public Swerve() {
 
      m_odometry = new SwerveDrivePoseEstimator(
@@ -327,13 +327,18 @@ public class Swerve extends SubsystemBase {
         OIConstants.kDriveDeadband);
 
     //Adding brake
-    leftY = leftY - (Math.signum(leftY) * CommonLogic.CapMotorPower(
+    /*leftY = leftY - (Math.signum(leftY) * CommonLogic.CapMotorPower(
               RobotContainer.getInstance().m_driverController.getLeftTriggerAxis(),0,MAX_BRAKE));
     leftX = leftX - (Math.signum(leftX) * CommonLogic.CapMotorPower(
               RobotContainer.getInstance().m_driverController.getLeftTriggerAxis(),0,MAX_BRAKE));
     rightX = rightX - (Math.signum(rightX) * CommonLogic.CapMotorPower(
               RobotContainer.getInstance().m_driverController.getLeftTriggerAxis(),0,MAX_BRAKE));
-
+    */
+    if (RobotContainer.getInstance().m_driverController.getLeftTriggerAxis() >= 0.5){
+      leftY = leftY * slowSpeed;
+      leftX = rightX * slowSpeed;
+      rightX = rightX * slowSpeed;
+    }
         // square them to make them usefully curved
     leftY = Math.signum(leftY) * leftY * leftY;
     leftX = Math.signum(leftX) * leftX * leftX;
