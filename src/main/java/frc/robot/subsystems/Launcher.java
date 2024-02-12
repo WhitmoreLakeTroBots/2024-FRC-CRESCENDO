@@ -239,7 +239,7 @@ public class Launcher extends SubsystemBase {
         START(20.0, 20.0, 0), // DDown
         TEST(30.0, 30.0, 0),
         UNDERSPEAKER(55.0, 55, 2000), //DUp
-        AMP(52.0, 52, 1000), //X
+        AMP(55.0, 55, 1000), //A
         MIDRANGE(28, 28, 4000), //DRight
         PODIUM(35,35,3500); //DLeft
     

@@ -12,7 +12,7 @@ public class Constants {
   public static final class DriveConstants {
 
     public static final double kMaxSpeedMetersPerSecond = 6.0;
-    public static final double kMaxAngularSpeed = 2 * Math.PI; // radians per second
+    public static final double kMaxAngularSpeed = 4 * Math.PI; // radians per second
 
     public static final double kDirectionSlewRate = 5.0; // radians per second
     public static final double kMagnitudeSlewRate = 7.0; // percent per second (1 = 100%)
