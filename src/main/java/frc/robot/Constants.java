@@ -14,13 +14,13 @@ public class Constants {
   // Rotation3d (roll, pitch, yaw ) // in radians
   public static final class Cam1Constants {
     public static final String name = "cam11A";
-    public static final Transform3d cam2robotTransform3d = new Transform3d (0.0, 0.0, 0.0,
-      new Rotation3d (Math.toRadians(0.0), Math.toRadians(45.0), Math.toRadians(180) ));
+    public static final Transform3d cam2robotTransform3d = new Transform3d (0.0, 0.0, 1.0,
+      new Rotation3d (Math.toRadians(0.0), Math.toRadians(45.0), Math.toRadians(0) ));
   }
 
   public static final class Cam2Constants {
     public static final String name = "cam11B";
-    public static final Transform3d cam2robotTransform3d = new Transform3d (0.0, 0.0, 0.0,
+    public static final Transform3d cam2robotTransform3d = new Transform3d (0.0, 0.0, 1.0,
       new Rotation3d (Math.toRadians(0.0), Math.toRadians(45.0), Math.toRadians(0.0) ));
 
   }
