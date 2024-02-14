@@ -127,6 +127,7 @@ public class RobotContainer {
         A_Artic.onTrue(new AngleCmd(ANGLEPOS.AMP, false));
 
         Trigger B_Artic = m_articController.b();
+        B_Artic.onTrue(new AngleCmd(ANGLEPOS.START, false));
 
         Trigger X_Artic = m_articController.x();
         Trigger Y_Artic = m_articController.y();
