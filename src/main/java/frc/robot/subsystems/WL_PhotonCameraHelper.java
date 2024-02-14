@@ -16,7 +16,7 @@ public class WL_PhotonCameraHelper extends SubsystemBase{
     private double sumx, sumy, sumz, sumYaw, sumPitch, sumRoll = 0;
     private String AveragePoseString = "";
     public WL_PhotonCameraHelper () {
-
+        zeroSums();
 
     }
 
