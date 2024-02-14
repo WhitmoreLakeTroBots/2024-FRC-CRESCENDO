@@ -1,7 +1,5 @@
 package frc.robot.subsystems;
 import edu.wpi.first.math.geometry.Pose3d;
-import edu.wpi.first.math.geometry.Rotation3d;
-
 import java.io.IOException;
 import java.util.Optional;
 
@@ -9,8 +7,6 @@ import org.photonvision.*;
 import org.photonvision.targeting.PhotonPipelineResult;
 import org.photonvision.targeting.PhotonTrackedTarget;
 import edu.wpi.first.math.geometry.Transform3d;
-import edu.wpi.first.math.geometry.Translation3d;
-import edu.wpi.first.math.proto.Wpimath;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.utils.CommonLogic;
 import edu.wpi.first.apriltag.AprilTagFieldLayout;
