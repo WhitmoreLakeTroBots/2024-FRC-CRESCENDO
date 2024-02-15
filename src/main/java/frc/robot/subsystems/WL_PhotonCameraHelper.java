@@ -36,10 +36,10 @@ public class WL_PhotonCameraHelper extends SubsystemBase{
         sumYaw = 0.0;
     }
 
-    private Pose3d calcAveragePose3d(double poses){
+    private Pose3d calcAveragePose3d(double cams){
 
-        return new Pose3d(sumx / poses, sumy / poses, sumz/poses,
-               new Rotation3d(sumRoll/poses, sumPitch/poses, sumYaw/poses ));
+        return new Pose3d(sumx / cams, sumy / cams, sumz/cams,
+               new Rotation3d(sumRoll/cams, sumPitch/cams, sumYaw/cams ));
 
     }
 
@@ -47,7 +47,7 @@ public class WL_PhotonCameraHelper extends SubsystemBase{
         CameraWithTags localCameraTags = CameraWithTags.NoCamerasWithTags;
 
         zeroSums();
-        int cameras_withTags = 0;
+        int cameraCount = 0;
         double sumLatencyMillis = 0;
         // robot axis labled in these web pages
         // https://docs.wpilib.org/en/stable/docs/software/basic-programming/coordinate-system.html
@@ -56,13 +56,13 @@ public class WL_PhotonCameraHelper extends SubsystemBase{
         for (Map.Entry<String, WL_PhotonCamera> e : cameras.entrySet()){
             if (e.getValue().hasTargets()) {
                 localCameraTags = CameraWithTags.SomeCamerasWithTags;
-                sumx = e.getValue().getRobotPose3d().getX();
-                sumy = e.getValue().getRobotPose3d().getY();
-                sumz = e.getValue().getRobotPose3d().getZ();
-                sumRoll = e.getValue().getRobotPose3d().getRotation().getX();
-                sumPitch = e.getValue().getRobotPose3d().getRotation().getY();
-                sumYaw = e.getValue().getRobotPose3d().getRotation().getZ();
-                cameras_withTags++;
+                sumx = sumx + e.getValue().getRobotPose3d().getX();
+                sumy = sumy + e.getValue().getRobotPose3d().getY();
+                sumz = sumz + e.getValue().getRobotPose3d().getZ();
+                sumRoll = sumRoll + e.getValue().getRobotPose3d().getRotation().getX();
+                sumPitch = sumPitch + e.getValue().getRobotPose3d().getRotation().getY();
+                sumYaw = sumYaw + e.getValue().getRobotPose3d().getRotation().getZ();
+                cameraCount = cameraCount + 1;
                 sumLatencyMillis = sumLatencyMillis + e.getValue().getLatencyMillis();
             }
             else {
@@ -70,11 +70,11 @@ public class WL_PhotonCameraHelper extends SubsystemBase{
             }
         }
 
-        if (cameras_withTags > 0) {
-            AveragePose3d = calcAveragePose3d(cameras_withTags);
-            RobotContainer.getInstance().m_robotDrive.addVision(AveragePose3d.toPose2d(),(sumLatencyMillis / cameras_withTags) );
-            AveragePoseString = String.format ("Cams: %s X: %.2f Y: %.2f Yaw: %.0f",
-                 cameras_withTags, AveragePose3d.getX(), AveragePose3d.getY(), AveragePose3d.getRotation().getZ() );
+        if (cameraCount > 0) {
+            AveragePose3d = calcAveragePose3d(cameraCount);
+            RobotContainer.getInstance().m_robotDrive.addVision(AveragePose3d.toPose2d(),(sumLatencyMillis / cameraCount) );
+            AveragePoseString = String.format ("Cams: %s X: %.2f Y: %.2f Yaw: %.1f",
+                 cameraCount, AveragePose3d.getX(), AveragePose3d.getY(), AveragePose3d.getRotation().getZ() );
         }
         else {
             AveragePose3d = new Pose3d (0.0, 0.0, 0.0, new Rotation3d (0.0, 0.0, 0.0));

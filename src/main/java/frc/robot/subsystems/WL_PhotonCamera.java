@@ -71,9 +71,9 @@ public class WL_PhotonCamera extends SubsystemBase{
                         // aprilTagFieldLayout.getTagPose(m_tag_ID).orElse(null),
                         robot2CameraTransform);
 
-                msg = String.format ("Tag: %s X: %.2f Y: %.2f Yaw: %.0f",
+                msg = String.format ("Tag: %s X: %.2f Y: %.2f Yaw: %.1f %.3f",
                     target.getFiducialId(),
-                    currPose3d.getX(), currPose3d.getY(), currPose3d.getRotation().getZ());
+                    currPose3d.getX(), currPose3d.getY(), currPose3d.getRotation().getZ(),result.getLatencyMillis());
             }
             else {
                 msg = String.format("Invalid Tag ID");
