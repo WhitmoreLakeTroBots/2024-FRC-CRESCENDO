@@ -32,10 +32,11 @@ public class speakerTwoNote extends SequentialCommandGroup {
 
         addCommands(new cmdResetGyro());
         addCommands(new AngleCmd(ANGLEPOS.UNDERSPEAKER, true));
-        addCommands(new cmdDelay(0));
+        addCommands(new cmdDelay(1));
         addCommands(new LaunchCmd());
         addCommands(new ParallelCommandGroup(
             new  AutoBuilder().followPath(path1),
+            new AngleCmd(ANGLEPOS.START, false),
             new intakeCmd(RollerStatus.FORWARD),
             new pivotCmd(PivotPos.OUT, true)));
         addCommands(new AngleCmd(ANGLEPOS.CENTERNOTE, true));

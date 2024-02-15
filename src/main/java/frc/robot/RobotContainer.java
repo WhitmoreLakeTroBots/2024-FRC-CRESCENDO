@@ -3,6 +3,7 @@ package frc.robot;
 import frc.robot.commands.intakeCommands.*;
 //import frc.robot.commands.*;
 import frc.robot.commands.LauncherCommands.*;
+import frc.robot.commands.autonCommands.speakerTwoNote;
 import frc.robot.subsystems.*;
 import frc.robot.subsystems.Intake.RollerStatus;
 import frc.robot.subsystems.Launcher.ANGLEPOS;
@@ -44,12 +45,12 @@ public class RobotContainer {
     public final Sensors m_Sensors = new Sensors();
     public final Launcher m_Launcher = new Launcher();
     public final Lighting m_Lighting = new Lighting();
-    public final WL_PhotonCamera m_cam1 = new WL_PhotonCamera (new PhotonCamera(Constants.Cam1Constants.name),
-        Constants.Cam1Constants.cam2robotTransform3d);
+    //public final WL_PhotonCamera m_cam1 = new WL_PhotonCamera (new PhotonCamera(Constants.Cam1Constants.name),
+    //    Constants.Cam1Constants.cam2robotTransform3d);
 
 
-    public final WL_PhotonCamera m_cam2 = new WL_PhotonCamera (new PhotonCamera(Constants.Cam2Constants.name),
-        Constants.Cam2Constants.cam2robotTransform3d);
+    //public final WL_PhotonCamera m_cam2 = new WL_PhotonCamera (new PhotonCamera(Constants.Cam2Constants.name),
+    //    Constants.Cam2Constants.cam2robotTransform3d);
 
     public final WL_PhotonCameraHelper m_CameraHelper = new WL_PhotonCameraHelper();
 
@@ -67,10 +68,14 @@ public class RobotContainer {
         configureButtonBindings();
         m_Chooser.addOption("Test Path Planner Auto", new PathPlannerAuto("test_auto"));
         m_Chooser.addOption("Test Path Straight", new PathPlannerAuto("test_auto2"));
+        m_Chooser.addOption("speakerTwoNote", new speakerTwoNote());
+
+                SmartDashboard.putData("AnglePrestart", new AngleCmd(ANGLEPOS.PRESTART, false));
+
 
         SmartDashboard.putData("Auto Mode", m_Chooser);
 
-        m_CameraHelper.add(m_cam1);
+        //m_CameraHelper.add(m_cam1);
         //m_CameraHelper.add(m_cam2);
     }
 

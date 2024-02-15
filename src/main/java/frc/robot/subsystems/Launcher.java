@@ -246,7 +246,7 @@ public class Launcher extends SubsystemBase {
         UNDERSPEAKER(60.0, 60, 2500), //DUp
         AMP(55.0, 55, 1000), //A
         MIDRANGE(28, 28, 4000), //DRight
-        PODIUM(35,35,3500); //DLeft
+        PODIUM(35,35,3000); //DLeft
         
 
         private final double angle;
