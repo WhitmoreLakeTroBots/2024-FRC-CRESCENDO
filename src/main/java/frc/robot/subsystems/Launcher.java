@@ -241,9 +241,9 @@ public class Launcher extends SubsystemBase {
         CENTERNOTE(35,35,3500),
 
         // Standard Angles
-        START(20.0, 20.0, 0), // DDown
+        START(20.0, 20.0, 0), // DDown //B
         TEST(30.0, 30.0, 0),
-        UNDERSPEAKER(55.0, 55, 2000), //DUp
+        UNDERSPEAKER(60.0, 60, 2500), //DUp
         AMP(55.0, 55, 1000), //A
         MIDRANGE(28, 28, 4000), //DRight
         PODIUM(35,35,3500); //DLeft
