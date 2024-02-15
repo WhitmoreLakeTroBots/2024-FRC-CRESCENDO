@@ -5,6 +5,7 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.RobotContainer;
 import frc.robot.Constants.CANIDs;
 import frc.utils.CommonLogic;
+import frc.utils.RobotMath;
 
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.CANSparkBase.IdleMode;
@@ -27,6 +28,11 @@ public class Intake extends SubsystemBase {
     private double minPivPower = -0.85;
     private double maxPivPower = 0.85;
 
+    public double startTime = 0;
+    public double endTime = 0;
+    public double delayTime = 0.2;
+    public boolean justDetected = false;
+
     /**
     *
     */
@@ -48,10 +54,22 @@ public class Intake extends SubsystemBase {
     
         if ((getCurRollerStatus() == RollerStatus.FORWARD) && (Math.abs(rotMotor.getAppliedOutput()) > 0.0)
          && (RobotContainer.getInstance().m_Sensors.getBB1() == true)) {
+           
+            if(!justDetected){
+                    startTime = RobotMath.getTime();
+                    endTime = startTime + delayTime;
+                    justDetected = true;
+            }
 
-            rotMotor.set(0);
+        if (RobotMath.getTime() >= endTime) {
+             rotMotor.set(0);
             setRollerStatus(RollerStatus.STOP);
             setPivotPos(PivotPos.IN);
+
+        }
+        }
+        else{
+            justDetected = false;
         }
 
 
