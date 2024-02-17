@@ -3,9 +3,9 @@ package frc.robot.commands;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.RobotContainer;
 
-public class cmdResetGyro extends Command {
+public class TemplateCmd extends Command {
     private boolean bDone = false;
-    public cmdResetGyro() {
+    public TemplateCmd() {
         
         // m_subsystem = subsystem;
         // addRequirements(m_subsystem);
@@ -17,7 +17,7 @@ public class cmdResetGyro extends Command {
     // Called when the command is initially scheduled.
     @Override
     public void initialize() {
-        RobotContainer.getInstance().m_robotDrive.m_gyro.softGyroReset();;
+       
         bDone = true;
         end(bDone);
     }

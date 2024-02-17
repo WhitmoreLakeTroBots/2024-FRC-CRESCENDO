@@ -8,6 +8,7 @@ import frc.robot.Constants;
 import frc.robot.RobotContainer;
 import frc.robot.commands.autoDriveCmd;
 import frc.robot.commands.cmdResetGyro;
+import frc.robot.commands.setPoseCmd;
 import frc.robot.commands.LauncherCommands.AngleCmd;
 import frc.robot.commands.LauncherCommands.LaunchCmd;
 import frc.robot.commands.intakeCommands.intakeCmd;
@@ -33,18 +34,19 @@ public class speakerTwoNote extends SequentialCommandGroup {
 
         final String path1 = "C_Speaker_To_CN";
         
-        addCommands(new cmdResetGyro());
-        //addCommands(new AngleCmd(ANGLEPOS.UNDERSPEAKER, true));
-        //addCommands(new cmdDelay(1));
-        //addCommands(new LaunchCmd());
+        addCommands(new cmdResetGyro().alongWith(new setPoseCmd(path1, 180)));
+        addCommands(new AngleCmd(ANGLEPOS.UNDERSPEAKER, true));
+        addCommands(new cmdDelay(1));
+        addCommands(new LaunchCmd());
         addCommands(new ParallelCommandGroup(
             new autoDriveCmd(path1),
-            new AngleCmd(ANGLEPOS.START, false)
-        //    ,new intakeCmd(RollerStatus.FORWARD),
-        //    new pivotCmd(PivotPos.OUT, true)
+            new AngleCmd(ANGLEPOS.CENTERNOTE, false)
+            ,new intakeCmd(RollerStatus.FORWARD),
+            new pivotCmd(PivotPos.OUT, true)
                 ));
         //addCommands(new AngleCmd(ANGLEPOS.CENTERNOTE, true));
-        //addCommands(new LaunchCmd());
+        addCommands(new cmdDelay(1).andThen(new LaunchCmd()));
+        addCommands(new cmdDelay(0).andThen(new AngleCmd(ANGLEPOS.START, true)));
     }
 
 }

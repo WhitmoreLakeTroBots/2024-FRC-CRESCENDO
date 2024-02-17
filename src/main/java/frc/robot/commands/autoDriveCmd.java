@@ -12,7 +12,7 @@ import frc.robot.subsystems.Intake;
 public class autoDriveCmd extends Command {
 private boolean bDone = false;
 private String npath;
-private Command drive;
+private Command cdrive;
 
     public autoDriveCmd(String path) {
         npath = path;
@@ -21,13 +21,19 @@ private Command drive;
     // Called when the command is initially scheduled.
     @Override
     public void initialize() {
-        drive = RobotContainer.getInstance().m_robotDrive.followPathCommand(npath);
+        this.cdrive = RobotContainer.getInstance().m_robotDrive.followPathCommand(npath);
+        this.cdrive.initialize();
+        
+        if (cdrive == null){
+            int I = 1 / 0;
+        }
     }
 
     // Called every time the scheduler runs while the command is scheduled.
     @Override
     public void execute() {
-        bDone = drive.isFinished();
+        this.cdrive.execute();
+        bDone = this.cdrive.isFinished();
         if (bDone){
             end(false);
         }
@@ -36,6 +42,7 @@ private Command drive;
     // Called once the command ends or is interrupted.
     @Override
     public void end(boolean interrupted) {
+        this.cdrive.end(interrupted);
     }
 
     // Returns true when the command should end.

@@ -5,6 +5,7 @@ import frc.robot.commands.intakeCommands.*;
 import frc.robot.commands.LauncherCommands.*;
 import frc.robot.commands.autonCommands.speakerTwoNote;
 import frc.robot.subsystems.*;
+import frc.robot.subsystems.Intake.PivotPos;
 import frc.robot.subsystems.Intake.RollerStatus;
 import frc.robot.subsystems.Launcher.ANGLEPOS;
 import frc.robot.subsystems.Launcher.LauncherModes;
@@ -135,6 +136,8 @@ public class RobotContainer {
         B_Artic.onTrue(new AngleCmd(ANGLEPOS.START, false));
 
         Trigger X_Artic = m_articController.x();
+        X_Artic.onTrue(new pivotCmd(PivotPos.AMP, false));
+        
         Trigger Y_Artic = m_articController.y();
 
         Trigger DUp_Artic = m_articController.povUp();

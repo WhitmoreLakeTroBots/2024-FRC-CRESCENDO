@@ -160,9 +160,11 @@ public class Intake extends SubsystemBase {
       }
 
     public enum PivotPos {
-        START(3, 0.0027, 0),
-        IN(3, 0.0025, 0),
-        OUT(205, 0.003, 0.0);
+        START(3, 0.0027, 0.0),
+        IN(3, 0.0025, 0.0),
+        OUT(205, 0.003, 0.0),
+
+        AMP(80,0.003,0.0);
 
         private final double pos;
         private final double P;

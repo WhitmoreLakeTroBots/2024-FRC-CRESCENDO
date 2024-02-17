@@ -17,7 +17,7 @@ public class LaunchCmd extends Command {
     private boolean bDone = false;
     public double startTime = 0;
     public double endTime = 0;
-    public double delayTime = 3;
+    public double delayTime = 1;
 
     public LaunchCmd() {
 

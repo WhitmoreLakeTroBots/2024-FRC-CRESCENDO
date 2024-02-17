@@ -5,7 +5,9 @@ import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import frc.robot.Constants;
 import frc.robot.RobotContainer;
+import frc.robot.commands.autoDriveCmd;
 import frc.robot.commands.cmdResetGyro;
+import frc.robot.commands.setPoseCmd;
 import frc.robot.commands.LauncherCommands.AngleCmd;
 import frc.robot.commands.LauncherCommands.LaunchCmd;
 import frc.robot.commands.LauncherCommands.SetLauncherRPM;
@@ -28,31 +30,38 @@ public class speakerThreeNote extends SequentialCommandGroup {
 
     public speakerThreeNote() {
 
-        final PathPlannerPath path1 = PathPlannerPath.fromPathFile("C_Speaker_To_CN");
-        final PathPlannerPath path2 = PathPlannerPath.fromPathFile("CN_To_3");
-        final PathPlannerPath path3 = PathPlannerPath.fromPathFile("3_To_CN");
+        final String path1 = "C_Speaker_To_CN";
+        final String path2 = "CN_To_3";
+        final String path3 = "3_To_CN";
 
-        addCommands(new cmdResetGyro());
+        addCommands(new cmdResetGyro().alongWith(new setPoseCmd(path1, 180)));
         addCommands(new AngleCmd(ANGLEPOS.UNDERSPEAKER, true));
-        
+        addCommands(new cmdDelay(1));
         addCommands(new LaunchCmd());
         addCommands(new ParallelCommandGroup(
-        new AutoBuilder().followPath(path1), 
-        new intakeCmd(RollerStatus.FORWARD),
-        new pivotCmd(PivotPos.OUT, true)));
+            new autoDriveCmd(path1),
+            new AngleCmd(ANGLEPOS.CENTERNOTE, false)
+            ,new intakeCmd(RollerStatus.FORWARD),
+            new pivotCmd(PivotPos.OUT, true)
+                ));
+        //addCommands(new AngleCmd(ANGLEPOS.CENTERNOTE, true));
+        addCommands(new cmdDelay(1).andThen(new LaunchCmd()));
+        addCommands(new cmdDelay(0).andThen(new AngleCmd(ANGLEPOS.START, true)));
 
-        addCommands(new AngleCmd(ANGLEPOS.CENTERNOTE, true));
-        addCommands(new LaunchCmd());
+        // start note 3
         addCommands(new AngleCmd(ANGLEPOS.START, true));
+        addCommands(new cmdDelay(3).andThen(
+            new ParallelCommandGroup(
+                new autoDriveCmd(path2),
+                new SequentialCommandGroup(
+                    new cmdDelay(1.8),
+                    new intakeCmd(RollerStatus.FORWARD),
+                    new pivotCmd(PivotPos.OUT, true)))
+            ));
+
+            // drive back
         addCommands(new ParallelCommandGroup(
-            new AutoBuilder().followPath(path2),
-            new SequentialCommandGroup(
-                new cmdDelay(1.8),
-                new intakeCmd(RollerStatus.FORWARD),
-                new pivotCmd(PivotPos.OUT, true)))
-            );
-        addCommands(new ParallelCommandGroup(
-            new AutoBuilder().followPath(path3),
+            new autoDriveCmd(path3),
             new SetLauncherRPM(3500),
             new SequentialCommandGroup(
             new cmdDelay(2.5)

@@ -145,8 +145,11 @@ public class Gyro extends SubsystemBase {
   }
 
   public void softGyroReset() {
-    softoffset = navx.getAngle() * -1;
-  }
+    navx.setAngleAdjustment(navx.getAngle());
+    }
+  public void softGyroReset(double Angle) {
+    navx.setAngleAdjustment(Angle);
+    }
 
   //
   public double getAngle() {
