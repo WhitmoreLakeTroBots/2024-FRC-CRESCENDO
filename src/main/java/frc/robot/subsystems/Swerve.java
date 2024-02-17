@@ -82,7 +82,8 @@ public class Swerve extends SubsystemBase {
 
   // Adding MAXBRAKE
   private final static double MAX_BRAKE = 0.8;
-  private final double slowSpeed = 0.5;
+  private final double slowSpeed = 0.4;
+  private final double capSpeed = 0.7;
 
   public Swerve() {
 
@@ -346,6 +347,10 @@ public class Swerve extends SubsystemBase {
       leftY = leftY * slowSpeed;
       leftX = leftX * slowSpeed;
       rightX = rightX * slowSpeed;
+    } else{
+      leftY = leftY * capSpeed;
+      leftX = leftX * capSpeed;
+      rightX = rightX * capSpeed;
     }
     // square them to make them usefully curved
     leftY = Math.signum(leftY) * leftY * leftY;
