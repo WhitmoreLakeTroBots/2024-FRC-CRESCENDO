@@ -1,12 +1,18 @@
-package frc.robot.commands;
+package frc.robot.commands.driveCommands;
 
 import edu.wpi.first.wpilibj2.command.Command;
+import frc.robot.Robot;
 import frc.robot.RobotContainer;
+import frc.utils.RobotMath;
 
-public class cmdResetGyro extends Command {
+public class turnCmd extends Command {
     private boolean bDone = false;
-    public cmdResetGyro() {
-        
+    private double heading = 0.0;
+    private double speed = 0.0;
+    private double headingTol = 3.0;
+    public turnCmd(double targetHeading, double rotSpeed) {
+        heading = targetHeading;
+        speed = rotSpeed;
         // m_subsystem = subsystem;
         // addRequirements(m_subsystem);
 
@@ -17,15 +23,17 @@ public class cmdResetGyro extends Command {
     // Called when the command is initially scheduled.
     @Override
     public void initialize() {
-        RobotContainer.getInstance().m_robotDrive.m_gyro.softGyroReset();;
-        bDone = true;
-        end(bDone);
+       RobotContainer.getInstance().m_robotDrive.drive(0, 0, speed, true, false);
+       
+        bDone = false;
     }
 
     // Called every time the scheduler runs while the command is scheduled.
     @Override
     public void execute() {
+        if (RobotMath.isInRange(RobotContainer.getInstance().m_robotDrive.m_gyro.getNormaliziedNavxAngle(), heading, headingTol)){
         bDone = true;
+        };
     }
 
     // Called once the command ends or is interrupted.

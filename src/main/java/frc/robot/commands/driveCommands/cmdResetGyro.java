@@ -1,20 +1,12 @@
-package frc.robot.commands;
+package frc.robot.commands.driveCommands;
 
-import com.pathplanner.lib.path.PathPlannerPath;
-
-import edu.wpi.first.math.geometry.Pose2d;
-import edu.wpi.first.math.geometry.Rotation2d;
-import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.RobotContainer;
 
-public class setPoseCmd extends Command {
+public class cmdResetGyro extends Command {
     private boolean bDone = false;
-    private String pathName = "";
-    private double startingAngle = 0;
-    public setPoseCmd(String npath, double startAngle) {
-        pathName = npath;
-        startingAngle = startAngle;
+    public cmdResetGyro() {
+        
         // m_subsystem = subsystem;
         // addRequirements(m_subsystem);
 
@@ -25,17 +17,7 @@ public class setPoseCmd extends Command {
     // Called when the command is initially scheduled.
     @Override
     public void initialize() {
-    PathPlannerPath path = PathPlannerPath.fromPathFile(pathName);
-
-    var alliance = DriverStation.getAlliance();
-    if (alliance.get() == DriverStation.Alliance.Red) {
-      RobotContainer.getInstance().m_robotDrive.resetOdometry(new Pose2d(path.flipPath().getPathPoses().get(0).getX(), 
-      path.flipPath().getPathPoses().get(0).getY(), new Rotation2d(Math.toRadians(startingAngle))));
-     
-    } else {
-      RobotContainer.getInstance().m_robotDrive.resetOdometry(path.getPathPoses().get(0));
-    
-    }
+        RobotContainer.getInstance().m_robotDrive.m_gyro.softGyroReset();;
         bDone = true;
         end(bDone);
     }

@@ -6,11 +6,12 @@ import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import frc.robot.Constants;
 import frc.robot.RobotContainer;
-import frc.robot.commands.autoDriveCmd;
-import frc.robot.commands.cmdResetGyro;
-import frc.robot.commands.setPoseCmd;
 import frc.robot.commands.LauncherCommands.AngleCmd;
 import frc.robot.commands.LauncherCommands.LaunchCmd;
+import frc.robot.commands.driveCommands.autoDriveCmd;
+import frc.robot.commands.driveCommands.cmdResetGyro;
+import frc.robot.commands.driveCommands.setPoseCmd;
+import frc.robot.commands.driveCommands.turnCmd;
 import frc.robot.commands.intakeCommands.intakeCmd;
 import frc.robot.commands.intakeCommands.pivotCmd;
 import frc.robot.subsystems.Gyro;
@@ -47,6 +48,9 @@ public class speakerTwoNote extends SequentialCommandGroup {
         //addCommands(new AngleCmd(ANGLEPOS.CENTERNOTE, true));
         addCommands(new cmdDelay(1).andThen(new LaunchCmd()));
         addCommands(new cmdDelay(0).andThen(new AngleCmd(ANGLEPOS.START, true)));
+        addCommands(new turnCmd(180, 0.2));
+        addCommands(new turnCmd(0, 0.2));
+
     }
 
 }
