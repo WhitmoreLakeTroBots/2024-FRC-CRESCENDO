@@ -1,10 +1,12 @@
 package frc.robot.commands.autonCommands;
 
 import edu.wpi.first.units.Angle;
+import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import frc.robot.Constants;
 import frc.robot.RobotContainer;
+import frc.robot.commands.autoDriveCmd;
 import frc.robot.commands.cmdResetGyro;
 import frc.robot.commands.LauncherCommands.AngleCmd;
 import frc.robot.commands.LauncherCommands.LaunchCmd;
@@ -19,7 +21,9 @@ import frc.utils.cmdDelay;
 
 import com.pathplanner.lib.auto.AutoBuilder;
 import com.pathplanner.lib.commands.*;
+import com.pathplanner.lib.controllers.PathFollowingController;
 import com.pathplanner.lib.path.PathPlannerPath;
+import com.pathplanner.lib.util.PathPlannerLogging;
 
 
 
@@ -27,20 +31,20 @@ public class speakerTwoNote extends SequentialCommandGroup {
 
     public speakerTwoNote() {
 
-        final PathPlannerPath path1 = PathPlannerPath.fromPathFile("C_Speaker_To_CN");
-
-
+        final String path1 = "C_Speaker_To_CN";
+        
         addCommands(new cmdResetGyro());
-        addCommands(new AngleCmd(ANGLEPOS.UNDERSPEAKER, true));
-        addCommands(new cmdDelay(1));
-        addCommands(new LaunchCmd());
+        //addCommands(new AngleCmd(ANGLEPOS.UNDERSPEAKER, true));
+        //addCommands(new cmdDelay(1));
+        //addCommands(new LaunchCmd());
         addCommands(new ParallelCommandGroup(
-            new  AutoBuilder().followPath(path1),
-            new AngleCmd(ANGLEPOS.START, false),
-            new intakeCmd(RollerStatus.FORWARD),
-            new pivotCmd(PivotPos.OUT, true)));
-        addCommands(new AngleCmd(ANGLEPOS.CENTERNOTE, true));
-        addCommands(new LaunchCmd());
+            new autoDriveCmd(path1),
+            new AngleCmd(ANGLEPOS.START, false)
+        //    ,new intakeCmd(RollerStatus.FORWARD),
+        //    new pivotCmd(PivotPos.OUT, true)
+                ));
+        //addCommands(new AngleCmd(ANGLEPOS.CENTERNOTE, true));
+        //addCommands(new LaunchCmd());
     }
 
 }

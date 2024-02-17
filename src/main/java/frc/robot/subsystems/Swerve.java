@@ -10,6 +10,8 @@ import frc.robot.RobotContainer;
 // import java.util.List;
 
 import com.pathplanner.lib.auto.AutoBuilder;
+import com.pathplanner.lib.commands.FollowPathHolonomic;
+import com.pathplanner.lib.path.PathPlannerPath;
 import com.pathplanner.lib.util.HolonomicPathFollowerConfig;
 import com.pathplanner.lib.util.PIDConstants;
 import com.pathplanner.lib.util.ReplanningConfig;
@@ -28,6 +30,7 @@ import edu.wpi.first.math.kinematics.SwerveModulePosition;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
 import edu.wpi.first.util.WPIUtilJNI;
 import edu.wpi.first.wpilibj.DriverStation;
+import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 
@@ -77,21 +80,22 @@ public class Swerve extends SubsystemBase {
   // Odometry class for tracking robot pose
   public SwerveDrivePoseEstimator m_odometry;
 
-      //Adding MAXBRAKE
-      private final static double MAX_BRAKE = 0.8;
-    private final double slowSpeed = 0.5;
+  // Adding MAXBRAKE
+  private final static double MAX_BRAKE = 0.8;
+  private final double slowSpeed = 0.5;
+
   public Swerve() {
 
-     m_odometry = new SwerveDrivePoseEstimator(
-      DriveConstants.kDriveKinematics,
-      Rotation2d.fromDegrees(-m_gyro.getAngle()),
-      new SwerveModulePosition[] {
-          m_frontLeft.getPosition(),
-          m_frontRight.getPosition(),
-          m_rearLeft.getPosition(),
-          m_rearRight.getPosition()
+    m_odometry = new SwerveDrivePoseEstimator(
+        DriveConstants.kDriveKinematics,
+        Rotation2d.fromDegrees(-m_gyro.getAngle()),
+        new SwerveModulePosition[] {
+            m_frontLeft.getPosition(),
+            m_frontRight.getPosition(),
+            m_rearLeft.getPosition(),
+            m_rearRight.getPosition()
         },
-      new Pose2d(0.0, 0.0, new Rotation2d()));
+        new Pose2d(0.0, 0.0, new Rotation2d()));
     // All other subsystem initialization
     // ...
     // Configure AutoBuilder last
@@ -141,7 +145,7 @@ public class Swerve extends SubsystemBase {
 
   }
 
-  public void addVision (Pose2d currPose2d, double timeStamp){
+  public void addVision(Pose2d currPose2d, double timeStamp) {
     m_odometry.addVisionMeasurement(currPose2d, timeStamp);
   }
 
@@ -326,20 +330,24 @@ public class Swerve extends SubsystemBase {
     double rightX = -MathUtil.applyDeadband(RobotContainer.getInstance().m_driverController.getRightX(),
         OIConstants.kDriveDeadband);
 
-    //Adding brake
-    /*leftY = leftY - (Math.signum(leftY) * CommonLogic.CapMotorPower(
-              RobotContainer.getInstance().m_driverController.getLeftTriggerAxis(),0,MAX_BRAKE));
-    leftX = leftX - (Math.signum(leftX) * CommonLogic.CapMotorPower(
-              RobotContainer.getInstance().m_driverController.getLeftTriggerAxis(),0,MAX_BRAKE));
-    rightX = rightX - (Math.signum(rightX) * CommonLogic.CapMotorPower(
-              RobotContainer.getInstance().m_driverController.getLeftTriggerAxis(),0,MAX_BRAKE));
-    */
-    if (RobotContainer.getInstance().m_driverController.getLeftTriggerAxis() >= 0.5){
+    // Adding brake
+    /*
+     * leftY = leftY - (Math.signum(leftY) * CommonLogic.CapMotorPower(
+     * RobotContainer.getInstance().m_driverController.getLeftTriggerAxis(),0,
+     * MAX_BRAKE));
+     * leftX = leftX - (Math.signum(leftX) * CommonLogic.CapMotorPower(
+     * RobotContainer.getInstance().m_driverController.getLeftTriggerAxis(),0,
+     * MAX_BRAKE));
+     * rightX = rightX - (Math.signum(rightX) * CommonLogic.CapMotorPower(
+     * RobotContainer.getInstance().m_driverController.getLeftTriggerAxis(),0,
+     * MAX_BRAKE));
+     */
+    if (RobotContainer.getInstance().m_driverController.getLeftTriggerAxis() >= 0.5) {
       leftY = leftY * slowSpeed;
-      leftX = rightX * slowSpeed;
+      leftX = leftX * slowSpeed;
       rightX = rightX * slowSpeed;
     }
-        // square them to make them usefully curved
+    // square them to make them usefully curved
     leftY = Math.signum(leftY) * leftY * leftY;
     leftX = Math.signum(leftX) * leftX * leftX;
     rightX = Math.signum(rightX) * rightX * rightX;
@@ -367,28 +375,61 @@ public class Swerve extends SubsystemBase {
     m_rearRight.setDesiredState(swerveModuleStates[3]);
   }
 
-  //used to put data to the dashboard
-  public String getPose2dString (){
+  // used to put data to the dashboard
+  public String getPose2dString() {
 
     double x = m_odometry.getEstimatedPosition().getX();
     double y = m_odometry.getEstimatedPosition().getY();
     double deg = m_odometry.getEstimatedPosition().getRotation().getDegrees();
 
-    if (Double.isNaN(x)){
+    if (Double.isNaN(x)) {
       x = 99;
     }
 
-    if (Double.isNaN(y)){
+    if (Double.isNaN(y)) {
       y = 99;
     }
 
-    if (Double.isNaN(deg)){
+    if (Double.isNaN(deg)) {
       deg = 999;
     }
 
     return String.format("odometry: %.2f    %.2f    %.0f", x, y, deg);
 
-
   }
 
+  public Command followPathCommand(String pathName) {
+    PathPlannerPath path = PathPlannerPath.fromPathFile(pathName);
+
+    return new FollowPathHolonomic(
+        path,
+        this::getPose, // Robot pose supplier
+        this::getChassisSpeeds, // ChassisSpeeds supplier. MUST BE ROBOT RELATIVE
+        this::driveRobotRelative, // Method that will drive the robot given ROBOT RELATIVE ChassisSpeeds
+        new HolonomicPathFollowerConfig( // HolonomicPathFollowerConfig, this should likely live in your Constants class
+            new PIDConstants(Constants.AutoConstants.kDrivingP,
+                Constants.AutoConstants.kDrivingI,
+                Constants.AutoConstants.kDrivingD), // Translation PID constants
+            new PIDConstants(Constants.AutoConstants.kTurningP, Constants.AutoConstants.kTurningI,
+                Constants.AutoConstants.kTurningD), // Rotation PID constants
+            Constants.DriveConstants.kMaxSpeedMetersPerSecond, // Max module speed, in m/s
+            Constants.DriveConstants.kRadius_meters, // Drive base radius in meters. Distance from robot center to
+                                                     // furthest module.
+            new ReplanningConfig() // Default path replanning config. See the API for the options here
+        ),
+        () -> {
+          // Boolean supplier that controls when the path will be mirrored for the red
+          // alliance
+          // This will flip the path being followed to the red side of the field.
+          // THE ORIGIN WILL REMAIN ON THE BLUE SIDE
+
+          var alliance = DriverStation.getAlliance();
+          if (alliance.isPresent()) {
+            return alliance.get() == DriverStation.Alliance.Red;
+          }
+          return false;
+        },
+        this // Reference to this subsystem to set requirements
+    );
+  }
 }
