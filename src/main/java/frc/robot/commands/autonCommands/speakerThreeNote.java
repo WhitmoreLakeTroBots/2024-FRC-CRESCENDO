@@ -46,7 +46,7 @@ public class speakerThreeNote extends SequentialCommandGroup {
                 ));
         //addCommands(new AngleCmd(ANGLEPOS.CENTERNOTE, true));
         addCommands(new cmdDelay(1).andThen(new LaunchCmd()));
-        addCommands(new cmdDelay(0).andThen(new AngleCmd(ANGLEPOS.START, true)));
+        //addCommands(new cmdDelay(0).andThen(new AngleCmd(ANGLEPOS.START, true)));
 
         // start note 3
         addCommands(new AngleCmd(ANGLEPOS.START, true));
