@@ -64,10 +64,11 @@ public class speakerThreeNote extends SequentialCommandGroup {
             new autoDriveCmd(path3),
             new SetLauncherRPM(3500),
             new SequentialCommandGroup(
-            new cmdDelay(2.5)
+            new cmdDelay(4)
             //,new AngleCmd(ANGLEPOS.CENTERNOTE, true)
             )));
-        new AngleCmd(ANGLEPOS.CENTERNOTE, true);
+        new AngleCmd(ANGLEPOS.CENTERNOTE, false);
+        new cmdDelay(2);
         addCommands(new LaunchCmd());
     }
 
