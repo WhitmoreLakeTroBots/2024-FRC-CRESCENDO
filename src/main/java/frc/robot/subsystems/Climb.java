@@ -15,28 +15,28 @@ public class Climb extends SubsystemBase {
 
 
     private ClimbMode curClimbMode = ClimbMode.START;
-    private double climbModeTol = 5;
+  //  private double climbModeTol = 5;
 
-    private CANSparkMax climbMotorRight;
+  //  private CANSparkMax climbMotorRight;
     private CANSparkMax climbMotorLeft;
-    private double pivP = 10.0;
-    private double pivF = 0.0;
+   // private double pivP = 10.0;
+   // private double pivF = 0.0;
 
     private double minClimbPower = -0.4;
     private double maxClimbPower = 0.4;
 
     private double holdPosLeft = ClimbMode.HOLD.pos;
-    private double holdPosRight = ClimbMode.HOLD.pos;
+   // private double holdPosRight = ClimbMode.HOLD.pos;
 
     /**
     *
     */
     public Climb() {
         climbMotorLeft = new CANSparkMax(CANIDs.ClimbMotorLeftId, CANSparkMax.MotorType.kBrushless);
-        CommonLogic.setSparkParamsBase(climbMotorLeft, false, 10, 30, IdleMode.kBrake);
+        CommonLogic.setSparkParamsBase(climbMotorLeft, false, 40, 40, IdleMode.kBrake);
 
-        climbMotorRight = new CANSparkMax(CANIDs.ClimbMotorRightId, CANSparkMax.MotorType.kBrushless);
-        CommonLogic.setSparkParamsBase(climbMotorRight, false, 10, 30, IdleMode.kBrake);
+    //    climbMotorRight = new CANSparkMax(CANIDs.ClimbMotorRightId, CANSparkMax.MotorType.kBrushless);
+    //    CommonLogic.setSparkParamsBase(climbMotorRight, false, 10, 30, IdleMode.kBrake);
 
     }
 
@@ -77,10 +77,7 @@ public class Climb extends SubsystemBase {
                  climbMotorLeft.getEncoder().getPosition(), ClimbMode.START.pos),
             minClimbPower, maxClimbPower));
 
-        climbMotorRight.set(CommonLogic.CapMotorPower(
-            CommonLogic.gotoPosPIDF(ClimbMode.START.P, ClimbMode.START.F,
-                 climbMotorRight.getEncoder().getPosition(), ClimbMode.START.pos),
-            minClimbPower, maxClimbPower));
+        
     }
 
     private void ClimbModePreClimb(){
@@ -90,10 +87,7 @@ public class Climb extends SubsystemBase {
                  climbMotorLeft.getEncoder().getPosition(), ClimbMode.PRECLIMB.pos),
             minClimbPower, maxClimbPower));
 
-        climbMotorRight.set(CommonLogic.CapMotorPower(
-            CommonLogic.gotoPosPIDF(ClimbMode.PRECLIMB.P, ClimbMode.PRECLIMB.F,
-                 climbMotorRight.getEncoder().getPosition(), ClimbMode.PRECLIMB.pos),
-            minClimbPower, maxClimbPower));
+      
     }
 
     private void ClimbModeClimbing(){
@@ -103,7 +97,7 @@ public class Climb extends SubsystemBase {
             CommonLogic.gotoPosPIDF(ClimbMode.CLIMBING.P, ClimbMode.CLIMBING.F,
                  climbMotorLeft.getEncoder().getPosition(), ClimbMode.CLIMBING.pos),
             minClimbPower, maxClimbPower));
-
+/*
         climbMotorRight.set(CommonLogic.CapMotorPower(
             CommonLogic.gotoPosPIDF(ClimbMode.CLIMBING.P, ClimbMode.CLIMBING.F,
                  climbMotorRight.getEncoder().getPosition(), ClimbMode.CLIMBING.pos),
@@ -116,6 +110,7 @@ public class Climb extends SubsystemBase {
                         holdPosRight = climbMotorRight.getEncoder().getPosition();
                         curClimbMode = ClimbMode.HOLD;
                  }
+                 */
     }
 
     private void ClimbModeHold(){
@@ -125,10 +120,7 @@ public class Climb extends SubsystemBase {
                  climbMotorLeft.getEncoder().getPosition(), holdPosLeft),
             minClimbPower, maxClimbPower));
 
-        climbMotorRight.set(CommonLogic.CapMotorPower(
-            CommonLogic.gotoPosPIDF(ClimbMode.HOLD.P, ClimbMode.HOLD.F,
-                 climbMotorRight.getEncoder().getPosition(), holdPosRight),
-            minClimbPower, maxClimbPower));
+      
     }
 
     @Override

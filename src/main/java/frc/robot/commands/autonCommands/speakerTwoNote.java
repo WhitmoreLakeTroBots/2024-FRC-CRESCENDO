@@ -48,7 +48,7 @@ public class speakerTwoNote extends SequentialCommandGroup {
         //addCommands(new AngleCmd(ANGLEPOS.CENTERNOTE, true));
         addCommands(new cmdDelay(1).andThen(new LaunchCmd()));
         addCommands(new cmdDelay(0).andThen(new AngleCmd(ANGLEPOS.START, true)));
-        addCommands(new turnCmd(180, 0.2));
+        addCommands(new turnCmd(90, 0.2));
         addCommands(new turnCmd(0, 0.2));
 
     }

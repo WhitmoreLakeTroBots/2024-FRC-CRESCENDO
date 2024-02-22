@@ -47,8 +47,8 @@ public class RobotContainer {
     public final Sensors m_Sensors = new Sensors();
     public final Launcher m_Launcher = new Launcher();
     public final Lighting m_Lighting = new Lighting();
-    //public final WL_PhotonCamera m_cam1 = new WL_PhotonCamera (new PhotonCamera(Constants.Cam1Constants.name),
-       // Constants.Cam1Constants.cam2robotTransform3d);
+    public final WL_PhotonCamera m_cam1 = new WL_PhotonCamera (new PhotonCamera(Constants.Cam1Constants.name),
+        Constants.Cam1Constants.cam2robotTransform3d);
 
 
     //public final WL_PhotonCamera m_cam2 = new WL_PhotonCamera (new PhotonCamera(Constants.Cam2Constants.name),
@@ -78,7 +78,7 @@ public class RobotContainer {
 
         SmartDashboard.putData("Auto Mode", m_Chooser);
 
-        //m_CameraHelper.add(m_cam1);
+        m_CameraHelper.add(m_cam1);
         //m_CameraHelper.add(m_cam2);
     }
 

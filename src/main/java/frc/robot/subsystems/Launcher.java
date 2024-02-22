@@ -37,10 +37,10 @@ public class Launcher extends SubsystemBase {
     private final int MAX_STEP_COUNT = 25;
     private int currPowerStepCounter = 0;
     private double FeederMotorOffset = 1.0;
-    private double pivP = 0.02;
+    private double pivP = 0.025;
     private double pivF = 0.0;
-    private double angleMaxPow = 0.2;
-    private double angleMinPow = -0.2;
+    private double angleMaxPow = 0.5;
+    private double angleMinPow = -0.5;
     private ANGLEPOS curAnglePos = ANGLEPOS.PRESTART;
     private double angleMotorTol = 5.0;
     private double maxPosition = 65.0; // Don't go past this
@@ -62,8 +62,8 @@ public class Launcher extends SubsystemBase {
     public Launcher() {
         LaunchMotorTop = new CANSparkMax(Constants.CANIDs.LauncherMotorTopId, CANSparkMax.MotorType.kBrushless);
         LaunchMotorBottom = new CANSparkMax(Constants.CANIDs.LauncherMotorBottomId, CANSparkMax.MotorType.kBrushless);
-        CommonLogic.setSparkParamsBase(LaunchMotorTop, true, 20, 30, IdleMode.kCoast);
-        CommonLogic.setSparkParamsBase(LaunchMotorBottom, false, 20, 30, IdleMode.kCoast);
+        CommonLogic.setSparkParamsBase(LaunchMotorTop, true, 40, 40, IdleMode.kCoast);
+        CommonLogic.setSparkParamsBase(LaunchMotorBottom, false, 40, 40, IdleMode.kCoast);
 
         kP = 0.0;
         kI = 0.0;
@@ -73,10 +73,11 @@ public class Launcher extends SubsystemBase {
         PIDcalc = new PID(kP, kI, kD);
 
         FeederMotor = new CANSparkMax(Constants.CANIDs.FeederMotorId, CANSparkMax.MotorType.kBrushless);
-        CommonLogic.setSparkParamsBase(FeederMotor, false, 10, 30, IdleMode.kCoast);
+        CommonLogic.setSparkParamsBase(FeederMotor, false, 20, 30, IdleMode.kCoast);
 
         LaunchAngleMotor = new CANSparkMax(Constants.CANIDs.LaunchAngleMotorId , CANSparkMax.MotorType.kBrushless);
-        CommonLogic.setSparkParamsBase(LaunchAngleMotor, false, 20, 30, IdleMode.kBrake);
+        LaunchAngleMotor.getAbsoluteEncoder().setPositionConversionFactor(360);
+        CommonLogic.setSparkParamsBase(LaunchAngleMotor, false, 40, 50, IdleMode.kBrake);
 
     }
 
