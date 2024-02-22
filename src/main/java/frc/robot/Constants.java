@@ -4,6 +4,7 @@ import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
 import edu.wpi.first.math.trajectory.TrapezoidProfile;
 import edu.wpi.first.math.util.Units;
+import frc.utils.RobotMath;
 import edu.wpi.first.math.geometry.Transform3d;
 import edu.wpi.first.math.geometry.Rotation3d;
 
@@ -11,16 +12,21 @@ import com.revrobotics.CANSparkBase.IdleMode;
 
 public class Constants {
 
-  // Rotation3d (roll, pitch, yaw ) // in radians
+  // https://github.wpilib.org/allwpilib/docs/release/java/edu/wpi/first/math/geometry/Rotation3d.html
+  // https://docs.wpilib.org/en/stable/docs/software/basic-programming/coordinate-system.html
+  // Robot Cooridinates Front+/Rear- X, Left+/Right- Y, Up+/Down- Z
+  // Rotation3d (roll-> X, pitch -> Y , yaw->Z ) // in radians
   public static final class Cam1Constants {
     public static final String name = "Cam11A";
-    public static final Transform3d cam2robotTransform3d = new Transform3d (0.0, -0.3, 0.3,
-      new Rotation3d (Math.toRadians(180), Math.toRadians(45.0), Math.toRadians(0)));
+    public static final Transform3d cam2robotTransform3d = new Transform3d (
+      RobotMath.inchesToMeters(-11), RobotMath.inchesToMeters(-2), RobotMath.inchesToMeters(11),
+      new Rotation3d (Math.toRadians(0), Math.toRadians(45.0), Math.toRadians(180)));
   }
 
   public static final class Cam2Constants {
     public static final String name = "Cam11B";
-    public static final Transform3d cam2robotTransform3d = new Transform3d (0.0, 0.0, 1.0,
+    public static final Transform3d cam2robotTransform3d = new Transform3d (
+      RobotMath.inchesToMeters(0.0), RobotMath.inchesToMeters(0.0), RobotMath.inchesToMeters(0.0),
       new Rotation3d (Math.toRadians(0.0), Math.toRadians(0.0), Math.toRadians(0.0) ));
 
   }
