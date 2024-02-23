@@ -5,6 +5,7 @@ import frc.robot.commands.intakeCommands.*;
 import frc.robot.commands.LauncherCommands.*;
 import frc.robot.commands.autonCommands.speakerThreeNote;
 import frc.robot.commands.autonCommands.speakerTwoNote;
+import frc.robot.commands.autonCommands.visionSetup;
 import frc.robot.subsystems.*;
 import frc.robot.subsystems.Intake.PivotPos;
 import frc.robot.subsystems.Intake.RollerStatus;
@@ -72,6 +73,7 @@ public class RobotContainer {
         m_Chooser.addOption("Test Path Straight", new PathPlannerAuto("test_auto2"));
         m_Chooser.addOption("speakerTwoNote", new speakerTwoNote());
         m_Chooser.addOption("speakerThreeNote", new speakerThreeNote());
+        m_Chooser.addOption("Vision Setup", new visionSetup());
 
                 SmartDashboard.putData("AnglePrestart", new AngleCmd(ANGLEPOS.PRESTART, false));
 
