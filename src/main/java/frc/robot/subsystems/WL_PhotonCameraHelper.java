@@ -74,7 +74,7 @@ public class WL_PhotonCameraHelper extends SubsystemBase{
             AveragePose3d = calcAveragePose3d(cameraCount);
             //RobotContainer.getInstance().m_robotDrive.addVision(AveragePose3d.toPose2d(),(sumLatencyMillis / cameraCount) );
             AveragePoseString = String.format ("Cams: %s X: %.2f Y: %.2f Yaw: %.1f",
-                 cameraCount, AveragePose3d.getX(), AveragePose3d.getY(), AveragePose3d.getRotation().getZ() );
+                 cameraCount, AveragePose3d.getX(), AveragePose3d.getY(), Math.toDegrees(AveragePose3d.getRotation().getZ()));
         }
         else {
             AveragePose3d = new Pose3d (0.0, 0.0, 0.0, new Rotation3d (0.0, 0.0, 0.0));

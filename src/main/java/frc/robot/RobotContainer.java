@@ -186,7 +186,7 @@ public class RobotContainer {
     }
 
     public void updateSmartDashboard() {
-        SmartDashboard.putNumber("heading", m_robotDrive.getHeading());
+        SmartDashboard.putNumber("heading", m_robotDrive.m_gyro.getNormaliziedNavxAngle());
         SmartDashboard.putData("Auto Mode", m_Chooser);
         SmartDashboard.putNumber("Distance Traveled",
                 m_robotDrive.getDistanceTraveledInches(new Pose2d(2.0, 7.0, new Rotation2d())));

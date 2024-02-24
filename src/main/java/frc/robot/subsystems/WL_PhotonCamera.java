@@ -57,7 +57,7 @@ public class WL_PhotonCamera extends SubsystemBase{
 
             msg = String.format ("Tag: %s X: %.2f Y: %.2f Yaw: %.0f",
                     result.getMultiTagResult().fiducialIDsUsed.toString(),
-                    currPose3d.getX(), currPose3d.getY(), currPose3d.getRotation().getZ());
+                    currPose3d.getX(), currPose3d.getY(), Math.toDegrees(currPose3d.getRotation().getZ()));
         }
         // only one tag visible... use it but it is not as accurate as multiple tags.
         else if (result.hasTargets()) {
@@ -73,7 +73,7 @@ public class WL_PhotonCamera extends SubsystemBase{
 
                 msg = String.format ("Tag: %s X: %.2f Y: %.2f Yaw: %.1f %.3f",
                     target.getFiducialId(),
-                    currPose3d.getX(), currPose3d.getY(), currPose3d.getRotation().getZ(),result.getLatencyMillis());
+                    currPose3d.getX(), currPose3d.getY(), Math.toDegrees(currPose3d.getRotation().getZ()),result.getLatencyMillis());
             }
             else {
                 msg = String.format("Invalid Tag ID");
