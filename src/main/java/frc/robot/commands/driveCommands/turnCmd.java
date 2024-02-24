@@ -10,8 +10,8 @@ public class turnCmd extends Command {
     private boolean bDone = false;
     private double heading = 0.0;
     private double speed = 0.0;
-    private double headingTol = 3.0;
-    private double pivP = 0.001;
+    private double headingTol = 5.0;
+    private double pivP = 0.5;
     private double pivF = 0.0;
     public turnCmd(double targetHeading, double rotSpeed) {
         heading = targetHeading;

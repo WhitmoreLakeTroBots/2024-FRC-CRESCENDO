@@ -240,6 +240,7 @@ public class Launcher extends SubsystemBase {
         PRESTART(60, 60, 0),
         // Auton Angles
         CENTERNOTE(40,40,3500),
+        TOPNOTEWING(50, 50, 2500),
 
         // Standard Angles
         START(20.0, 20.0, 0), // DDown //B

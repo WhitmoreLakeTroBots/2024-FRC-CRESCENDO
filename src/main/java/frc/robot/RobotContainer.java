@@ -5,8 +5,11 @@ import frc.robot.commands.intakeCommands.*;
 import frc.robot.commands.LauncherCommands.*;
 import frc.robot.commands.autonCommands.speakerThreeNote;
 import frc.robot.commands.autonCommands.speakerTwoNote;
+import frc.robot.commands.autonCommands.speakerTwoNoteTop;
 import frc.robot.commands.autonCommands.visionSetup;
+import frc.robot.commands.climbCommands.ClimbCmd;
 import frc.robot.subsystems.*;
+import frc.robot.subsystems.Climb.ClimbMode;
 import frc.robot.subsystems.Intake.PivotPos;
 import frc.robot.subsystems.Intake.RollerStatus;
 import frc.robot.subsystems.Launcher.ANGLEPOS;
@@ -50,6 +53,7 @@ public class RobotContainer {
     public final Lighting m_Lighting = new Lighting();
     public final WL_PhotonCamera m_cam1 = new WL_PhotonCamera (new PhotonCamera(Constants.Cam1Constants.name),
         Constants.Cam1Constants.cam2robotTransform3d);
+    public final Climb m_Climb = new Climb();
 
 
     //public final WL_PhotonCamera m_cam2 = new WL_PhotonCamera (new PhotonCamera(Constants.Cam2Constants.name),
@@ -74,6 +78,7 @@ public class RobotContainer {
         m_Chooser.addOption("speakerTwoNote", new speakerTwoNote());
         m_Chooser.addOption("speakerThreeNote", new speakerThreeNote());
         m_Chooser.addOption("Vision Setup", new visionSetup());
+        m_Chooser.addOption("Top_To_Note", new speakerTwoNoteTop());
 
                 SmartDashboard.putData("AnglePrestart", new AngleCmd(ANGLEPOS.PRESTART, false));
 
@@ -108,11 +113,12 @@ public class RobotContainer {
         Trigger Y_drive = m_driverController.y();
 
         Trigger DUp_drive = m_driverController.povUp();
-
+        DUp_drive.onTrue(new ClimbCmd(ClimbMode.PRECLIMB));
         Trigger DLeft_drive = m_driverController.povLeft();
+        DLeft_drive.onTrue(new ClimbCmd(ClimbMode.START));
 
         Trigger DDown_drive = m_driverController.povDown();
-
+        DDown_drive.onTrue(new ClimbCmd(ClimbMode.HOLD));
         Trigger DRight_drive = m_driverController.povRight();
 
         Trigger BACK_drive = m_driverController.back();
