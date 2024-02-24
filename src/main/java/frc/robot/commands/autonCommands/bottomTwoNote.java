@@ -48,7 +48,7 @@ public class bottomTwoNote extends SequentialCommandGroup {
             new pivotCmd(PivotPos.OUT, true)
                 ));
         //addCommands(new AngleCmd(ANGLEPOS.CENTERNOTE, true));
-        addCommands(new turnCmdSwerve(-30, .03));
+        addCommands(new turnCmdSwerve(-30, 0.3));
         addCommands(new cmdDelay(1).andThen(new LaunchCmd()));
         addCommands(new cmdDelay(0).andThen(new AngleCmd(ANGLEPOS.START, true)));
         addCommands(new turnCmd(90, 0.2));

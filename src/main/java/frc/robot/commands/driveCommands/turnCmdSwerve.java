@@ -19,7 +19,7 @@ public class turnCmdSwerve extends Command {
     private double speed = 0.3;
 
     public turnCmdSwerve(double targetHeadingDEG, double speed, double stepSizeDEG) {
-        targetHeadingRAD = Math.toRadians(targetHeadingDEG);
+        targetHeadingRAD = Math.toRadians(gyroNormalize(targetHeadingDEG));
         stepSizeRAD = Math.toRadians(stepSizeDEG);
         minPow = -Math.abs(speed);
         maxPow = Math.abs(speed);
@@ -39,7 +39,7 @@ public class turnCmdSwerve extends Command {
 
     }
      public turnCmdSwerve(double targetHeadingDEG) {
-        targetHeadingRAD = Math.toRadians(targetHeadingDEG);
+        targetHeadingRAD = Math.toRadians(gyroNormalize(targetHeadingDEG));
         stepSizeRAD = Math.toRadians(headingTol / 10) ;
         direction = 1.0;
         // m_subsystem = subsystem;
@@ -56,9 +56,7 @@ public class turnCmdSwerve extends Command {
 
         if(DriverStation.getAlliance().get() == DriverStation.Alliance.Red){
             targetHeadingRAD =  Math.toRadians(180) - targetHeadingRAD;
-        } else {
-            speed = speed *-1;
-        }
+        } 
        
 
         bDone = false;
