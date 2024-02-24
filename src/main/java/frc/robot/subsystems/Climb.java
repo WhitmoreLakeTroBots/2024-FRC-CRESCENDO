@@ -7,6 +7,7 @@ import frc.utils.CommonLogic;
 
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.CANSparkBase.IdleMode;
+import com.revrobotics.CANSparkBase.SoftLimitDirection;
 
 /**
  *
@@ -22,8 +23,8 @@ public class Climb extends SubsystemBase {
    // private double pivP = 10.0;
    // private double pivF = 0.0;
 
-    private double minClimbPower = -0.4;
-    private double maxClimbPower = 0.4;
+    private double minClimbPower = -0.8;
+    private double maxClimbPower = 0.6;
 
     private double holdPosLeft = ClimbMode.HOLD.pos;
    // private double holdPosRight = ClimbMode.HOLD.pos;
@@ -33,6 +34,8 @@ public class Climb extends SubsystemBase {
     */
     public Climb() {
         climbMotorLeft = new CANSparkMax(CANIDs.ClimbMotorLeftId, CANSparkMax.MotorType.kBrushless);
+        climbMotorLeft.setSoftLimit(SoftLimitDirection.kForward, 78);
+        climbMotorLeft.setSoftLimit(SoftLimitDirection.kReverse, 0);
         CommonLogic.setSparkParamsBase(climbMotorLeft, false, 40, 40, IdleMode.kBrake);
 
     //    climbMotorRight = new CANSparkMax(CANIDs.ClimbMotorRightId, CANSparkMax.MotorType.kBrushless);
@@ -143,8 +146,8 @@ public class Climb extends SubsystemBase {
 
     public enum ClimbMode {
         START(0.0, 0.01, 0.00),
-        PRECLIMB(70.0, 0.001, 0.0),
-        CLIMBING(20.0, 0.01, 0.0),
+        PRECLIMB(70.0, 0.01, 0.0),
+        CLIMBING(20.0, 0.1, 0.2),
         HOLD(20.0, 10, -0.08);
 
         private final double pos;
@@ -168,5 +171,8 @@ public class Climb extends SubsystemBase {
             this.P = P;
             this.F = F;
         }
+    }
+    public double getCLimbPos() {
+        return climbMotorLeft.getEncoder().getPosition();
     }
 }

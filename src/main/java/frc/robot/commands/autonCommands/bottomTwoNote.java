@@ -12,6 +12,7 @@ import frc.robot.commands.driveCommands.autoDriveCmd;
 import frc.robot.commands.driveCommands.cmdResetGyro;
 import frc.robot.commands.driveCommands.setPoseCmd;
 import frc.robot.commands.driveCommands.turnCmd;
+import frc.robot.commands.driveCommands.turnCmdSwerve;
 import frc.robot.commands.intakeCommands.intakeCmd;
 import frc.robot.commands.intakeCommands.pivotCmd;
 import frc.robot.subsystems.Gyro;
@@ -29,14 +30,15 @@ import com.pathplanner.lib.util.PathPlannerLogging;
 
 
 
-public class speakerTwoNoteBottom extends SequentialCommandGroup {
+public class bottomTwoNote extends SequentialCommandGroup {
 
-    public speakerTwoNoteBottom() {
+    public bottomTwoNote() {
 
-        final String path1 = "C_Speaker_To_CN";
+        final String path1 = "B_To_BN";
         
         addCommands(new cmdResetGyro().alongWith(new setPoseCmd(path1, 180)));
-        addCommands(new AngleCmd(ANGLEPOS.UNDERSPEAKER, true));
+        addCommands(new AngleCmd(ANGLEPOS.TOPNOTEWING, true));
+        addCommands(new turnCmdSwerve(-35, 0.3));
         addCommands(new cmdDelay(1));
         addCommands(new LaunchCmd());
         addCommands(new ParallelCommandGroup(
@@ -46,6 +48,7 @@ public class speakerTwoNoteBottom extends SequentialCommandGroup {
             new pivotCmd(PivotPos.OUT, true)
                 ));
         //addCommands(new AngleCmd(ANGLEPOS.CENTERNOTE, true));
+        addCommands(new turnCmdSwerve(-30, .03));
         addCommands(new cmdDelay(1).andThen(new LaunchCmd()));
         addCommands(new cmdDelay(0).andThen(new AngleCmd(ANGLEPOS.START, true)));
         addCommands(new turnCmd(90, 0.2));

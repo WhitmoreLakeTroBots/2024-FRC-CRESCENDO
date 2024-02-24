@@ -3,9 +3,10 @@ package frc.robot;
 import frc.robot.commands.intakeCommands.*;
 //import frc.robot.commands.*;
 import frc.robot.commands.LauncherCommands.*;
-import frc.robot.commands.autonCommands.speakerThreeNote;
-import frc.robot.commands.autonCommands.speakerTwoNote;
-import frc.robot.commands.autonCommands.speakerTwoNoteTop;
+import frc.robot.commands.autonCommands.bottomTwoNote;
+import frc.robot.commands.autonCommands.centerThreeNote;
+import frc.robot.commands.autonCommands.centerTwoNote;
+import frc.robot.commands.autonCommands.topTwoNote;
 import frc.robot.commands.autonCommands.visionSetup;
 import frc.robot.commands.climbCommands.ClimbCmd;
 import frc.robot.subsystems.*;
@@ -75,10 +76,11 @@ public class RobotContainer {
         configureButtonBindings();
         m_Chooser.addOption("Test Path Planner Auto", new PathPlannerAuto("test_auto"));
         m_Chooser.addOption("Test Path Straight", new PathPlannerAuto("test_auto2"));
-        m_Chooser.addOption("speakerTwoNote", new speakerTwoNote());
-        m_Chooser.addOption("speakerThreeNote", new speakerThreeNote());
-        m_Chooser.addOption("Vision Setup", new visionSetup());
-        m_Chooser.addOption("Top_To_Note", new speakerTwoNoteTop());
+        m_Chooser.addOption("centerTwoNote", new centerTwoNote());
+        m_Chooser.addOption("centerThreeNote", new centerThreeNote());
+        m_Chooser.addOption("visionSetup", new visionSetup());
+        m_Chooser.addOption("topTwoNote", new topTwoNote());
+        m_Chooser.addOption("BottomTwoNote", new bottomTwoNote());
 
                 SmartDashboard.putData("AnglePrestart", new AngleCmd(ANGLEPOS.PRESTART, false));
 
@@ -208,12 +210,13 @@ public class RobotContainer {
 
         SmartDashboard.putNumber("launcher angle", m_Launcher.getAnglePosActual());
 
+        SmartDashboard.putNumber("Climb Pos", m_Climb.getCLimbPos());
         //Launcher
         SmartDashboard.putNumber("LauncherTargetRPM", m_Launcher.getTargetRPM());
         SmartDashboard.putNumber("LauncherActualRPM", m_Launcher.getActualRPM());
         SmartDashboard.putBoolean("LaunchAngleStatus", m_Launcher.getAngleStatus());
         SmartDashboard.putNumber("LaunchTargetAngle", m_Launcher.getAnglePos().getangle());
-
+        
 }
 
     public static RobotContainer getInstance() {

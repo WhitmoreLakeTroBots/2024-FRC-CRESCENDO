@@ -26,11 +26,11 @@ import com.pathplanner.lib.path.PathPlannerPath;
 
 
 
-public class speakerThreeNote extends SequentialCommandGroup {
+public class centerThreeNote extends SequentialCommandGroup {
 
-    public speakerThreeNote() {
+    public centerThreeNote() {
 
-        final String path1 = "C_Speaker_To_CN";
+        final String path1 = "C_To_CN";
         final String path2 = "CN_To_3";
         final String path3 = "3_To_CN";
 
