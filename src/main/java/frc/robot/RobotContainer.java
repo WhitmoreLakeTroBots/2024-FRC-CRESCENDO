@@ -6,6 +6,8 @@ import frc.robot.commands.LauncherCommands.*;
 import frc.robot.commands.autonCommands.bottomTwoNote;
 import frc.robot.commands.autonCommands.centerThreeNote;
 import frc.robot.commands.autonCommands.centerTwoNote;
+import frc.robot.commands.autonCommands.driveStraight;
+import frc.robot.commands.autonCommands.topThreeNote;
 import frc.robot.commands.autonCommands.topTwoNote;
 import frc.robot.commands.autonCommands.visionSetup;
 import frc.robot.commands.climbCommands.ClimbCmd;
@@ -81,7 +83,8 @@ public class RobotContainer {
         m_Chooser.addOption("visionSetup", new visionSetup());
         m_Chooser.addOption("topTwoNote", new topTwoNote());
         m_Chooser.addOption("BottomTwoNote", new bottomTwoNote());
-
+        m_Chooser.addOption("Top Three Note", new topThreeNote());
+        m_Chooser.addOption("Drive Straight", new driveStraight());
                 SmartDashboard.putData("AnglePrestart", new AngleCmd(ANGLEPOS.PRESTART, false));
 
 
