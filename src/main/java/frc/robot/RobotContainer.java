@@ -132,7 +132,7 @@ public class RobotContainer {
         Trigger START_drive = m_driverController.start();
 
         Trigger LBump_drive = m_driverController.leftBumper();
-
+        LBump_drive.onTrue(new pivotCmd(Intake.PivotPos.IN, false).alongWith(new intakeCmd(RollerStatus.STOP)));
         //Trigger LTrig_drive = m_driverController.leftTrigger();
         //Left Trigger being used as brake, see Swerve class for details
 

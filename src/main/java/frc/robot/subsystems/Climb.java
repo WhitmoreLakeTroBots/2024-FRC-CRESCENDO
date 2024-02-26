@@ -36,7 +36,7 @@ public class Climb extends SubsystemBase {
         climbMotorLeft = new CANSparkMax(CANIDs.ClimbMotorLeftId, CANSparkMax.MotorType.kBrushless);
         climbMotorLeft.setSoftLimit(SoftLimitDirection.kForward, 78);
         climbMotorLeft.setSoftLimit(SoftLimitDirection.kReverse, 0);
-        CommonLogic.setSparkParamsBase(climbMotorLeft, false, 60, 70, IdleMode.kBrake);
+        CommonLogic.setSparkParamsBase(climbMotorLeft, false, 80, 100, IdleMode.kBrake);
 
     //    climbMotorRight = new CANSparkMax(CANIDs.ClimbMotorRightId, CANSparkMax.MotorType.kBrushless);
     //    CommonLogic.setSparkParamsBase(climbMotorRight, false, 10, 30, IdleMode.kBrake);
@@ -147,7 +147,7 @@ public class Climb extends SubsystemBase {
     public enum ClimbMode {
         START(0.0, 0.01, 0.00),
         PRECLIMB(70.0, 0.01, 0.0),
-        CLIMBING(20.0, 0.1, 0.2),
+        CLIMBING(20.0, 0.5, 0.2),
         HOLD(20.0, 10, -0.08);
 
         private final double pos;
