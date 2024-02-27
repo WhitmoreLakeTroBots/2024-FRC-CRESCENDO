@@ -41,11 +41,15 @@ public class LaunchCmd extends Command {
         RobotContainer.getInstance().m_Intake.setRollerStatus(RollerStatus.STOP);
 
         }
+        if (RobotContainer.getInstance().m_Sensors.getBB1() == false) {
+            bDone = true; 
+        }
     }
 
     // Called once the command ends or is interrupted.
     @Override
     public void end(boolean interrupted) {
+        RobotContainer.getInstance().m_Intake.setRollerStatus(RollerStatus.STOP);
     }
 
     // Returns true when the command should end.

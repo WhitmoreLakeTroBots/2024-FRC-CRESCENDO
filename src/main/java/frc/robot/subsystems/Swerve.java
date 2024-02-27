@@ -368,9 +368,12 @@ public class Swerve extends SubsystemBase {
     leftY = Math.signum(leftY) * leftY * leftY;
     leftX = Math.signum(leftX) * leftX * leftX;
     rightX = Math.signum(rightX) * rightX * rightX;
-
+    if (RobotContainer.getInstance().m_driverController.b().getAsBoolean()){
+      turn();
+    }
     // Drive the bot
     RobotContainer.getInstance().m_robotDrive.drive(leftY, leftX, rightX, true, false);
+    
   }
 
   public ChassisSpeeds getChassisSpeeds() {
@@ -424,7 +427,7 @@ public class Swerve extends SubsystemBase {
     } else {
       targetHeadingRAD = Math.toRadians(0);
     }
-
+    
     // double current = this.m_odometry.getEstimatedPosition().getRotation()
     // .getRadians();
 

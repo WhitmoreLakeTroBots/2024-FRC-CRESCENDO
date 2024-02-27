@@ -109,7 +109,6 @@ public class RobotContainer {
         A_drive.onTrue(new AngleCmd(ANGLEPOS.AMP, false));
 
         Trigger B_drive = m_driverController.b();
-
         Trigger X_drive = m_driverController.x();
         X_drive.whileTrue(new RunCommand(
                 () -> m_robotDrive.setX(),
@@ -130,7 +129,8 @@ public class RobotContainer {
         Trigger START_drive = m_driverController.start();
 
         Trigger LBump_drive = m_driverController.leftBumper();
-
+        LBump_drive.onTrue(new intakeCmd(Intake.RollerStatus.STOP)
+        .alongWith(new pivotCmd(PivotPos.IN, false)));
         //Trigger LTrig_drive = m_driverController.leftTrigger();
         //Left Trigger being used as brake, see Swerve class for details
 
