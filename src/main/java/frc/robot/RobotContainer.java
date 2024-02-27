@@ -6,8 +6,6 @@ import frc.robot.commands.LauncherCommands.*;
 import frc.robot.commands.autonCommands.bottomTwoNote;
 import frc.robot.commands.autonCommands.centerThreeNote;
 import frc.robot.commands.autonCommands.centerTwoNote;
-import frc.robot.commands.autonCommands.driveStraight;
-import frc.robot.commands.autonCommands.topThreeNote;
 import frc.robot.commands.autonCommands.topTwoNote;
 import frc.robot.commands.autonCommands.visionSetup;
 import frc.robot.commands.climbCommands.ClimbCmd;
@@ -83,8 +81,7 @@ public class RobotContainer {
         m_Chooser.addOption("visionSetup", new visionSetup());
         m_Chooser.addOption("topTwoNote", new topTwoNote());
         m_Chooser.addOption("BottomTwoNote", new bottomTwoNote());
-        m_Chooser.addOption("Top Three Note", new topThreeNote());
-        m_Chooser.addOption("Drive Straight", new driveStraight());
+
                 SmartDashboard.putData("AnglePrestart", new AngleCmd(ANGLEPOS.PRESTART, false));
 
 
@@ -121,7 +118,6 @@ public class RobotContainer {
         DUp_drive.onTrue(new ClimbCmd(ClimbMode.PRECLIMB));
         Trigger DLeft_drive = m_driverController.povLeft();
         DLeft_drive.onTrue(new ClimbCmd(ClimbMode.START));
-
         Trigger DDown_drive = m_driverController.povDown();
         DDown_drive.onTrue(new ClimbCmd(ClimbMode.HOLD));
         Trigger DRight_drive = m_driverController.povRight();
@@ -132,7 +128,7 @@ public class RobotContainer {
         Trigger START_drive = m_driverController.start();
 
         Trigger LBump_drive = m_driverController.leftBumper();
-        LBump_drive.onTrue(new pivotCmd(Intake.PivotPos.IN, false).alongWith(new intakeCmd(RollerStatus.STOP)));
+
         //Trigger LTrig_drive = m_driverController.leftTrigger();
         //Left Trigger being used as brake, see Swerve class for details
 

@@ -41,6 +41,9 @@ import frc.utils.*;
  */
 public class Swerve extends SubsystemBase {
   public final double kp_driveStraightGyro = 0.0125;
+  private DriverStation.Alliance alliance;
+  private final double maxTurnPow = 0.3;
+  private final double minTurnPow = -0.3;
 
   // Create MAXSwerveModules
   private final MAXSwerveModule m_frontLeft = new MAXSwerveModule(
@@ -130,6 +133,15 @@ public class Swerve extends SubsystemBase {
         },
         this // Reference to this subsystem to set requirements
     );
+
+    var al = DriverStation.getAlliance();
+    if (al.get() == DriverStation.Alliance.Red) {
+      alliance = DriverStation.Alliance.Red;
+
+    } else {
+      alliance = DriverStation.Alliance.Blue;
+    }
+
   }
 
   @Override
@@ -347,7 +359,7 @@ public class Swerve extends SubsystemBase {
       leftY = leftY * slowSpeed;
       leftX = leftX * slowSpeed;
       rightX = rightX * slowSpeed;
-    } else{
+    } else {
       leftY = leftY * capSpeed;
       leftX = leftX * capSpeed;
       rightX = rightX * capSpeed;
@@ -401,6 +413,29 @@ public class Swerve extends SubsystemBase {
 
     return String.format("odometry: %.2f    %.2f    %.0f", x, y, deg);
 
+  }
+
+  public void turn() {
+    double targetHeadingRAD = 0;
+    double current = Math.toRadians(m_gyro.getAngle());
+    double stepSizeRAD = Math.toRadians(1);
+    if (alliance == DriverStation.Alliance.Red) {
+      targetHeadingRAD = Math.toRadians(180);
+    } else {
+      targetHeadingRAD = Math.toRadians(0);
+    }
+
+    // double current = this.m_odometry.getEstimatedPosition().getRotation()
+    // .getRadians();
+
+    this.drive(0, 0,
+        (CommonLogic.CapMotorPower(SwerveUtils.StepTowardsCircular(current, targetHeadingRAD, stepSizeRAD),
+            minTurnPow, maxTurnPow)),
+        true, false);
+
+    String msg = String.format("Current: %.4f Target: %.4f",
+        current, targetHeadingRAD);
+    System.err.println(msg);
   }
 
   public Command followPathCommand(String pathName) {
