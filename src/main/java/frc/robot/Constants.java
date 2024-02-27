@@ -36,8 +36,8 @@ public class Constants {
     public static final double kMaxSpeedMetersPerSecond = 6.0;
     public static final double kMaxAngularSpeed = 4 * Math.PI; // radians per second
 
-    public static final double kDirectionSlewRate = 5.0; // radians per second
-    public static final double kMagnitudeSlewRate = 7.0; // percent per second (1 = 100%)
+    public static final double kDirectionSlewRate = 3.0; // radians per second
+    public static final double kMagnitudeSlewRate = 3.0; // percent per second (1 = 100%)
     public static final double kRotationalSlewRate = 5.0; // percent per second (1 = 100%)
 
     // Chassis configuration
@@ -137,7 +137,7 @@ public class Constants {
     public static final IdleMode kDrivingMotorIdleMode = IdleMode.kBrake;
     public static final IdleMode kTurningMotorIdleMode = IdleMode.kBrake;
 
-    public static final int kDrivingMotorCurrentLimit = 50; // amps
+    public static final int kDrivingMotorCurrentLimit = 40; // amps
     public static final int kTurningMotorCurrentLimit = 30; // amps
   }
 

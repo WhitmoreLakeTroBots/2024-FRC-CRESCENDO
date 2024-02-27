@@ -83,7 +83,7 @@ public class Swerve extends SubsystemBase {
   // Adding MAXBRAKE
   private final static double MAX_BRAKE = 0.8;
   private final double slowSpeed = 0.4;
-  private final double capSpeed = 0.8;
+  private final double capSpeed = 0.9;
 
   public Swerve() {
 

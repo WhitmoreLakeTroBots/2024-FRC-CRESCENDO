@@ -17,6 +17,8 @@ import frc.robot.subsystems.Intake.PivotPos;
 import frc.robot.subsystems.Intake.RollerStatus;
 import frc.robot.subsystems.Launcher.ANGLEPOS;
 import frc.robot.subsystems.Launcher.LauncherModes;
+import frc.utils.CommonLogic;
+
 import org.photonvision.PhotonCamera;
 
 import com.pathplanner.lib.commands.PathPlannerAuto;
@@ -145,7 +147,7 @@ public class RobotContainer {
         RTrig_drive.onFalse(new intakeCmd(RollerStatus.STOP));
 //Articulion Controller*************************************************
         Trigger A_Artic = m_articController.a();
-        A_Artic.onTrue(new AngleCmd(ANGLEPOS.AMP, false));
+        A_Artic.onTrue(new AngleCmd(ANGLEPOS.THROW, false));
 
         Trigger B_Artic = m_articController.b();
         B_Artic.onTrue(new AngleCmd(ANGLEPOS.START, false));
@@ -204,6 +206,7 @@ public class RobotContainer {
                 SmartDashboard.putNumber("PivotLocation", m_Intake.getCurPivotPos());
         SmartDashboard.putNumber("RollerStatus", m_Intake.getCurRollerStatus().getPow());
         SmartDashboard.putBoolean("BeamBreak1", m_Sensors.getBB1());
+        SmartDashboard.putBoolean("Launcher", CommonLogic.isInRange(m_Launcher.getActualRPM(), m_Launcher.getTargetRPM(), 250));
 
 
         SmartDashboard.putString("odo", m_robotDrive.getPose2dString());

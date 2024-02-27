@@ -145,10 +145,10 @@ public class Climb extends SubsystemBase {
     // here. Call these from Commands.
 
     public enum ClimbMode {
-        START(0.0, 0.01, 0.00),
-        PRECLIMB(70.0, 0.01, 0.0),
-        CLIMBING(20.0, 0.5, 0.2),
-        HOLD(20.0, 10, -0.08);
+        START(0.0, 0.1, 0.00),
+        PRECLIMB(77.0, 0.1, 0.0),
+        CLIMBING(5.0, 0.1, -0.55),
+        HOLD(5.0, 0.1, -0.55);
 
         private final double pos;
         private final double P;

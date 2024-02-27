@@ -241,15 +241,16 @@ public class Launcher extends SubsystemBase {
         // Auton Angles
         CENTERNOTE(40,40,3500),
         TOPNOTEWING(50, 50, 2500),
-        TOPLAUNCH(35, 35, 3500),
+        TOPLAUNCH(24, 24, 3500),
 
         // Standard Angles
         START(20.0, 20.0, 0), // DDown //B
         TEST(30.0, 30.0, 0),
         UNDERSPEAKER(60.0, 60, 2500), //DUp
         AMP(55.0, 55, 800), //A
-        MIDRANGE(28, 28, 4000), //DRight
-        PODIUM(35,35,3000); //DLeft
+        MIDRANGE(24, 24, 4000), //DRight
+        PODIUM(35,35,3000), //DLeft
+        THROW(7, 7, 3500);
         
 
         private final double angle;
