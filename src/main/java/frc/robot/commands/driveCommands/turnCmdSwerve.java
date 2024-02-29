@@ -1,7 +1,7 @@
 package frc.robot.commands.driveCommands;
 
 import edu.wpi.first.wpilibj.DriverStation;
-import edu.wpi.first.wpilibj.DriverStation.Alliance;
+//import edu.wpi.first.wpilibj.DriverStation.Alliance;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.RobotContainer;
 import frc.utils.CommonLogic;
@@ -23,7 +23,7 @@ public class turnCmdSwerve extends Command {
         stepSizeRAD = Math.toRadians(stepSizeDEG);
         minPow = -Math.abs(speed);
         maxPow = Math.abs(speed);
-        direction = Math.signum(speed);
+        this.speed = speed;
         // m_subsystem = subsystem; 
         // addRequirements(m_subsystem);
 
@@ -33,15 +33,7 @@ public class turnCmdSwerve extends Command {
         stepSizeRAD = Math.toRadians(headingTol / 10) ;
         minPow = -Math.abs(speed);
         maxPow = Math.abs(speed);
-        direction = Math.signum(speed);
-        // m_subsystem = subsystem;
-        // addRequirements(m_subsystem);
-
-    }
-     public turnCmdSwerve(double targetHeadingDEG) {
-        targetHeadingRAD = Math.toRadians(gyroNormalize(targetHeadingDEG));
-        stepSizeRAD = Math.toRadians(headingTol / 10) ;
-        direction = 1.0;
+        this.speed = speed;
         // m_subsystem = subsystem;
         // addRequirements(m_subsystem);
 
@@ -54,10 +46,12 @@ public class turnCmdSwerve extends Command {
     public void initialize() {
         // RobotContainer.getInstance().m_robotDrive.drive(0, 0, speed, true, false);
 
-        if(DriverStation.getAlliance().get() == DriverStation.Alliance.Red){
+        if(RobotContainer.getInstance().isRed()){
             targetHeadingRAD =  Math.toRadians(180) - targetHeadingRAD;
-        } 
-       
+        } else {
+           speed = speed *-1;
+        }
+      direction = Math.signum(speed);
 
         bDone = false;
     }
@@ -69,7 +63,7 @@ public class turnCmdSwerve extends Command {
 
         RobotContainer.getInstance().m_robotDrive.drive(0, 0,
                 direction * Math.abs(CommonLogic.CapMotorPower(SwerveUtils.StepTowardsCircular(current, targetHeadingRAD, stepSizeRAD),
-                 minPow, maxPow)), true, false);
+                 minPow, maxPow)), false, false);
 
         String msg = String.format ("Current: %.4f Target: %.4f",
         current, targetHeadingRAD);

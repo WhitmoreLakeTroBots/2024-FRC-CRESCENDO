@@ -242,7 +242,7 @@ public class Launcher extends SubsystemBase {
         CENTERNOTE(40,40,3500),
         TOPNOTEWING(50, 50, 2500),
         TOPLAUNCH(24, 24, 3500),
-        APODIUM(30, 30, 3000),
+        APODIUM(32, 32, 3000),
         // Standard Angles
         START(20.0, 20.0, 0), // DDown //B
         TEST(30.0, 30.0, 0),

@@ -5,6 +5,7 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.RobotContainer;
 import frc.robot.commands.intakeCommands.intakeCmd;
 import frc.robot.commands.intakeCommands.pivotCmd;
+import frc.utils.cmdDelay;
 import edu.wpi.first.wpilibj.DigitalInput;
 
 /**
@@ -50,7 +51,12 @@ public void checkIntake(){
             new pivotCmd(Intake.PivotPos.IN, false);
     }
     }
-    
+     if (RobotContainer.getInstance().m_Intake.getTargPivotPos() == Intake.PivotPos.AMP){
+        if (getBB1() == false){
+           new cmdDelay(0.5).andThen(new intakeCmd(Intake.RollerStatus.STOP));
+            new pivotCmd(Intake.PivotPos.IN, false);
+    }
+    }
 }
 
 }

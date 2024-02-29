@@ -1,6 +1,7 @@
 package frc.robot.subsystems;
 
 import frc.robot.Constants;
+import frc.robot.Robot;
 import frc.robot.Constants.CANIDs;
 import frc.robot.Constants.DriveConstants;
 import frc.robot.Constants.OIConstants;
@@ -41,7 +42,6 @@ import frc.utils.*;
  */
 public class Swerve extends SubsystemBase {
   public final double kp_driveStraightGyro = 0.0125;
-  private DriverStation.Alliance alliance;
   private final double maxTurnPow = 0.3;
   private final double minTurnPow = -0.3;
 
@@ -124,23 +124,13 @@ public class Swerve extends SubsystemBase {
           // alliance
           // This will flip the path being followed to the red side of the field.
           // THE ORIGIN WILL REMAIN ON THE BLUE SIDE
-
-          var alliance = DriverStation.getAlliance();
-          if (alliance.isPresent()) {
-            return alliance.get() == DriverStation.Alliance.Red;
-          }
-          return false;
+          return RobotContainer.getInstance().isRed();
         },
         this // Reference to this subsystem to set requirements
     );
 
-    var al = DriverStation.getAlliance();
-    if (al.get() == DriverStation.Alliance.Red) {
-      alliance = DriverStation.Alliance.Red;
+    
 
-    } else {
-      alliance = DriverStation.Alliance.Blue;
-    }
 
   }
 
@@ -370,10 +360,10 @@ public class Swerve extends SubsystemBase {
     rightX = Math.signum(rightX) * rightX * rightX;
     if (RobotContainer.getInstance().m_driverController.b().getAsBoolean()){
       turn();
-    }
+    } else {
     // Drive the bot
-    RobotContainer.getInstance().m_robotDrive.drive(leftY, leftX, rightX, true, false);
-    
+    RobotContainer.getInstance().m_robotDrive.drive(leftY, leftX, rightX, true, true);
+    }
   }
 
   public ChassisSpeeds getChassisSpeeds() {
@@ -420,9 +410,9 @@ public class Swerve extends SubsystemBase {
 
   public void turn() {
     double targetHeadingRAD = 0;
-    double current = Math.toRadians(m_gyro.getAngle());
+    double current = Math.toRadians(m_gyro.getNormaliziedNavxAngle());
     double stepSizeRAD = Math.toRadians(1);
-    if (alliance == DriverStation.Alliance.Red) {
+    if (RobotContainer.getInstance().isRed()) {
       targetHeadingRAD = Math.toRadians(180);
     } else {
       targetHeadingRAD = Math.toRadians(0);
@@ -431,11 +421,15 @@ public class Swerve extends SubsystemBase {
     // double current = this.m_odometry.getEstimatedPosition().getRotation()
     // .getRadians();
 
+      if(m_gyro.gyroInTol(Math.toDegrees(current), Math.toDegrees(targetHeadingRAD), 3)){
+        this.stopDrive();
+     } else {
+     
     this.drive(0, 0,
         (CommonLogic.CapMotorPower(SwerveUtils.StepTowardsCircular(current, targetHeadingRAD, stepSizeRAD),
             minTurnPow, maxTurnPow)),
         true, false);
-
+     }
     String msg = String.format("Current: %.4f Target: %.4f",
         current, targetHeadingRAD);
     System.err.println(msg);
@@ -465,12 +459,7 @@ public class Swerve extends SubsystemBase {
           // alliance
           // This will flip the path being followed to the red side of the field.
           // THE ORIGIN WILL REMAIN ON THE BLUE SIDE
-          var alliance = DriverStation.getAlliance();
-
-          if (alliance.isPresent()) {
-            return alliance.get() == DriverStation.Alliance.Red;
-          }
-          return false;
+            return RobotContainer.getInstance().isRed();
         },
         this // Reference to this subsystem to set requirements
     );

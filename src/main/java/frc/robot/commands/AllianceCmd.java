@@ -1,20 +1,13 @@
-package frc.robot.commands.driveCommands;
+package frc.robot.commands;
 
-import com.pathplanner.lib.path.PathPlannerPath;
-
-import edu.wpi.first.math.geometry.Pose2d;
-import edu.wpi.first.math.geometry.Rotation2d;
-import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.RobotContainer;
 
-public class setPoseCmd extends Command {
+public class AllianceCmd extends Command {
     private boolean bDone = false;
-    private String pathName = "";
-    private double startingAngle = 0;
-    public setPoseCmd(String npath, double startAngle) {
-        pathName = npath;
-        startingAngle = startAngle;
+    private boolean alliance = false;
+    public AllianceCmd(boolean AL) {
+        alliance = AL;
         // m_subsystem = subsystem;
         // addRequirements(m_subsystem);
 
@@ -25,16 +18,7 @@ public class setPoseCmd extends Command {
     // Called when the command is initially scheduled.
     @Override
     public void initialize() {
-    PathPlannerPath path = PathPlannerPath.fromPathFile(pathName);
-
-    if (RobotContainer.getInstance().isRed()) {
-      RobotContainer.getInstance().m_robotDrive.resetOdometry(new Pose2d(path.flipPath().getPathPoses().get(0).getX(), 
-      path.flipPath().getPathPoses().get(0).getY(), new Rotation2d(Math.toRadians(startingAngle))));
-     
-    } else {
-      RobotContainer.getInstance().m_robotDrive.resetOdometry(path.getPathPoses().get(0));
-    
-    }
+       RobotContainer.getInstance().setRed(alliance);
         bDone = true;
         end(bDone);
     }

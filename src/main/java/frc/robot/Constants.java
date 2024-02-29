@@ -19,7 +19,7 @@ public class Constants {
   public static final class Cam1Constants {
     public static final String name = "Cam11A";
     public static final Transform3d cam2robotTransform3d = new Transform3d (
-      RobotMath.inchesToMeters(11), RobotMath.inchesToMeters(2), RobotMath.inchesToMeters(11),
+      RobotMath.inchesToMeters(-6), RobotMath.inchesToMeters(0), RobotMath.inchesToMeters(10.5),
       new Rotation3d (Math.toRadians(0.0), Math.toRadians(-45.0), Math.toRadians(191)));
   }
 
@@ -36,9 +36,9 @@ public class Constants {
     public static final double kMaxSpeedMetersPerSecond = 6.0;
     public static final double kMaxAngularSpeed = 4 * Math.PI; // radians per second
 
-    public static final double kDirectionSlewRate = 3.0; // radians per second
-    public static final double kMagnitudeSlewRate = 3.0; // percent per second (1 = 100%)
-    public static final double kRotationalSlewRate = 5.0; // percent per second (1 = 100%)
+    public static final double kDirectionSlewRate = 1.5; // radians per second
+    public static final double kMagnitudeSlewRate = 1.5; // percent per second (1 = 100%)
+    public static final double kRotationalSlewRate = 1.5; // percent per second (1 = 100%)
 
     // Chassis configuration
     public static final double kTrackWidth = Units.inchesToMeters(20.5); // Distance between centers of right and left

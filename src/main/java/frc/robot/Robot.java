@@ -3,6 +3,7 @@ package frc.robot;
 import edu.wpi.first.hal.FRCNetComm.tInstances;
 import edu.wpi.first.hal.FRCNetComm.tResourceType;
 import edu.wpi.first.hal.HAL;
+import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
@@ -67,6 +68,15 @@ public class Robot extends TimedRobot {
 
     @Override
     public void disabledPeriodic() {
+       /*  var alliance = DriverStation.getAlliance();
+         if (alliance.isPresent()) {
+            if (alliance.get() == DriverStation.Alliance.Red){
+                RobotContainer.getInstance().setRed(true);
+            }else {
+                RobotContainer.getInstance().setRed(false);
+            }
+          } */
+          
     }
 
     /**
@@ -75,8 +85,9 @@ public class Robot extends TimedRobot {
      */
     @Override
     public void autonomousInit() {
+        RobotContainer.getInstance().m_Alliance.getSelected().schedule();
         m_autonomousCommand = m_robotContainer.getAutonomousCommand();
-
+        
         // schedule the autonomous command (example)
         if (m_autonomousCommand != null) {
             m_autonomousCommand.schedule();

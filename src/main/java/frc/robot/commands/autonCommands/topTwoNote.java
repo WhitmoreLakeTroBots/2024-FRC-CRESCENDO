@@ -36,7 +36,7 @@ public class topTwoNote extends SequentialCommandGroup {
 
         addCommands(new cmdResetGyro().alongWith(new setPoseCmd(path1, 180)));
         addCommands(new AngleCmd(ANGLEPOS.TOPNOTEWING, true)
-        .alongWith(new turnCmdSwerve(35)));
+        .alongWith(new turnCmdSwerve(35, 0.3)));
         addCommands(new cmdDelay(1));
         addCommands(new LaunchCmd());
         addCommands(new ParallelCommandGroup(
@@ -44,7 +44,7 @@ public class topTwoNote extends SequentialCommandGroup {
                 new AngleCmd(ANGLEPOS.PODIUM, false), new intakeCmd(RollerStatus.FORWARD),
                 new pivotCmd(PivotPos.OUT, true)));
 
-        addCommands(new turnCmdSwerve(30));
+        addCommands(new turnCmdSwerve(30, 0.3));
         addCommands(new cmdDelay(1).andThen(new LaunchCmd()));
         addCommands(new cmdDelay(1).andThen(new AngleCmd(ANGLEPOS.START, true)));
         // addCommands(new turnCmd(90, 0.2));

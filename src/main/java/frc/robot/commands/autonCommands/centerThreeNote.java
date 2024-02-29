@@ -50,7 +50,7 @@ public class centerThreeNote extends SequentialCommandGroup {
 
         // start note 3
         addCommands(new AngleCmd(ANGLEPOS.START, true));
-        addCommands(new cmdDelay(1.5).andThen(
+        addCommands(new cmdDelay(0.75).andThen(
             new ParallelCommandGroup(
                 new autoDriveCmd(path2),
                 new SequentialCommandGroup(
