@@ -31,6 +31,7 @@ public class Intake extends SubsystemBase {
     public double startTime = 0;
     public double endTime = 0;
     public double delayTime = 0.2;
+    public double delayTime2 = 0.02;
     public boolean justDetected = false;
 
     /**
@@ -73,6 +74,24 @@ public class Intake extends SubsystemBase {
             justDetected = false;
         }
 
+         if ((getCurRollerStatus() == RollerStatus.REVERSE) && (Math.abs(rotMotor.getAppliedOutput()) != 0.0)
+         && (RobotContainer.getInstance().m_Sensors.getBB1() == false)&& 
+            (RobotContainer.getInstance().m_Intake.getTargPivotPos() == PivotPos.AMP)) {
+           
+            if(justDetected){
+                    startTime = RobotMath.getTime();
+                    endTime = startTime + delayTime2;
+                    justDetected = false;
+            }
+
+        if (RobotMath.getTime() >= endTime) {
+             rotMotor.set(0);
+            setRollerStatus(RollerStatus.STOP);
+            setPivotPos(PivotPos.IN);
+
+        }
+        }
+        
 
     }
 

@@ -62,6 +62,8 @@ public class centerThreeNote extends SequentialCommandGroup {
             // drive back
         addCommands(new ParallelCommandGroup(
             new autoDriveCmd(path3),
+            new pivotCmd(PivotPos.IN, false),
+            new intakeCmd(RollerStatus.STOP),
             new SetLauncherRPM(3500),
             new SequentialCommandGroup(
             new cmdDelay(4)
