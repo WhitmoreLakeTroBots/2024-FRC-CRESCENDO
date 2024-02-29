@@ -36,7 +36,7 @@ public class turnCmd extends Command {
     public void execute() {
         RobotContainer.getInstance().m_robotDrive.drive(0,0,
            CommonLogic.CapMotorPower(
-                CommonLogic.gotoPosPIDF(pivP,pivF,RobotContainer.getInstance().m_robotDrive.m_gyro.getAngle(),heading) 
+                CommonLogic.gotoPosPIDF(pivP,pivF,RobotContainer.getInstance().m_robotDrive.m_gyro.getNormaliziedNavxAngle(),heading) 
                 ,-speed,speed)
         ,true,false);
 
