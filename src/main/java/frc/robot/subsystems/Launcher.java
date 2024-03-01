@@ -232,25 +232,26 @@ public class Launcher extends SubsystemBase {
     }
 
     public double getAnglePosActual(){
-        return LaunchAngleMotor.getAbsoluteEncoder(Type.kDutyCycle).getPosition();
+        return LaunchAngleMotor.getAbsoluteEncoder(Type.kDutyCycle).getPosition() ;
     }
 
     public enum ANGLEPOS{
-        MAX(65,65,0),
-        PRESTART(60, 60, 0),
+        MAX(65,70,0),
+        PRESTART(60, 65, 0),
         // Auton Angles
-        CENTERNOTE(40,40,3500),
-        TOPNOTEWING(50, 50, 2500),
-        TOPLAUNCH(24, 24, 3500),
-        APODIUM(35, 358, 3000),
+        CENTERNOTE(40,45,3500),
+
+        TOPNOTEWING(50, 55, 2500),
+        TOPLAUNCH(24, 29, 3500),
+        APODIUM(35, 40, 3000),
         // Standard Angles
-        START(20.0, 20.0, 0), // DDown //B
-        TEST(30.0, 30.0, 0),
-        UNDERSPEAKER(60.0, 60, 2500), //DUp
-        AMP(55.0, 55, 800), //A
-        MIDRANGE(24, 24, 4000), //DRight
-        PODIUM(35,35,3000), //DLeft
-        THROW(7, 7, 3500);
+        START(20.0, 25.0, 0), // DDown //B
+        TEST(30.0, 35.0, 0),
+        UNDERSPEAKER(60.0, 65, 2500), //DUp
+        AMP(55.0, 60, 800), //A
+        MIDRANGE(24, 29, 4000), //DRight
+        PODIUM(35,40,3000), //DLeft
+        THROW(7, 12, 3000);
         
 
         private final double angle;

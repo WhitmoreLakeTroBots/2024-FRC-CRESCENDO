@@ -216,7 +216,7 @@ public class RobotContainer {
         SmartDashboard.putString(Constants.Cam2Constants.name,
                 m_CameraHelper.getCamString(Constants.Cam2Constants.name));
 
-        SmartDashboard.putNumber("launcher angle", m_Launcher.getAnglePosActual());
+        SmartDashboard.putNumber("launcher angle", m_Launcher.getAnglePosActual()-5);
 
         SmartDashboard.putNumber("Climb Pos", m_Climb.getCLimbPos());
         // Launcher
