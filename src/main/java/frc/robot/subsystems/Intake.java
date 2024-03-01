@@ -31,7 +31,7 @@ public class Intake extends SubsystemBase {
     public double startTime = 0;
     public double endTime = 0;
     public double delayTime = 0.2;
-    public double delayTime2 = 0.02;
+    public double delayTime2 = 0.1;
     public boolean justDetected = false;
 
     /**
@@ -151,7 +151,7 @@ public class Intake extends SubsystemBase {
     public enum RollerStatus {
         STOP(0.0),
         FORWARD(0.7),
-        REVERSE(-0.8);
+        REVERSE(-0.85);
 
         private final double pow;
 
@@ -184,7 +184,7 @@ public class Intake extends SubsystemBase {
         IN(3, 0.0025, 0.0),
         OUT(205, 0.003, 0.0),
 
-        AMP(75, 0.003, 0.0);
+        AMP(77, 0.003, 0.0);
 
         private final double pos;
         private final double P;

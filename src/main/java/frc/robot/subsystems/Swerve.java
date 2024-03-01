@@ -412,11 +412,11 @@ public class Swerve extends SubsystemBase {
     double targetHeadingRAD = 0;
     double current = Math.toRadians(m_gyro.getNormaliziedNavxAngle());
     double stepSizeRAD = Math.toRadians(1);
-    if (RobotContainer.getInstance().isRed()) {
+   /* if (RobotContainer.getInstance().isRed()) {
       targetHeadingRAD = Math.toRadians(180);
     } else {
       targetHeadingRAD = Math.toRadians(0);
-    }
+    } */
     
     // double current = this.m_odometry.getEstimatedPosition().getRotation()
     // .getRadians();
@@ -426,7 +426,7 @@ public class Swerve extends SubsystemBase {
      } else {
      
     this.drive(0, 0,
-        (CommonLogic.CapMotorPower(SwerveUtils.StepTowardsCircular(current, targetHeadingRAD, stepSizeRAD),
+        (CommonLogic.CapMotorPower(CommonLogic.gotoPosPIDF(0.008,0,-RobotContainer.getInstance().m_robotDrive.m_gyro.getNormaliziedNavxAngle(), 0),
             minTurnPow, maxTurnPow)),
         true, false);
      }
