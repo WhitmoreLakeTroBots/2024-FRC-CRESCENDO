@@ -7,6 +7,7 @@ import frc.robot.commands.LauncherCommands.*;
 import frc.robot.commands.autonCommands.bottomTwoNote;
 import frc.robot.commands.autonCommands.centerThreeNote;
 import frc.robot.commands.autonCommands.centerTwoNote;
+import frc.robot.commands.autonCommands.topThreeNote;
 import frc.robot.commands.autonCommands.topTwoNote;
 import frc.robot.commands.autonCommands.turnTest;
 import frc.robot.commands.autonCommands.visionSetup;
@@ -87,6 +88,7 @@ public class RobotContainer {
         m_Chooser.addOption("centerThreeNote", new centerThreeNote());
         m_Chooser.addOption("visionSetup", new visionSetup());
         m_Chooser.addOption("topTwoNote", new topTwoNote());
+        m_Chooser.addOption("topThreeNote", new topThreeNote());
         m_Chooser.addOption("BottomTwoNote", new bottomTwoNote());
         m_Chooser.addOption("Test Turn", new turnTest());
         SmartDashboard.putData("AnglePrestart", new AngleCmd(ANGLEPOS.PRESTART, false));

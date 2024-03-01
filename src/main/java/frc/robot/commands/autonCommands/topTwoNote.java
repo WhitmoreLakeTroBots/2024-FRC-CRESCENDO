@@ -36,7 +36,7 @@ public class topTwoNote extends SequentialCommandGroup {
 
         addCommands(new cmdResetGyro().alongWith(new setPoseCmd(path1, 180)));
         addCommands(new AngleCmd(ANGLEPOS.TOPNOTEWING, true)
-        .alongWith(new turnCmd(35, 0.3)));
+        .alongWith(new turnCmd(43, 0.3)));
         addCommands(new cmdDelay(1));
         addCommands(new LaunchCmd());
         addCommands(new ParallelCommandGroup(

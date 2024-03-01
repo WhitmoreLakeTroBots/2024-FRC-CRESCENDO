@@ -38,7 +38,7 @@ public class topThreeNote extends SequentialCommandGroup {
 
                 addCommands(new cmdResetGyro().alongWith(new setPoseCmd(path1, 180)));
                 addCommands(new AngleCmd(ANGLEPOS.TOPNOTEWING, true));
-                addCommands(new turnCmd(35, 0.2));
+                addCommands(new turnCmd(43, 0.2));
                 addCommands(new cmdDelay(1));
                 addCommands(new LaunchCmd());
                 addCommands(new ParallelCommandGroup(
