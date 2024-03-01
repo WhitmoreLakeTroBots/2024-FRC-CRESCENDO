@@ -11,9 +11,9 @@ public class turnTest extends SequentialCommandGroup {
 
     public turnTest() {
         addCommands(new cmdResetGyro());
-        addCommands(new turnCmd(35, 0.3));
+        addCommands(new turnCmd(20, 0.3));
         addCommands(new cmdDelay(2));
-        addCommands(new turnCmd(-35, 0.3));
+       addCommands(new turnCmd(0, 0.3));
 
     }
 
