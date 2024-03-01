@@ -33,7 +33,7 @@ public class Constants {
 
   public static final class DriveConstants {
 
-    public static final double kMaxSpeedMetersPerSecond = 6.0;
+    public static final double kMaxSpeedMetersPerSecond = 6.76;
     public static final double kMaxAngularSpeed = 4 * Math.PI; // radians per second
 
     public static final double kDirectionSlewRate = 1.5; // radians per second
