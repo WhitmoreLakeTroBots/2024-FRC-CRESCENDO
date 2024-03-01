@@ -69,7 +69,7 @@ public class centerThreeNote extends SequentialCommandGroup {
             new cmdDelay(4)
             //,new AngleCmd(ANGLEPOS.CENTERNOTE, true)
             )));
-        new AngleCmd(ANGLEPOS.CENTERNOTE, false);
+        new AngleCmd(ANGLEPOS.CENTERNOTE, true);
         new cmdDelay(1);
         addCommands(new LaunchCmd());
     }
