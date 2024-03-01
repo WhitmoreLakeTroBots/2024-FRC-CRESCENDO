@@ -27,8 +27,9 @@ public class turnCmd extends Command {
     @Override
     public void initialize() {
        //RobotContainer.getInstance().m_robotDrive.drive(0, 0, speed, true, false);
-       
-        bDone = false;
+       if(RobotContainer.getInstance().isRed()){
+        heading = -heading;
+    }
     }
 
     // Called every time the scheduler runs while the command is scheduled.
