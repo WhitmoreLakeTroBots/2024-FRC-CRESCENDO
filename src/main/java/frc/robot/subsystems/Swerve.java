@@ -359,8 +359,10 @@ public class Swerve extends SubsystemBase {
     leftX = Math.signum(leftX) * leftX * leftX;
     rightX = Math.signum(rightX) * rightX * rightX;
     if (RobotContainer.getInstance().m_driverController.b().getAsBoolean()){
-      turn();
-    } else {
+      turn(0);
+    } else if (RobotContainer.getInstance().m_driverController.a().getAsBoolean()) {
+      turn(90);
+    }else {
     // Drive the bot
     RobotContainer.getInstance().m_robotDrive.drive(leftY, leftX, rightX, true, true);
     }
@@ -408,15 +410,15 @@ public class Swerve extends SubsystemBase {
 
   }
 
-  public void turn() {
+  public void turn(double heading) {
+    double targetHeading = heading;
     double targetHeadingRAD = 0;
     double current = Math.toRadians(m_gyro.getNormaliziedNavxAngle());
-    double stepSizeRAD = Math.toRadians(1);
-   /* if (RobotContainer.getInstance().isRed()) {
-      targetHeadingRAD = Math.toRadians(180);
-    } else {
-      targetHeadingRAD = Math.toRadians(0);
-    } */
+    double stepSizeRAD = Math.toRadians(1); 
+   if (RobotContainer.getInstance().isRed()) {
+      targetHeading = -targetHeading;
+    } 
+    
     
     // double current = this.m_odometry.getEstimatedPosition().getRotation()
     // .getRadians();
@@ -426,7 +428,8 @@ public class Swerve extends SubsystemBase {
      } else {
      
     this.drive(0, 0,
-        (CommonLogic.CapMotorPower(CommonLogic.gotoPosPIDF(0.008,0,-RobotContainer.getInstance().m_robotDrive.m_gyro.getNormaliziedNavxAngle(), 0),
+        (CommonLogic.CapMotorPower(CommonLogic.gotoPosPIDF
+        (0.008,0,-RobotContainer.getInstance().m_robotDrive.m_gyro.getNormaliziedNavxAngle(), targetHeading),
             minTurnPow, maxTurnPow)),
         true, false);
      }

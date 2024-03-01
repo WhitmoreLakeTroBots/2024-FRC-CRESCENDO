@@ -112,7 +112,7 @@ public class RobotContainer {
     private void configureButtonBindings() {
 
         Trigger A_drive = m_driverController.a();
-        A_drive.onTrue(new AngleCmd(ANGLEPOS.AMP, false));
+        //A_drive.onTrue(new AngleCmd(ANGLEPOS.AMP, false));
 
         Trigger B_drive = m_driverController.b();
         Trigger X_drive = m_driverController.x();
