@@ -149,13 +149,13 @@ public class RobotContainer {
         RTrig_drive.onFalse(new intakeCmd(RollerStatus.STOP));
         // Articulion Controller*************************************************
         Trigger A_Artic = m_articController.a();
-        A_Artic.onTrue(new AngleCmd(ANGLEPOS.THROW, false));
+        A_Artic.onTrue(new pivotCmd(PivotPos.AMP, false));
 
         Trigger B_Artic = m_articController.b();
         B_Artic.onTrue(new AngleCmd(ANGLEPOS.START, false));
 
         Trigger X_Artic = m_articController.x();
-        X_Artic.onTrue(new pivotCmd(PivotPos.AMP, false));
+        X_Artic.onTrue(new AngleCmd(ANGLEPOS.THROW, false));
 
         Trigger Y_Artic = m_articController.y();
 
