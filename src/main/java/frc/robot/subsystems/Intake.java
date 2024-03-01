@@ -151,7 +151,7 @@ public class Intake extends SubsystemBase {
     public enum RollerStatus {
         STOP(0.0),
         FORWARD(0.7),
-        REVERSE(-0.75);
+        REVERSE(-0.8);
 
         private final double pow;
 
@@ -184,7 +184,7 @@ public class Intake extends SubsystemBase {
         IN(3, 0.0025, 0.0),
         OUT(205, 0.003, 0.0),
 
-        AMP(80, 0.003, 0.0);
+        AMP(75, 0.003, 0.0);
 
         private final double pos;
         private final double P;

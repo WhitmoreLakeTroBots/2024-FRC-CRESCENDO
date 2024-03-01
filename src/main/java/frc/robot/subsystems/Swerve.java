@@ -85,8 +85,8 @@ public class Swerve extends SubsystemBase {
 
   // Adding MAXBRAKE
   private final static double MAX_BRAKE = 0.8;
-  private final double slowSpeed = 0.4;
-  private final double capSpeed = 0.8;
+  private final double slowSpeed = 1.0;
+  private final double capSpeed = 0.75;
 
   public Swerve() {
 
@@ -348,7 +348,7 @@ public class Swerve extends SubsystemBase {
     if (RobotContainer.getInstance().m_driverController.getLeftTriggerAxis() >= 0.5) {
       leftY = leftY * slowSpeed;
       leftX = leftX * slowSpeed;
-      rightX = rightX * slowSpeed;
+      rightX = rightX * capSpeed;
     } else {
       leftY = leftY * capSpeed;
       leftX = leftX * capSpeed;
