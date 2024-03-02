@@ -48,9 +48,9 @@ public class centerTwoNote extends SequentialCommandGroup {
                 ));
         //addCommands(new AngleCmd(ANGLEPOS.CENTERNOTE, true));
         addCommands(new cmdDelay(1).andThen(new LaunchCmd()));
-        addCommands(new cmdDelay(0).andThen(new AngleCmd(ANGLEPOS.START, true)));
-        addCommands(new turnCmdSwerve(90, 0.3));
-        addCommands(new turnCmdSwerve(0, 0.3));
+       // addCommands(new cmdDelay(0).andThen(new AngleCmd(ANGLEPOS.START, true)));
+        //addCommands(new turnCmdSwerve(90, 0.3));
+        //addCommands(new turnCmdSwerve(0, 0.3));
 
     }
 

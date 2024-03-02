@@ -50,7 +50,7 @@ public class centerThreeNote extends SequentialCommandGroup {
 
         // start note 3
         addCommands(new AngleCmd(ANGLEPOS.START, true));
-        addCommands(new cmdDelay(0.75).andThen(
+        addCommands(new cmdDelay(0.5).andThen(
             new ParallelCommandGroup(
                 new autoDriveCmd(path2),
                 new SequentialCommandGroup(
@@ -66,7 +66,7 @@ public class centerThreeNote extends SequentialCommandGroup {
             new intakeCmd(RollerStatus.STOP),
             new SetLauncherRPM(3500),
             new SequentialCommandGroup(
-            new cmdDelay(4)
+            new cmdDelay(2)
             //,new AngleCmd(ANGLEPOS.CENTERNOTE, true)
             )));
         addCommands(new AngleCmd(ANGLEPOS.CENTERNOTE, true));
