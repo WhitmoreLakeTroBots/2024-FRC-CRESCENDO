@@ -37,7 +37,7 @@ public class Launcher extends SubsystemBase {
     private final int MAX_STEP_COUNT = 25;
     private int currPowerStepCounter = 0;
     private double FeederMotorOffset = 1.0;
-    private double pivP = 0.025;
+    private double pivP = 0.03;
     private double pivF = 0.0;
     private double angleMaxPow = 0.5;
     private double angleMinPow = -0.5;
@@ -249,7 +249,7 @@ public class Launcher extends SubsystemBase {
         TEST(30.0, 35.0, 0),
         UNDERSPEAKER(60.0, 65, 2500), //DUp
         AMP(55.0, 60, 800), //A
-        MIDRANGE(24, 29, 4000), //DRight
+        MIDRANGE(25, 30, 3800), //DRight
         PODIUM(35,40,3000), //DLeft
         THROW(7, 12, 3000);
         

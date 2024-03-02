@@ -12,7 +12,7 @@ public class driveStraight extends SequentialCommandGroup {
 
     public driveStraight() {
         addCommands(new cmdResetGyro());
-        addCommands(new AngleCmd(ANGLEPOS.UNDERSPEAKER, true));
+        //addCommands(new AngleCmd(ANGLEPOS.UNDERSPEAKER, true));
         addCommands(new cmdDriveStraight(40, 0.4, 0));
     }
 
