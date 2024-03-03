@@ -7,6 +7,7 @@ import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
+import frc.robot.subsystems.Intake.RollerStatus;
 
 /**
  * The VM is configured to automatically run this class, and to call the
@@ -55,7 +56,7 @@ public class Robot extends TimedRobot {
         // robot's periodic
         // block in order for anything in the Command-based framework to work.
         CommandScheduler.getInstance().run();
-       RobotContainer.getInstance().updateSmartDashboard();
+        RobotContainer.getInstance().updateSmartDashboard();
 
     }
 
@@ -64,19 +65,41 @@ public class Robot extends TimedRobot {
      */
     @Override
     public void disabledInit() {
+
+        if (RobotContainer.getInstance() !=  null ) {
+
+            // stop the drive
+            if (RobotContainer.getInstance().m_robotDrive != null){
+                RobotContainer.getInstance().m_robotDrive.stopDrive();
+            }
+
+            // Stop the roller
+            if (RobotContainer.getInstance().m_Intake != null){
+                RobotContainer.getInstance().m_Intake.setRollerStatus(RollerStatus.STOP);
+            }
+
+            // stop the launcher
+            if (RobotContainer.getInstance().m_Launcher != null){
+                RobotContainer.getInstance().m_Launcher.setTargetRPM(0.0);
+            }
+
+        }
+
     }
 
     @Override
     public void disabledPeriodic() {
-       /*  var alliance = DriverStation.getAlliance();
-         if (alliance.isPresent()) {
-            if (alliance.get() == DriverStation.Alliance.Red){
-                RobotContainer.getInstance().setRed(true);
-            }else {
-                RobotContainer.getInstance().setRed(false);
-            }
-          } */
-          
+        /*
+         * var alliance = DriverStation.getAlliance();
+         * if (alliance.isPresent()) {
+         * if (alliance.get() == DriverStation.Alliance.Red){
+         * RobotContainer.getInstance().setRed(true);
+         * }else {
+         * RobotContainer.getInstance().setRed(false);
+         * }
+         * }
+         */
+
     }
 
     /**
@@ -87,7 +110,7 @@ public class Robot extends TimedRobot {
     public void autonomousInit() {
         RobotContainer.getInstance().m_Alliance.getSelected().schedule();
         m_autonomousCommand = m_robotContainer.getAutonomousCommand();
-        
+
         // schedule the autonomous command (example)
         if (m_autonomousCommand != null) {
             m_autonomousCommand.schedule();
@@ -110,6 +133,7 @@ public class Robot extends TimedRobot {
         if (m_autonomousCommand != null) {
             m_autonomousCommand.cancel();
         }
+
     }
 
     /**
