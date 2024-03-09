@@ -19,7 +19,7 @@ import edu.wpi.first.wpilibj.DigitalInput;
  */
 public class HealthCheck extends SubsystemBase {
 
-    public DigitalInput IntakeSen;
+   // public DigitalInput IntakeSen;
 
     private int faultCount = 0; 
     private static double TempTreshold = 75;  //temp in Celsius

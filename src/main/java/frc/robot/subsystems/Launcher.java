@@ -42,7 +42,7 @@ public class Launcher extends SubsystemBase {
     private double angleMaxPow = 0.5;
     private double angleMinPow = -0.5;
     private ANGLEPOS curAnglePos = ANGLEPOS.PRESTART;
-    private double angleMotorTol = 5.0;
+    private double angleMotorTol = 3.0;
     private double maxPosition = 65.0; // Don't go past this
 
     // private double rampWaitEndTime = 0.0;
@@ -236,8 +236,8 @@ public class Launcher extends SubsystemBase {
     }
 
     public enum ANGLEPOS{
-        MAX(65,70,0),
-        PRESTART(60, 65, 0),
+        MAX(56,61,0),
+        PRESTART(55, 60, 0),
         // Auton Angles
         CENTERNOTE(40,45,3500),
 
@@ -247,7 +247,7 @@ public class Launcher extends SubsystemBase {
         // Standard Angles
         START(20.0, 25.0, 0), // DDown //B
         TEST(30.0, 35.0, 0),
-        UNDERSPEAKER(60.0, 65, 2500), //DUp
+        UNDERSPEAKER(55.0, 60, 2500), //DUp
         AMP(55.0, 60, 800), //A
         MIDRANGE(27, 32, 4000), //DRight
         PODIUM(36,41,3000), //DLeft
