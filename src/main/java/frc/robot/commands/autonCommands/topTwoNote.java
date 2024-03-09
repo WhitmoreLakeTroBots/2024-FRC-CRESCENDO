@@ -40,16 +40,15 @@ public class topTwoNote extends SequentialCommandGroup {
         addCommands(new cmdDelay(1));
         addCommands(new LaunchCmd());
         addCommands(new ParallelCommandGroup(
-                new autoDriveCmd(path1),
-                new AngleCmd(ANGLEPOS.PODIUM, false), new intakeCmd(RollerStatus.FORWARD),
-                new pivotCmd(PivotPos.OUT, true)));
+                new autoDriveCmd(path1)
+                ,new AngleCmd(ANGLEPOS.PODIUM, false), new intakeCmd(RollerStatus.FORWARD),
+                new pivotCmd(PivotPos.OUT, true)
+                ));
 
         addCommands(new turnCmd(30, 0.3));
         addCommands(new cmdDelay(1).andThen(new LaunchCmd()));
         addCommands(new cmdDelay(1).andThen(new AngleCmd(ANGLEPOS.START, true)));
-        // addCommands(new turnCmd(90, 0.2));
-        // addCommands(new turnCmd(0, 0.2));
-
+       
     }
 
 }

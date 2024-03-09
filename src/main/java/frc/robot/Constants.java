@@ -19,8 +19,8 @@ public class Constants {
   public static final class Cam1Constants {
     public static final String name = "Cam11A";
     public static final Transform3d cam2robotTransform3d = new Transform3d (
-      RobotMath.inchesToMeters(-6), RobotMath.inchesToMeters(0), RobotMath.inchesToMeters(10.5),
-      new Rotation3d (Math.toRadians(0.0), Math.toRadians(-45.0), Math.toRadians(191)));
+      RobotMath.inchesToMeters(-6), RobotMath.inchesToMeters(0), RobotMath.inchesToMeters(11.0),
+      new Rotation3d (Math.toRadians(0.0), Math.toRadians(57.0), Math.toRadians(191)));
   }
 
   public static final class Cam2Constants {

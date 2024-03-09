@@ -1,6 +1,7 @@
 package frc.robot.commands.driveCommands;
 
 import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import frc.robot.Robot;
 import frc.robot.RobotContainer;
 import frc.utils.CommonLogic;
@@ -35,19 +36,20 @@ public class turnCmd extends Command {
     // Called every time the scheduler runs while the command is scheduled.
     @Override
     public void execute() {
+        
         RobotContainer.getInstance().m_robotDrive.drive(0,0,
            CommonLogic.CapMotorPower(
-                CommonLogic.gotoPosPIDF(pivP,pivF,-RobotContainer.getInstance().m_robotDrive.m_gyro.getNormaliziedNavxAngle(),heading) 
+                CommonLogic.gotoPosPIDF(pivP,pivF,RobotContainer.getInstance().m_robotDrive.m_gyro.getNormaliziedNavxAngle(),heading) 
                 ,-speed,speed)
         ,false,false);
 
-        if (RobotMath.isInRange(-RobotContainer.getInstance().m_robotDrive.m_gyro.getNormaliziedNavxAngle(), heading, headingTol)){
+        if (RobotMath.isInRange(RobotContainer.getInstance().m_robotDrive.m_gyro.getNormaliziedNavxAngle(), heading, headingTol)){
             RobotContainer.getInstance().m_robotDrive.stopDrive();
         bDone = true;
         end(false);
         };
         String msg = String.format ("Target: %.4f Current: %.4f",
-        heading, -RobotContainer.getInstance().m_robotDrive.m_gyro.getNormaliziedNavxAngle());
+        heading, RobotContainer.getInstance().m_robotDrive.m_gyro.getNormaliziedNavxAngle());
         System.err.println(msg);
     }
 

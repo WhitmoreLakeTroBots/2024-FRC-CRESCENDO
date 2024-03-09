@@ -1,44 +1,37 @@
-package frc.robot.commands.driveCommands;
+package frc.robot.commands.autonCommands;
 
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.RobotContainer;
-import frc.robot.subsystems.Intake;
 
-//import java.util.function.DoubleSupplier;
+public class centerFourNote extends Command {
+    private boolean bDone = false;
+    public centerFourNote() {
+        
+        // m_subsystem = subsystem;
+        // addRequirements(m_subsystem);
 
-/**
- *
- */
-public class autoDriveCmd extends Command {
-private boolean bDone = false;
-private String npath;
-private Command cdrive;
-
-    public autoDriveCmd(String path) {
-        npath = path;
     }
+    // if fixedDist = false => stagPosition is suposed to recieve the percantage to
+    // be traversed in stag, in 0.xx format
 
     // Called when the command is initially scheduled.
     @Override
     public void initialize() {
-        this.cdrive = RobotContainer.getInstance().m_robotDrive.followPathCommand(npath);
-        this.cdrive.initialize();
+       
+        bDone = true;
+        end(bDone);
     }
 
     // Called every time the scheduler runs while the command is scheduled.
     @Override
     public void execute() {
-        this.cdrive.execute();
-        bDone = this.cdrive.isFinished();
-        if (bDone){
-            end(false);
-        }
+        bDone = true;
     }
 
     // Called once the command ends or is interrupted.
     @Override
     public void end(boolean interrupted) {
-        this.cdrive.end(interrupted);
+        bDone = true;
     }
 
     // Returns true when the command should end.

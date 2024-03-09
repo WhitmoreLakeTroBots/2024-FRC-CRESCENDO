@@ -167,5 +167,11 @@ public class Gyro extends SubsystemBase {
   public void reset() {
     navx.reset();
   }
+  public boolean isConnected() {
+    return navx.isConnected();
+  }
+  public boolean isCalibrating() {
+    return navx.isCalibrating();
+  }
 
 }
