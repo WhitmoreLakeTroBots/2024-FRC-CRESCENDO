@@ -250,6 +250,7 @@ public class RobotContainer {
      */
     public void setRed(boolean value) {
         bRed = value;
+        m_CameraHelper.setRed(bRed);
     }
 
 }
