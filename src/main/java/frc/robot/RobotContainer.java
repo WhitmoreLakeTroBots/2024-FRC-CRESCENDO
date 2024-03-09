@@ -66,7 +66,7 @@ public class RobotContainer {
     public final WL_PhotonCamera m_cam1 = new WL_PhotonCamera(new PhotonCamera(Constants.Cam1Constants.name),
             Constants.Cam1Constants.cam2robotTransform3d);
     public final Climb m_Climb = new Climb();
-    public final HealthCheck m_HealthCheck = new HealthCheck();
+  //  public final HealthCheck m_HealthCheck = new HealthCheck();
 
    // public final WL_PhotonCamera m_cam2 = new WL_PhotonCamera (new
      //PhotonCamera(Constants.Cam2Constants.name),
@@ -237,8 +237,8 @@ public class RobotContainer {
         SmartDashboard.putBoolean("LaunchAngleStatus", m_Launcher.getAngleStatus());
         SmartDashboard.putNumber("LaunchTargetAngle", m_Launcher.getAnglePos().getangle());
         SmartDashboard.putBoolean("Gyro Connected", m_robotDrive.m_gyro.isConnected());
-        SmartDashboard.putNumber("Error Count", m_HealthCheck.getFaultCount());
-        SmartDashboard.putBoolean("Error", (m_HealthCheck.getFaultCount() == 0));
+       // SmartDashboard.putNumber("Error Count", m_HealthCheck.getFaultCount());
+       // SmartDashboard.putBoolean("Error", (m_HealthCheck.getFaultCount() == 0));
 
     }
 

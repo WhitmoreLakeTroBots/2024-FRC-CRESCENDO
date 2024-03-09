@@ -1,6 +1,8 @@
 package frc.utils;
 
 import edu.wpi.first.wpilibj2.command.Command;
+import frc.robot.RobotContainer;
+import frc.robot.subsystems.Lighting.lightPattern;
 
 public class cmdDelay extends Command {
 
@@ -15,6 +17,7 @@ public class cmdDelay extends Command {
 
     @Override
     public void initialize() {
+        RobotContainer.getInstance().m_Lighting.setNewBaseColor(lightPattern.GOLD);
         bdone = false;
         startTime = RobotMath.getTime();
         endTime = startTime + delayTime;

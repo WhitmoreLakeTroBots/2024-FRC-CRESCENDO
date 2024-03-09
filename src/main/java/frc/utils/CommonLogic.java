@@ -26,7 +26,7 @@ public class CommonLogic {
     NewSpark.setSmartCurrentLimit(StallLimit, RollLimit);
     NewSpark.setIdleMode(breakMode);
     NewSpark.burnFlash();
-    RobotContainer.getInstance().m_HealthCheck.registerSparkMAx(String.valueOf(NewSpark.getDeviceId()), NewSpark);
+   // RobotContainer.getInstance().m_HealthCheck.registerSparkMAx(String.valueOf(NewSpark.getDeviceId()), NewSpark);
   }
 
   public static void setSparkParamsPIDF(CANSparkMax NewSpark, double P, double I, double D, double F) {
