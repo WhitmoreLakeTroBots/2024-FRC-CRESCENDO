@@ -55,7 +55,7 @@ public class centerFourNoteBN extends SequentialCommandGroup {
             new ParallelCommandGroup(
                 new autoDriveCmd(path2),
                 new SequentialCommandGroup(
-                    new cmdDelay(1.8),
+                    new cmdDelay(.75),
                     new intakeCmd(RollerStatus.FORWARD),
                     new pivotCmd(PivotPos.OUT, true)))
             ));
@@ -80,7 +80,7 @@ public class centerFourNoteBN extends SequentialCommandGroup {
                     new intakeCmd(RollerStatus.FORWARD),
                     new pivotCmd(PivotPos.OUT, true)))
         ));
-        addCommands(new AngleCmd(ANGLEPOS.CENTERNOTE, true));
+        addCommands(new AngleCmd(ANGLEPOS.PODIUM, true));
         addCommands(new cmdDelay(1));
         addCommands(new LaunchCmd());
 
