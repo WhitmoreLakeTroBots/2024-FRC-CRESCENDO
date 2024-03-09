@@ -13,6 +13,7 @@ import frc.robot.commands.autonCommands.topTwoNote;
 import frc.robot.commands.autonCommands.turnTest;
 import frc.robot.commands.autonCommands.visionSetup;
 import frc.robot.commands.climbCommands.ClimbCmd;
+import frc.robot.commands.driveCommands.setVisionPoseCmd;
 import frc.robot.commands.driveCommands.turnCmd;
 import frc.robot.subsystems.*;
 import frc.robot.subsystems.Climb.ClimbMode;
@@ -63,9 +64,9 @@ public class RobotContainer {
             Constants.Cam1Constants.cam2robotTransform3d);
     public final Climb m_Climb = new Climb();
 
-    // public final WL_PhotonCamera m_cam2 = new WL_PhotonCamera (new
-    // PhotonCamera(Constants.Cam2Constants.name),
-    // Constants.Cam2Constants.cam2robotTransform3d);
+   // public final WL_PhotonCamera m_cam2 = new WL_PhotonCamera (new
+     //PhotonCamera(Constants.Cam2Constants.name),
+     //Constants.Cam2Constants.cam2robotTransform3d);
 
     public final WL_PhotonCameraHelper m_CameraHelper = new WL_PhotonCameraHelper();
 
@@ -94,11 +95,11 @@ public class RobotContainer {
         m_Chooser.addOption("Test Turn", new turnTest());
         m_Chooser.addOption("drive straight", new driveStraight());
         SmartDashboard.putData("AnglePrestart", new AngleCmd(ANGLEPOS.PRESTART, false));
-
+        SmartDashboard.putData("Vision Pose Update", new setVisionPoseCmd());
         SmartDashboard.putData("Auto Mode", m_Chooser);
 
         m_CameraHelper.add(m_cam1);
-        // m_CameraHelper.add(m_cam2);
+        //m_CameraHelper.add(m_cam2);
         m_Alliance.addOption("Red", new AllianceCmd(true));
         m_Alliance.addOption("Blue", new AllianceCmd(false));
         SmartDashboard.putData("Alliance", m_Alliance);
@@ -228,6 +229,8 @@ public class RobotContainer {
         SmartDashboard.putNumber("LauncherActualRPM", m_Launcher.getActualRPM());
         SmartDashboard.putBoolean("LaunchAngleStatus", m_Launcher.getAngleStatus());
         SmartDashboard.putNumber("LaunchTargetAngle", m_Launcher.getAnglePos().getangle());
+        SmartDashboard.putBoolean("Gyro Calibrating", m_robotDrive.m_gyro.isCalibrating());
+        SmartDashboard.putBoolean("Gyro Connected", m_robotDrive.m_gyro.isConnected());
 
     }
 

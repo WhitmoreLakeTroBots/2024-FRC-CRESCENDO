@@ -37,22 +37,29 @@ public class Gyro extends SubsystemBase {
     }
   }
 
-  public double getNavxAngleRaw() {
-    return navx.getAngle() + softoffset;
-  }
+  
 
+  public double getAngleOld() {
+    return navx.getAngle();
+  }
+  public double getAngle() {
+    return -navx.getAngle();
+  }
   public double getyaw() {
     return navx.getYaw();
   }
 
   public double getpitch() {
-    return navx.getPitch();
+    return -navx.getPitch();
   }
 
   public double getroll() {
-    return navx.getRoll();
+    return -navx.getRoll();
   }
 
+  public double getNavxAngleRaw() {
+    return this.getAngle() + softoffset;
+  }
   public double getNormaliziedNavxAngle() {
     return gyroNormalize(getNavxAngleRaw() + navxOffset);
   }
@@ -60,7 +67,7 @@ public class Gyro extends SubsystemBase {
   public void resetNavx() {
     navx.reset();
     navx.zeroYaw();
-    softoffset = navx.getAngle() * -1.0;
+    softoffset = this.getAngle() * -1.0;
   }
 
   public double gyroNormalize(double heading) {
@@ -145,16 +152,13 @@ public class Gyro extends SubsystemBase {
   }
 
   public void softGyroReset() {
-    navx.setAngleAdjustment(navx.getAngle());
+    navx.setAngleAdjustment(this.getAngle());
     }
   public void softGyroReset(double Angle) {
     navx.setAngleAdjustment(Angle);
     }
 
   //
-  public double getAngle() {
-    return navx.getAngle();
-  }
 
   public double getRate() {
     return navx.getRate();
@@ -162,6 +166,12 @@ public class Gyro extends SubsystemBase {
 
   public void reset() {
     navx.reset();
+  }
+  public boolean isConnected() {
+    return navx.isConnected();
+  }
+  public boolean isCalibrating() {
+    return navx.isCalibrating();
   }
 
 }

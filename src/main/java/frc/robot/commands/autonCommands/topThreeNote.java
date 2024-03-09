@@ -49,6 +49,7 @@ public class topThreeNote extends SequentialCommandGroup {
                 addCommands(new turnCmd(30, 0.2));
                 addCommands(new cmdDelay(1).andThen(new LaunchCmd()));
                 addCommands(new cmdDelay(0).andThen(new AngleCmd(ANGLEPOS.START, true)));
+                 
                 addCommands(new ParallelCommandGroup(
                                 new autoDriveCmd(path2),
                                 new intakeCmd(RollerStatus.FORWARD),

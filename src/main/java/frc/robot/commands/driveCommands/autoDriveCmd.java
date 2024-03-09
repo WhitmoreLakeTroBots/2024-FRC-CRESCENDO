@@ -23,10 +23,6 @@ private Command cdrive;
     public void initialize() {
         this.cdrive = RobotContainer.getInstance().m_robotDrive.followPathCommand(npath);
         this.cdrive.initialize();
-        
-        if (cdrive == null){
-            int I = 1 / 0;
-        }
     }
 
     // Called every time the scheduler runs while the command is scheduled.

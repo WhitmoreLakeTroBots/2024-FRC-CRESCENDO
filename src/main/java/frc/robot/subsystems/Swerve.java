@@ -92,7 +92,7 @@ public class Swerve extends SubsystemBase {
 
     m_odometry = new SwerveDrivePoseEstimator(
         DriveConstants.kDriveKinematics,
-        Rotation2d.fromDegrees(-m_gyro.getAngle()),
+        Rotation2d.fromDegrees(m_gyro.getAngle()),
         new SwerveModulePosition[] {
             m_frontLeft.getPosition(),
             m_frontRight.getPosition(),
@@ -138,7 +138,7 @@ public class Swerve extends SubsystemBase {
   public void periodic() {
 
     m_odometry.update(
-        Rotation2d.fromDegrees(-m_gyro.getAngle()),
+        Rotation2d.fromDegrees(m_gyro.getAngle()),
         new SwerveModulePosition[] {
             m_frontLeft.getPosition(),
             m_frontRight.getPosition(),
@@ -168,7 +168,7 @@ public class Swerve extends SubsystemBase {
    */
   public void resetOdometry(Pose2d pose) {
     m_odometry.resetPosition(
-        Rotation2d.fromDegrees(-m_gyro.getAngle()),
+        Rotation2d.fromDegrees(m_gyro.getAngle()),
         new SwerveModulePosition[] {
             m_frontLeft.getPosition(),
             m_frontRight.getPosition(),
@@ -247,7 +247,7 @@ public class Swerve extends SubsystemBase {
     var swerveModuleStates = DriveConstants.kDriveKinematics.toSwerveModuleStates(
         fieldRelative
             ? ChassisSpeeds.fromFieldRelativeSpeeds(xSpeedDelivered, ySpeedDelivered, rotDelivered,
-                Rotation2d.fromDegrees(-m_gyro.getAngle()))
+                Rotation2d.fromDegrees(m_gyro.getAngle()))
             : new ChassisSpeeds(xSpeedDelivered, ySpeedDelivered, rotDelivered));
     SwerveDriveKinematics.desaturateWheelSpeeds(
         swerveModuleStates, DriveConstants.kMaxSpeedMetersPerSecond);
@@ -300,7 +300,7 @@ public class Swerve extends SubsystemBase {
    * @return the robot's heading in degrees, from -180 to 180
    */
   public double getHeading() {
-    return Rotation2d.fromDegrees(-m_gyro.getAngle()).getDegrees();
+    return Rotation2d.fromDegrees(m_gyro.getAngle()).getDegrees();
   }
 
   /**
@@ -359,9 +359,9 @@ public class Swerve extends SubsystemBase {
     leftX = Math.signum(leftX) * leftX * leftX;
     rightX = Math.signum(rightX) * rightX * rightX;
     if (RobotContainer.getInstance().m_driverController.b().getAsBoolean()){
-      turn(0);
+      turn(0, leftX, leftY);
     } else if (RobotContainer.getInstance().m_driverController.a().getAsBoolean()) {
-      turn(90);
+      turn(90,leftX, leftY);
     }else {
     // Drive the bot
     RobotContainer.getInstance().m_robotDrive.drive(leftY, leftX, rightX, true, true);
@@ -410,7 +410,7 @@ public class Swerve extends SubsystemBase {
 
   }
 
-  public void turn(double heading) {
+  public void turn(double heading, double X, double Y) {
     double targetHeading = heading;
     double targetHeadingRAD = 0;
     double current = Math.toRadians(m_gyro.getNormaliziedNavxAngle());
@@ -427,7 +427,7 @@ public class Swerve extends SubsystemBase {
         this.stopDrive();
      } else {
      
-    this.drive(0, 0,
+    this.drive(X, Y,
         (CommonLogic.CapMotorPower(CommonLogic.gotoPosPIDF
         (0.008,0,-RobotContainer.getInstance().m_robotDrive.m_gyro.getNormaliziedNavxAngle(), targetHeading),
             minTurnPow, maxTurnPow)),
