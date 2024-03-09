@@ -31,7 +31,7 @@ public class Intake extends SubsystemBase {
 
     public double startTime = 0;
     public double endTime = 0;
-    public double delayTime = 0.3;
+    public double delayTime = 0.4;
     public double delayTime2 = 0.3;
     public boolean justDetected = false;
 
