@@ -410,7 +410,7 @@ public class Swerve extends SubsystemBase {
 
   }
 
-  public void turn(double heading, double X, double Y) {
+  public void turn(double heading, double leftX, double leftY) {
     double targetHeading = heading;
     double targetHeadingRAD = 0;
     double current = Math.toRadians(m_gyro.getNormaliziedNavxAngle());
@@ -427,7 +427,7 @@ public class Swerve extends SubsystemBase {
         this.stopDrive();
      } else {
      
-    this.drive(X, Y,
+    this.drive(leftY, leftX,
         (CommonLogic.CapMotorPower(CommonLogic.gotoPosPIDF
         (0.008,0,RobotContainer.getInstance().m_robotDrive.m_gyro.getNormaliziedNavxAngle(), targetHeading),
             minTurnPow, maxTurnPow)),
