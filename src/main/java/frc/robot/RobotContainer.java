@@ -5,6 +5,7 @@ import frc.robot.commands.AllianceCmd;
 //import frc.robot.commands.*;
 import frc.robot.commands.LauncherCommands.*;
 import frc.robot.commands.autonCommands.bottomTwoNote;
+import frc.robot.commands.autonCommands.centerFourNote;
 import frc.robot.commands.autonCommands.centerThreeNote;
 import frc.robot.commands.autonCommands.centerTwoNote;
 import frc.robot.commands.autonCommands.driveStraight;
@@ -94,6 +95,7 @@ public class RobotContainer {
         m_Chooser.addOption("BottomTwoNote", new bottomTwoNote());
         m_Chooser.addOption("Test Turn", new turnTest());
         m_Chooser.addOption("drive straight", new driveStraight());
+        m_Chooser.addOption("Center Four Note", new centerFourNote());
         SmartDashboard.putData("AnglePrestart", new AngleCmd(ANGLEPOS.PRESTART, false));
         SmartDashboard.putData("Vision Pose Update", new setVisionPoseCmd());
         SmartDashboard.putData("Auto Mode", m_Chooser);

@@ -19,9 +19,12 @@ import frc.utils.cmdDelay;
 
 public class centerFourNote extends Command {
     private boolean bDone = false;
-    final String path1 = "C_To_CN";
-    final String path2 = "CN_To_3";
-    final String path3 = "3_To_CN";
+    final String _CToCN = "C_To_CN";
+    final String _CNTo3 = "CN_To_3";
+    final String _3ToCn = "3_To_CN";
+    final String _3To2 = "3_To_2";
+    final String _2ToShoot = "2_To_Shoot";
+    final String _CNTo2 = "CN_To_2";
 
     private enum Step {
         PRESTART,
@@ -49,37 +52,34 @@ public class centerFourNote extends Command {
     // Called when the command is initially scheduled.
     @Override
     public void initialize() {
-
-        bDone = true;
-        end(bDone);
+     
     }
 
     // Called every time the scheduler runs while the command is scheduled.
     @Override
     public void execute() {
-        switch (cStep) {
+ 
+  switch (cStep) {
             case PRESTART:
                 new SequentialCommandGroup(
-                        new cmdResetGyro().alongWith(new setPoseCmd(path1, 180)));
+                        new cmdResetGyro().alongWith(new setPoseCmd(_CToCN, 180)));
                 cStep = Step.NOTEONE;
                 break;
             case NOTEONE:
                 new SequentialCommandGroup(
-                        new cmdResetGyro().alongWith(new setPoseCmd(path1, 180)),
                         new AngleCmd(ANGLEPOS.UNDERSPEAKER, true),
                         new cmdDelay(1),
                         new LaunchCmd());
-
+                cStep = Step.GETNOTETWO;
                 // start note 3
 
-                
-                    // drive back
-                   
+                // drive back
+
                 break;
             case GETNOTETWO:
                 new SequentialCommandGroup(
                         new ParallelCommandGroup(
-                                new autoDriveCmd(path1),
+                                new autoDriveCmd(_CToCN),
                                 new AngleCmd(ANGLEPOS.CENTERNOTE, false), new intakeCmd(RollerStatus.FORWARD),
                                 new pivotCmd(PivotPos.OUT, true)),
                         new cmdDelay(1).andThen(new LaunchCmd()));
@@ -90,41 +90,69 @@ public class centerFourNote extends Command {
                         new AngleCmd(ANGLEPOS.START, true),
                         new cmdDelay(0.5).andThen(
                                 new ParallelCommandGroup(
-                                        new autoDriveCmd(path2),
+                                        new autoDriveCmd(_CNTo3),
                                         new SequentialCommandGroup(
                                                 new cmdDelay(1.8),
                                                 new intakeCmd(RollerStatus.FORWARD),
                                                 new pivotCmd(PivotPos.OUT, true)))));
-            if (RobotContainer.getInstance().m_Sensors.getBB1()) {
-                cStep = Step.LAUNCHNOTETHREE;
-            }else {
-                cStep = Step.GETNOTEFOUR;
-            }
+                if (RobotContainer.getInstance().m_Sensors.getBB1()) {
+                    cStep = Step.LAUNCHNOTETHREE;
+                } else {
+                    cStep = Step.GETNOTEFOUR;
+                }
                 break;
             case LAUNCHNOTETHREE:
-                 new SequentialCommandGroup(
-                            new ParallelCommandGroup(
-                                    new autoDriveCmd(path3),
-                                    new pivotCmd(PivotPos.IN, false),
-                                    new intakeCmd(RollerStatus.STOP),
-                                    new SetLauncherRPM(3500),
-                                    new SequentialCommandGroup(
-                                            new cmdDelay(2))),
-                            new AngleCmd(ANGLEPOS.CENTERNOTE, true),
-                            new cmdDelay(1),
-                            new LaunchCmd());
-                            cStep = Step.GETNOTEFOUR;
+                new SequentialCommandGroup(
+                        new ParallelCommandGroup(
+                                new autoDriveCmd(_3ToCn),
+                                new pivotCmd(PivotPos.IN, false),
+                                new intakeCmd(RollerStatus.STOP),
+                                new SetLauncherRPM(3500),
+                                new SequentialCommandGroup(
+                                        new cmdDelay(2))),
+                        new AngleCmd(ANGLEPOS.CENTERNOTE, true),
+                        new cmdDelay(1),
+                        new LaunchCmd());
+                cStep = Step.GETNOTEFOUR;
+                break;
+            case GETNOTEFOURDIRECT:
+                new SequentialCommandGroup(
+                        new AngleCmd(ANGLEPOS.START, true),
+                        new ParallelCommandGroup(
+                                new autoDriveCmd(_3To2),
+                                new SequentialCommandGroup(
+                                        new cmdDelay(1.8),
+                                        new intakeCmd(RollerStatus.FORWARD),
+                                        new pivotCmd(PivotPos.OUT, true))));
+                cStep = Step.LAUNCHNOTEFOUR;
                 break;
             case GETNOTEFOUR:
-            break;
-            case GETNOTEFOURDIRECT:
-            break;
+                new SequentialCommandGroup(
+                        new AngleCmd(ANGLEPOS.START, true),
+                        new ParallelCommandGroup(
+                                new autoDriveCmd(_CNTo2),
+                                new SequentialCommandGroup(
+                                        new cmdDelay(1.8),
+                                        new intakeCmd(RollerStatus.FORWARD),
+                                        new pivotCmd(PivotPos.OUT, true))));
+                cStep = Step.LAUNCHNOTEFOUR;
+
+                break;
+
             case LAUNCHNOTEFOUR:
-            break;
+                new SequentialCommandGroup(
+                        new ParallelCommandGroup(
+                                new autoDriveCmd(_2ToShoot),
+                                new pivotCmd(PivotPos.IN, false),
+                                new intakeCmd(RollerStatus.STOP),
+                                new SequentialCommandGroup(
+                                        new AngleCmd(ANGLEPOS.CENTERNOTE, true),
+                                        new cmdDelay(2.5),
+                                        new LaunchCmd())));
+                break;
             default:
                 break;
         }
-
         bDone = true;
     }
 
