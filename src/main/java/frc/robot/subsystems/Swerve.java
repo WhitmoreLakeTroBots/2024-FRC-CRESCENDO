@@ -429,7 +429,7 @@ public class Swerve extends SubsystemBase {
      
     this.drive(X, Y,
         (CommonLogic.CapMotorPower(CommonLogic.gotoPosPIDF
-        (0.008,0,-RobotContainer.getInstance().m_robotDrive.m_gyro.getNormaliziedNavxAngle(), targetHeading),
+        (0.008,0,RobotContainer.getInstance().m_robotDrive.m_gyro.getNormaliziedNavxAngle(), targetHeading),
             minTurnPow, maxTurnPow)),
         true, false);
      }

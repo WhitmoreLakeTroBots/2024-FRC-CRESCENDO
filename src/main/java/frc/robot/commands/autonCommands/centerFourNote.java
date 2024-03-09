@@ -52,15 +52,14 @@ public class centerFourNote extends Command {
     // Called when the command is initially scheduled.
     @Override
     public void initialize() {
-
-        bDone = true;
-        end(bDone);
+     
     }
 
     // Called every time the scheduler runs while the command is scheduled.
     @Override
     public void execute() {
-        switch (cStep) {
+ 
+  switch (cStep) {
             case PRESTART:
                 new SequentialCommandGroup(
                         new cmdResetGyro().alongWith(new setPoseCmd(_CToCN, 180)));
@@ -71,7 +70,7 @@ public class centerFourNote extends Command {
                         new AngleCmd(ANGLEPOS.UNDERSPEAKER, true),
                         new cmdDelay(1),
                         new LaunchCmd());
-
+                cStep = Step.GETNOTETWO;
                 // start note 3
 
                 // drive back
@@ -154,7 +153,6 @@ public class centerFourNote extends Command {
             default:
                 break;
         }
-
         bDone = true;
     }
 
