@@ -61,29 +61,40 @@ public class centerFourNote extends Command {
  
   switch (cStep) {
             case PRESTART:
+            SequentialCommandGroup prestartCmd = 
                 new SequentialCommandGroup(
                         new cmdResetGyro().alongWith(new setPoseCmd(_CToCN, 180)));
-                cStep = Step.NOTEONE;
+                if (prestartCmd.isFinished()) {
+                        cStep = Step.NOTEONE; }
+                prestartCmd.schedule();
                 break;
             case NOTEONE:
+            SequentialCommandGroup NoteOneCMD =
                 new SequentialCommandGroup(
                         new AngleCmd(ANGLEPOS.UNDERSPEAKER, true),
                         new cmdDelay(1),
                         new LaunchCmd());
-                cStep = Step.GETNOTETWO;
+                if(NoteOneCMD.isFinished()){
+                        cStep = Step.GETNOTETWO;
+                }
+                NoteOneCMD.schedule();
                 // start note 3
 
                 // drive back
 
                 break;
             case GETNOTETWO:
+            SequentialCommandGroup getNoteTwoCMD=
                 new SequentialCommandGroup(
                         new ParallelCommandGroup(
                                 new autoDriveCmd(_CToCN),
                                 new AngleCmd(ANGLEPOS.CENTERNOTE, false), new intakeCmd(RollerStatus.FORWARD),
                                 new pivotCmd(PivotPos.OUT, true)),
                         new cmdDelay(1).andThen(new LaunchCmd()));
-                cStep = Step.GETNOTETHREE;
+                if(getNoteTwoCMD.isFinished()){
+                        cStep = Step.GETNOTETHREE;
+                }
+                getNoteTwoCMD.schedule();
                 break;
             case GETNOTETHREE:
                 new SequentialCommandGroup(
