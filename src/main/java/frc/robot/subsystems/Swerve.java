@@ -361,11 +361,14 @@ public class Swerve extends SubsystemBase {
     if (RobotContainer.getInstance().m_driverController.b().getAsBoolean()){
       turn(0, leftX, leftY);
     } else if (RobotContainer.getInstance().m_driverController.a().getAsBoolean()) {
-      turn(90,leftX, leftY);
-    }else {
+      turn(-90,leftX, leftY);
+    }else if (RobotContainer.getInstance().m_driverController.y().getAsBoolean()) { 
     // Drive the bot
+    turn(RobotContainer.getInstance().m_cam1.getSpeakerDEG(), leftX, leftY);
+  }else {
+
     RobotContainer.getInstance().m_robotDrive.drive(leftY, leftX, rightX, true, true);
-    }
+  }
   }
 
   public ChassisSpeeds getChassisSpeeds() {

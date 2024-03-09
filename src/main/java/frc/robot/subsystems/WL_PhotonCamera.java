@@ -131,5 +131,8 @@ public class WL_PhotonCamera extends SubsystemBase {
             ourSpeakerTag = 7;
         }
     }
+    public double getSpeakerDEG(){
+        return Math.toDegrees(speakerAlignmentRad);
+    }
 
 }

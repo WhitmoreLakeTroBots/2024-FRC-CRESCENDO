@@ -4,6 +4,7 @@ package frc.robot.subsystems;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.RobotContainer;
 import frc.robot.Constants.CANIDs;
+import frc.robot.subsystems.Lighting.lightPattern;
 import frc.utils.CommonLogic;
 import frc.utils.RobotMath;
 
@@ -67,6 +68,7 @@ public class Intake extends SubsystemBase {
              rotMotor.set(0);
             setRollerStatus(RollerStatus.STOP);
             setPivotPos(PivotPos.IN);
+            RobotContainer.getInstance().m_Lighting.setNewBaseColor(lightPattern.LIME);
 
         }
         }
