@@ -423,16 +423,16 @@ public class Swerve extends SubsystemBase {
     // double current = this.m_odometry.getEstimatedPosition().getRotation()
     // .getRadians();
 
-      if(m_gyro.gyroInTol(Math.toDegrees(current), Math.toDegrees(targetHeadingRAD), 3)){
-        this.stopDrive();
-     } else {
+      /*if(m_gyro.gyroInTol(Math.toDegrees(current), Math.toDegrees(targetHeadingRAD), 3)){
+       // this.stopDrive();
+     } else {*/
      
     this.drive(leftY, leftX,
         (CommonLogic.CapMotorPower(CommonLogic.gotoPosPIDF
         (0.008,0,RobotContainer.getInstance().m_robotDrive.m_gyro.getNormaliziedNavxAngle(), targetHeading),
             minTurnPow, maxTurnPow)),
         true, false);
-     }
+    // }
     String msg = String.format("Current: %.4f Target: %.4f",
         current, targetHeadingRAD);
     System.err.println(msg);
