@@ -3,6 +3,7 @@ package frc.robot.commands.driveCommands;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.RobotContainer;
 import frc.robot.subsystems.Intake;
+import frc.robot.subsystems.Lighting.lightPattern;
 
 //import java.util.function.DoubleSupplier;
 
@@ -21,6 +22,7 @@ private Command cdrive;
     // Called when the command is initially scheduled.
     @Override
     public void initialize() {
+        RobotContainer.getInstance().m_Lighting.setNewBaseColor(lightPattern.RAINBOWLAVA);
         this.cdrive = RobotContainer.getInstance().m_robotDrive.followPathCommand(npath);
         this.cdrive.initialize();
     }

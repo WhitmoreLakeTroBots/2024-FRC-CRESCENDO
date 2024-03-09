@@ -26,6 +26,7 @@ public class centerFourNote extends Command {
     final String _2ToShoot = "2_To_Shoot";
     final String _CNTo2 = "CN_To_2";
 
+        private int I = 1;
     public centerFourNote() {
 
         // m_subsystem = subsystem;
@@ -38,7 +39,15 @@ public class centerFourNote extends Command {
     // Called when the command is initially scheduled.
     @Override
     public void initialize() {
- System.err.println("starting");
+
+    }
+
+    // Called every time the scheduler runs while the command is scheduled.
+    @Override
+    public void execute() {
+        switch (I) {
+                case 1:
+System.err.println("starting");
         new SequentialCommandGroup(
                 new cmdResetGyro().alongWith(new setPoseCmd(_CToCN, 180)));
 
@@ -119,13 +128,13 @@ public class centerFourNote extends Command {
                                     new cmdDelay(2.5),
                                     new LaunchCmd())));
         }
+                        break;
         
-    }
-
-    // Called every time the scheduler runs while the command is scheduled.
-    @Override
-    public void execute() {
+                default:
+                        break;
+        }
        
+        
         bDone = true;
     }
 

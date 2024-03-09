@@ -3,6 +3,7 @@ package frc.robot.commands.LauncherCommands;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.RobotContainer;
 import frc.robot.subsystems.Launcher;
+import frc.robot.subsystems.Lighting.lightPattern;
 
 //import java.util.function.DoubleSupplier;
 
@@ -23,6 +24,7 @@ public class AngleCmd extends Command {
     // Called when the command is initially scheduled.
     @Override
     public void initialize() {
+        RobotContainer.getInstance().m_Lighting.setNewBaseColor(lightPattern.CONFETTI);
         RobotContainer.getInstance().m_Launcher.setAnglePos(nAnglePos);
         if(!bWait){
             bDone = true;

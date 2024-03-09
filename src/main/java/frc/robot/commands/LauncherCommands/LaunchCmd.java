@@ -6,6 +6,7 @@ import frc.robot.RobotContainer;
 import frc.robot.subsystems.Intake;
 import frc.robot.subsystems.Launcher;
 import frc.robot.subsystems.Intake.RollerStatus;
+import frc.robot.subsystems.Lighting.lightPattern;
 import frc.utils.RobotMath;
 
 //import java.util.function.DoubleSupplier;
@@ -26,6 +27,7 @@ public class LaunchCmd extends Command {
     // Called when the command is initially scheduled.
     @Override
     public void initialize() {
+        RobotContainer.getInstance().m_Lighting.setNewBaseColor(lightPattern.RAINWAVES);
         bDone = false;
         startTime = RobotMath.getTime();
         endTime = startTime + delayTime;

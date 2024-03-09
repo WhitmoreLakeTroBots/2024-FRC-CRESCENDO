@@ -2,6 +2,7 @@ package frc.robot;
 
 import frc.robot.commands.intakeCommands.*;
 import frc.robot.commands.AllianceCmd;
+import frc.robot.commands.resetFaultCount;
 //import frc.robot.commands.*;
 import frc.robot.commands.LauncherCommands.*;
 import frc.robot.commands.autonCommands.bottomTwoNote;
@@ -38,6 +39,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 //import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.RunCommand;
+import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
@@ -64,6 +66,7 @@ public class RobotContainer {
     public final WL_PhotonCamera m_cam1 = new WL_PhotonCamera(new PhotonCamera(Constants.Cam1Constants.name),
             Constants.Cam1Constants.cam2robotTransform3d);
     public final Climb m_Climb = new Climb();
+    public final HealthCheck m_HealthCheck = new HealthCheck();
 
    // public final WL_PhotonCamera m_cam2 = new WL_PhotonCamera (new
      //PhotonCamera(Constants.Cam2Constants.name),
@@ -98,6 +101,8 @@ public class RobotContainer {
         m_Chooser.addOption("Center Four Note", new centerFourNote());
         SmartDashboard.putData("AnglePrestart", new AngleCmd(ANGLEPOS.PRESTART, false));
         SmartDashboard.putData("Vision Pose Update", new setVisionPoseCmd());
+        SmartDashboard.putData("AnglePrestart", new resetFaultCount());
+
         SmartDashboard.putData("Auto Mode", m_Chooser);
 
         m_CameraHelper.add(m_cam1);
@@ -231,8 +236,9 @@ public class RobotContainer {
         SmartDashboard.putNumber("LauncherActualRPM", m_Launcher.getActualRPM());
         SmartDashboard.putBoolean("LaunchAngleStatus", m_Launcher.getAngleStatus());
         SmartDashboard.putNumber("LaunchTargetAngle", m_Launcher.getAnglePos().getangle());
-        SmartDashboard.putBoolean("Gyro Calibrating", m_robotDrive.m_gyro.isCalibrating());
         SmartDashboard.putBoolean("Gyro Connected", m_robotDrive.m_gyro.isConnected());
+        SmartDashboard.putNumber("Error Count", m_HealthCheck.getFaultCount());
+        SmartDashboard.putBoolean("Error", (m_HealthCheck.getFaultCount() == 0));
 
     }
 

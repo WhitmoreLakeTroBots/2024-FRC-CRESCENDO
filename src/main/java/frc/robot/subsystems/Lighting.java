@@ -31,8 +31,8 @@ public class Lighting extends SubsystemBase {
 
     }
 
-    public void setNewBaseColor(double newCol) {
-        newBaseColor = newCol;
+    public void setNewBaseColor(lightPattern newCol) {
+        newBaseColor = newCol.getValue();
         ledDriver.set(newBaseColor);
     }
 
