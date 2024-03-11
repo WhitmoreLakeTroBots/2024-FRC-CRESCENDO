@@ -249,6 +249,7 @@ public class Launcher extends SubsystemBase {
         TEST(30.0, 35.0, 0),
         UNDERSPEAKER(55.0, 60, 2500), //DUp
         AMP(55.0, 60, 800), //A
+        PASS(50,55, 1700),
         MIDRANGE(27, 32, 4000), //DRight
         PODIUM(36,41,3000), //DLeft
         THROW(12, 17, 2500);

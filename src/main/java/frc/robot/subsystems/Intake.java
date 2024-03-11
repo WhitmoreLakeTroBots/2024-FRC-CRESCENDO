@@ -31,8 +31,8 @@ public class Intake extends SubsystemBase {
 
     public double startTime = 0;
     public double endTime = 0;
-    public double delayTime = 0.2;
-    public double delayTime2 = 0.1;
+    public double delayTime = 0.4;
+    public double delayTime2 = 0.3;
     public boolean justDetected = false;
 
     /**
@@ -40,7 +40,7 @@ public class Intake extends SubsystemBase {
     */
     public Intake() {
         rotMotor = new CANSparkMax(CANIDs.RotMotorId, CANSparkMax.MotorType.kBrushless);
-        CommonLogic.setSparkParamsBase(rotMotor, false, 30, 40, IdleMode.kCoast);
+        CommonLogic.setSparkParamsBase(rotMotor, false, 30, 40, IdleMode.kBrake);
 
         pivMotor = new CANSparkMax(CANIDs.PivMotorId, CANSparkMax.MotorType.kBrushless);
         pivMotor.getAbsoluteEncoder().setPositionConversionFactor(360);
@@ -62,12 +62,13 @@ public class Intake extends SubsystemBase {
                     startTime = RobotMath.getTime();
                     endTime = startTime + delayTime;
                     justDetected = true;
+                    setPivotPos(PivotPos.IN);
+
             }
 
         if (RobotMath.getTime() >= endTime) {
              rotMotor.set(0);
             setRollerStatus(RollerStatus.STOP);
-            setPivotPos(PivotPos.IN);
             RobotContainer.getInstance().m_Lighting.setNewBaseColor(lightPattern.LIME);
 
         }

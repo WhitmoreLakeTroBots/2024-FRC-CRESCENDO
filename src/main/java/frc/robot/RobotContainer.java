@@ -173,6 +173,7 @@ public class RobotContainer {
         X_Artic.onTrue(new AngleCmd(ANGLEPOS.THROW, false));
 
         Trigger Y_Artic = m_articController.y();
+        Y_Artic.onTrue(new AngleCmd(ANGLEPOS.PASS, false));
 
         Trigger DUp_Artic = m_articController.povUp();
         DUp_Artic.onTrue(new AngleCmd(ANGLEPOS.UNDERSPEAKER, false));

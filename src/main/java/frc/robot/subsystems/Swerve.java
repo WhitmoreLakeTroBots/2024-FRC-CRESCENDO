@@ -358,9 +358,9 @@ public class Swerve extends SubsystemBase {
     leftY = Math.signum(leftY) * leftY * leftY;
     leftX = Math.signum(leftX) * leftX * leftX;
     rightX = Math.signum(rightX) * rightX * rightX;
-    if (RobotContainer.getInstance().m_driverController.b().getAsBoolean()){
+    if (RobotContainer.getInstance().m_driverController.a().getAsBoolean()){
       turn(0, leftX, leftY);
-    } else if (RobotContainer.getInstance().m_driverController.a().getAsBoolean()) {
+    } else if (RobotContainer.getInstance().m_driverController.b().getAsBoolean()) {
       turn(-90,leftX, leftY);
     }else if (RobotContainer.getInstance().m_driverController.y().getAsBoolean()) { 
     // Drive the bot
