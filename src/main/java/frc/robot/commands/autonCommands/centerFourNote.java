@@ -35,8 +35,19 @@ public class centerFourNote extends Command {
         LAUNCHNOTETHREE,
         GETNOTEFOUR,
         GETNOTEFOURDIRECT,
-        LAUNCHNOTEFOUR;
+        LAUNCHNOTEFOUR,
+        SHUTDOWN;
     }
+
+    private SequentialCommandGroup preStartCmd = null;
+    private SequentialCommandGroup noteOneCmd = null;
+    private SequentialCommandGroup getNoteTwoCmd = null;
+    private SequentialCommandGroup launchNoteTwoCmd = null;
+    private SequentialCommandGroup getNoteThreeCmd = null;
+    private SequentialCommandGroup launchNoteThreeCmd = null;
+    private SequentialCommandGroup getNoteFourCmd = null;
+    private SequentialCommandGroup getNoteFourDirectCmd = null;
+    private SequentialCommandGroup launchNoteFourCmd = null;
 
     private Step cStep = Step.PRESTART;
 
@@ -52,95 +63,129 @@ public class centerFourNote extends Command {
     // Called when the command is initially scheduled.
     @Override
     public void initialize() {
-     
+
     }
 
     // Called every time the scheduler runs while the command is scheduled.
     @Override
     public void execute() {
- 
-  switch (cStep) {
+
+        switch (cStep) {
             case PRESTART:
-                new SequentialCommandGroup(
-                        new cmdResetGyro().alongWith(new setPoseCmd(_CToCN, 180)));
-                cStep = Step.NOTEONE;
+                if (preStartCmd == null) {
+                    preStartCmd = new SequentialCommandGroup(
+                            new cmdResetGyro().alongWith(new setPoseCmd(_CToCN, 180)));
+                    preStartCmd.schedule();
+                } else if (preStartCmd.isFinished()) {
+                    cStep = Step.NOTEONE;
+                }
                 break;
+
             case NOTEONE:
-                new SequentialCommandGroup(
-                        new AngleCmd(ANGLEPOS.UNDERSPEAKER, true),
-                        new cmdDelay(1),
-                        new LaunchCmd());
-                cStep = Step.GETNOTETWO;
+                if (noteOneCmd == null) {
+                    noteOneCmd = new SequentialCommandGroup(
+                            new AngleCmd(ANGLEPOS.UNDERSPEAKER, true),
+                            new cmdDelay(1),
+                            new LaunchCmd());
+                    noteOneCmd.schedule();
+                } else if (noteOneCmd.isFinished()) {
+                    cStep = Step.GETNOTETWO;
+                }
+
                 // start note 3
 
                 // drive back
 
                 break;
             case GETNOTETWO:
-                new SequentialCommandGroup(
-                        new ParallelCommandGroup(
-                                new autoDriveCmd(_CToCN),
-                                new AngleCmd(ANGLEPOS.CENTERNOTE, false), new intakeCmd(RollerStatus.FORWARD),
-                                new pivotCmd(PivotPos.OUT, true)),
-                        new cmdDelay(1).andThen(new LaunchCmd()));
-                cStep = Step.GETNOTETHREE;
+                if (getNoteTwoCmd == null) {
+                    getNoteTwoCmd = new SequentialCommandGroup(
+                            new ParallelCommandGroup(
+                                    new autoDriveCmd(_CToCN),
+                                    new AngleCmd(ANGLEPOS.CENTERNOTE, false), new intakeCmd(RollerStatus.FORWARD),
+                                    new pivotCmd(PivotPos.OUT, true)),
+                            new cmdDelay(1).andThen(new LaunchCmd()));
+                    getNoteTwoCmd.schedule();
+                } else if (getNoteTwoCmd.isFinished()) {
+                    cStep = Step.GETNOTETHREE;
+                }
                 break;
             case GETNOTETHREE:
-                new SequentialCommandGroup(
-                        new AngleCmd(ANGLEPOS.START, true),
-                        new cmdDelay(0.5).andThen(
-                                new ParallelCommandGroup(
-                                        new autoDriveCmd(_CNTo3),
-                                        new SequentialCommandGroup(
-                                                new cmdDelay(1.8),
-                                                new intakeCmd(RollerStatus.FORWARD),
-                                                new pivotCmd(PivotPos.OUT, true)))));
-                if (RobotContainer.getInstance().m_Sensors.getBB1()) {
-                    cStep = Step.LAUNCHNOTETHREE;
-                } else {
+                if (getNoteThreeCmd == null) {
+                    getNoteThreeCmd = new SequentialCommandGroup(
+                            new AngleCmd(ANGLEPOS.START, true),
+                            new cmdDelay(0.5).andThen(
+                                    new ParallelCommandGroup(
+                                            new autoDriveCmd(_CNTo3),
+                                            new SequentialCommandGroup(
+                                                    new cmdDelay(1.8),
+                                                    new intakeCmd(RollerStatus.FORWARD),
+                                                    new pivotCmd(PivotPos.OUT, true)))));
+                    getNoteThreeCmd.schedule();
+                } else if (getNoteThreeCmd.isFinished()) {
+                    if (RobotContainer.getInstance().m_Sensors.getBB1()) {
+                        cStep = Step.LAUNCHNOTETHREE;
+                    } else {
+                        cStep = Step.GETNOTEFOUR;
+                    }
+                }
+
+                break;
+            case LAUNCHNOTETHREE:
+                if (launchNoteThreeCmd == null) {
+                    launchNoteThreeCmd = new SequentialCommandGroup(
+                            new ParallelCommandGroup(
+                                    new autoDriveCmd(_3ToCn),
+                                    new pivotCmd(PivotPos.IN, false),
+                                    new intakeCmd(RollerStatus.STOP),
+                                    new SetLauncherRPM(3500),
+                                    new SequentialCommandGroup(
+                                            new cmdDelay(2))),
+                            new AngleCmd(ANGLEPOS.CENTERNOTE, true),
+                            new cmdDelay(1),
+                            new LaunchCmd());
+                    launchNoteThreeCmd.schedule();
+                } else if (launchNoteThreeCmd.isFinished()) {
                     cStep = Step.GETNOTEFOUR;
                 }
                 break;
-            case LAUNCHNOTETHREE:
-                new SequentialCommandGroup(
-                        new ParallelCommandGroup(
-                                new autoDriveCmd(_3ToCn),
-                                new pivotCmd(PivotPos.IN, false),
-                                new intakeCmd(RollerStatus.STOP),
-                                new SetLauncherRPM(3500),
-                                new SequentialCommandGroup(
-                                        new cmdDelay(2))),
-                        new AngleCmd(ANGLEPOS.CENTERNOTE, true),
-                        new cmdDelay(1),
-                        new LaunchCmd());
-                cStep = Step.GETNOTEFOUR;
-                break;
+
             case GETNOTEFOURDIRECT:
-                new SequentialCommandGroup(
-                        new AngleCmd(ANGLEPOS.START, true),
-                        new ParallelCommandGroup(
-                                new autoDriveCmd(_3To2),
-                                new SequentialCommandGroup(
-                                        new cmdDelay(1.8),
-                                        new intakeCmd(RollerStatus.FORWARD),
-                                        new pivotCmd(PivotPos.OUT, true))));
-                cStep = Step.LAUNCHNOTEFOUR;
+                if (getNoteFourDirectCmd == null) {
+                    getNoteFourDirectCmd = new SequentialCommandGroup(
+                            new AngleCmd(ANGLEPOS.START, true),
+                            new ParallelCommandGroup(
+                                    new autoDriveCmd(_3To2),
+                                    new SequentialCommandGroup(
+                                            new cmdDelay(1.8),
+                                            new intakeCmd(RollerStatus.FORWARD),
+                                            new pivotCmd(PivotPos.OUT, true))));
+                    getNoteFourDirectCmd.schedule();
+                } else if (getNoteFourDirectCmd.isFinished()) {
+                    cStep = Step.LAUNCHNOTEFOUR;
+                }
                 break;
+
             case GETNOTEFOUR:
-                new SequentialCommandGroup(
-                        new AngleCmd(ANGLEPOS.START, true),
-                        new ParallelCommandGroup(
-                                new autoDriveCmd(_CNTo2),
-                                new SequentialCommandGroup(
-                                        new cmdDelay(1.8),
-                                        new intakeCmd(RollerStatus.FORWARD),
-                                        new pivotCmd(PivotPos.OUT, true))));
-                cStep = Step.LAUNCHNOTEFOUR;
+                if (getNoteFourCmd == null) {
+                    getNoteFourCmd = new SequentialCommandGroup(
+                            new AngleCmd(ANGLEPOS.START, true),
+                            new ParallelCommandGroup(
+                                    new autoDriveCmd(_CNTo2),
+                                    new SequentialCommandGroup(
+                                            new cmdDelay(1.8),
+                                            new intakeCmd(RollerStatus.FORWARD),
+                                            new pivotCmd(PivotPos.OUT, true))));
+                    getNoteFourCmd.schedule();
+                } else if (getNoteFourCmd.isFinished()) {
+                    cStep = Step.LAUNCHNOTEFOUR;
+                }
 
                 break;
 
             case LAUNCHNOTEFOUR:
-                new SequentialCommandGroup(
+                if (launchNoteFourCmd == null ){
+                launchNoteFourCmd = new SequentialCommandGroup(
                         new ParallelCommandGroup(
                                 new autoDriveCmd(_2ToShoot),
                                 new pivotCmd(PivotPos.IN, false),
@@ -149,11 +194,19 @@ public class centerFourNote extends Command {
                                         new AngleCmd(ANGLEPOS.CENTERNOTE, true),
                                         new cmdDelay(2.5),
                                         new LaunchCmd())));
+                }
+                else if (launchNoteFourCmd.isFinished())
+                    cStep = Step.SHUTDOWN;
+
+                break;
+            case SHUTDOWN:
+                // TODO -- Stop things and brace for impact of another bot crashing into us.
+                bDone = true;
                 break;
             default:
                 break;
         }
-        bDone = true;
+
     }
 
     // Called once the command ends or is interrupted.
