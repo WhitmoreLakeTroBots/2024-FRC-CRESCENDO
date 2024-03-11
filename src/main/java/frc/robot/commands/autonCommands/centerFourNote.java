@@ -12,6 +12,7 @@ import frc.robot.commands.driveCommands.cmdResetGyro;
 import frc.robot.commands.driveCommands.setPoseCmd;
 import frc.robot.commands.intakeCommands.intakeCmd;
 import frc.robot.commands.intakeCommands.pivotCmd;
+import frc.robot.subsystems.Launcher;
 import frc.robot.subsystems.Intake.PivotPos;
 import frc.robot.subsystems.Intake.RollerStatus;
 import frc.robot.subsystems.Launcher.ANGLEPOS;
@@ -48,6 +49,7 @@ public class centerFourNote extends Command {
     private SequentialCommandGroup getNoteFourCmd = null;
     private SequentialCommandGroup getNoteFourDirectCmd = null;
     private SequentialCommandGroup launchNoteFourCmd = null;
+    private SequentialCommandGroup shutdownCmd = null;
 
     private Step cStep = Step.PRESTART;
 
@@ -184,29 +186,37 @@ public class centerFourNote extends Command {
                 break;
 
             case LAUNCHNOTEFOUR:
-                if (launchNoteFourCmd == null ){
-                launchNoteFourCmd = new SequentialCommandGroup(
-                        new ParallelCommandGroup(
-                                new autoDriveCmd(_2ToShoot),
-                                new pivotCmd(PivotPos.IN, false),
-                                new intakeCmd(RollerStatus.STOP),
-                                new SequentialCommandGroup(
-                                        new AngleCmd(ANGLEPOS.CENTERNOTE, true),
-                                        new cmdDelay(2.5),
-                                        new LaunchCmd())));
-                }
-                else if (launchNoteFourCmd.isFinished())
+                if (launchNoteFourCmd == null) {
+                    launchNoteFourCmd = new SequentialCommandGroup(
+                            new ParallelCommandGroup(
+                                    new autoDriveCmd(_2ToShoot),
+                                    new pivotCmd(PivotPos.IN, false),
+                                    new intakeCmd(RollerStatus.STOP),
+                                    new SequentialCommandGroup(
+                                            new AngleCmd(ANGLEPOS.CENTERNOTE, true),
+                                            new cmdDelay(2.5),
+                                            new LaunchCmd())));
+                } else if (launchNoteFourCmd.isFinished())
                     cStep = Step.SHUTDOWN;
 
                 break;
             case SHUTDOWN:
+                if (shutdownCmd == null) {
+                    shutdownCmd = new SequentialCommandGroup(
+                        new pivotCmd(PivotPos.IN, false),
+                        new intakeCmd(RollerStatus.STOP),
+                        new SetLauncherRPM(0.0)
+                    );
+                    shutdownCmd.schedule();
+                }
                 // TODO -- Stop things and brace for impact of another bot crashing into us.
-                bDone = true;
+                if (shutdownCmd.isFinished()) {
+                    bDone = true;
+                }
                 break;
             default:
                 break;
         }
-
     }
 
     // Called once the command ends or is interrupted.
