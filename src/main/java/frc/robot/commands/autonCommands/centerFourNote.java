@@ -215,6 +215,7 @@ public class centerFourNote extends Command {
                 }
                 break;
             default:
+                cStep = Step.SHUTDOWN;
                 break;
         }
     }
