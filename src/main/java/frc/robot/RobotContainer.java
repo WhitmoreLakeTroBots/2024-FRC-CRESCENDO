@@ -89,8 +89,8 @@ public class RobotContainer {
         // Configure the button bindings
 
         configureButtonBindings();
-        m_Chooser.addOption("Test Path Planner Auto", new PathPlannerAuto("test_auto"));
-        m_Chooser.addOption("Test Path Straight", new PathPlannerAuto("test_auto2"));
+        //m_Chooser.addOption("Test Path Planner Auto", new PathPlannerAuto("test_auto"));
+        //m_Chooser.addOption("Test Path Straight", new PathPlannerAuto("test_auto2"));
         m_Chooser.addOption("centerTwoNote", new centerTwoNote());
         m_Chooser.addOption("centerThreeNote", new centerThreeNote());
         m_Chooser.addOption("visionSetup", new visionSetup());
