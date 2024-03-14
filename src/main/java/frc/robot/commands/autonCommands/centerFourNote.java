@@ -2,6 +2,7 @@ package frc.robot.commands.autonCommands;
 
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
+import edu.wpi.first.wpilibj2.command.ScheduleCommand;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import frc.robot.RobotContainer;
 import frc.robot.commands.LauncherCommands.AngleCmd;
@@ -43,7 +44,6 @@ public class centerFourNote extends Command {
     private SequentialCommandGroup preStartCmd = null;
     private SequentialCommandGroup noteOneCmd = null;
     private SequentialCommandGroup getNoteTwoCmd = null;
-    private SequentialCommandGroup launchNoteTwoCmd = null;
     private SequentialCommandGroup getNoteThreeCmd = null;
     private SequentialCommandGroup launchNoteThreeCmd = null;
     private SequentialCommandGroup getNoteFourCmd = null;
@@ -74,14 +74,27 @@ public class centerFourNote extends Command {
 
         switch (cStep) {
             case PRESTART:
+                System.err.println("PRESTART");
                 if (preStartCmd == null) {
-                    preStartCmd = new SequentialCommandGroup(
-                            new cmdResetGyro().alongWith(new setPoseCmd(_CToCN, 180)));
-                    preStartCmd.schedule();
-                }
+                    System.err.println("start command");
 
+                    preStartCmd = new SequentialCommandGroup(
+                            new cmdDelay(5));
+                    // new cmdResetGyro(),
+                    /*
+                     * preStartCmd.addCommands(new cmdDelay(5),
+                     * new setPoseCmd(_CToCN, 180)
+                     * );
+                     */
+                    preStartCmd.schedule();
+
+                    System.err.println("scheduled");
+                    // int I = 10/0;
+                }
+                System.err.println(preStartCmd.isFinished());
                 if (preStartCmd.isFinished()) {
                     cStep = Step.NOTEONE;
+                    System.err.println("is finished");
                 }
                 break;
 
@@ -214,10 +227,9 @@ public class centerFourNote extends Command {
             case SHUTDOWN:
                 if (shutdownCmd == null) {
                     shutdownCmd = new SequentialCommandGroup(
-                        new pivotCmd(PivotPos.IN, false),
-                        new intakeCmd(RollerStatus.STOP),
-                        new SetLauncherRPM(0.0)
-                    );
+                            new pivotCmd(PivotPos.IN, false),
+                            new intakeCmd(RollerStatus.STOP),
+                            new SetLauncherRPM(0.0));
                     shutdownCmd.schedule();
                 }
                 // TODO -- Stop things and brace for impact of another bot crashing into us.

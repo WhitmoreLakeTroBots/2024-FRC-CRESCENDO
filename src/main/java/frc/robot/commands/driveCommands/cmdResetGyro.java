@@ -18,8 +18,6 @@ public class cmdResetGyro extends Command {
     @Override
     public void initialize() {
         RobotContainer.getInstance().m_robotDrive.m_gyro.softGyroReset();;
-        bDone = true;
-        end(bDone);
     }
 
     // Called every time the scheduler runs while the command is scheduled.

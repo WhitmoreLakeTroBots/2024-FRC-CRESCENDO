@@ -361,7 +361,7 @@ public class Swerve extends SubsystemBase {
     if (RobotContainer.getInstance().m_driverController.a().getAsBoolean()){
       turn(0, leftX, leftY);
     } else if (RobotContainer.getInstance().m_driverController.b().getAsBoolean()) {
-      turn(-90,leftX, leftY);
+      turn(90,leftX, leftY);
     }else if (RobotContainer.getInstance().m_driverController.y().getAsBoolean()) { 
     // Drive the bot
     turn(RobotContainer.getInstance().m_cam1.getSpeakerDEG(), leftX, leftY);
@@ -418,7 +418,7 @@ public class Swerve extends SubsystemBase {
     double targetHeadingRAD = 0;
     double current = Math.toRadians(m_gyro.getNormaliziedNavxAngle());
     double stepSizeRAD = Math.toRadians(1); 
-   if (RobotContainer.getInstance().isRed()) {
+   if (!RobotContainer.getInstance().isRed()) {
       targetHeading = -targetHeading;
     } 
     

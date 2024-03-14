@@ -35,13 +35,13 @@ public class setPoseCmd extends Command {
       RobotContainer.getInstance().m_robotDrive.resetOdometry(path.getPathPoses().get(0));
     
     }
-        bDone = true;
-        end(bDone);
+
     }
 
     // Called every time the scheduler runs while the command is scheduled.
     @Override
     public void execute() {
+        System.err.println("setpose command is running");
         bDone = true;
     }
 
@@ -54,6 +54,7 @@ public class setPoseCmd extends Command {
     // Returns true when the command should end.
     @Override
     public boolean isFinished() {
+        System.err.println("setpose command is finished");
         return bDone;
     }
 
