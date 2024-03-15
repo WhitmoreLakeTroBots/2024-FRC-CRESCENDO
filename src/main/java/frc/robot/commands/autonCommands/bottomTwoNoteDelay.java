@@ -30,9 +30,9 @@ import com.pathplanner.lib.util.PathPlannerLogging;
 
 
 
-public class bottomTwoNote extends SequentialCommandGroup {
+public class bottomTwoNoteDelay extends SequentialCommandGroup {
 
-    public bottomTwoNote() {
+    public bottomTwoNoteDelay() {
 
         final String path1 = "B_To_BN";
         
@@ -41,7 +41,7 @@ public class bottomTwoNote extends SequentialCommandGroup {
         addCommands(new turnCmd(-43, 0.3));
         addCommands(new cmdDelay(1));
         addCommands(new LaunchCmd());
-        addCommands(new cmdDelay(8));
+        
         addCommands(new ParallelCommandGroup(
             new autoDriveCmd(path1),
             new AngleCmd(ANGLEPOS.APODIUM, false)

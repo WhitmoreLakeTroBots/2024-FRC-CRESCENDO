@@ -28,33 +28,28 @@ import com.pathplanner.lib.controllers.PathFollowingController;
 import com.pathplanner.lib.path.PathPlannerPath;
 import com.pathplanner.lib.util.PathPlannerLogging;
 
+public class topTwoNoteDelay extends SequentialCommandGroup {
 
+    public topTwoNoteDelay() {
 
-public class bottomTwoNote extends SequentialCommandGroup {
+        final String path1 = "T_To_TN";
 
-    public bottomTwoNote() {
-
-        final String path1 = "B_To_BN";
-        
         addCommands(new cmdResetGyro().alongWith(new setPoseCmd(path1, 180)));
-        addCommands(new AngleCmd(ANGLEPOS.TOPNOTEWING, true));
-        addCommands(new turnCmd(-43, 0.3));
+        addCommands(new AngleCmd(ANGLEPOS.TOPNOTEWING, true)
+        .alongWith(new turnCmd(43, 0.3)));
         addCommands(new cmdDelay(1));
         addCommands(new LaunchCmd());
         addCommands(new cmdDelay(8));
         addCommands(new ParallelCommandGroup(
-            new autoDriveCmd(path1),
-            new AngleCmd(ANGLEPOS.APODIUM, false)
-            ,new intakeCmd(RollerStatus.FORWARD),
-            new pivotCmd(PivotPos.OUT, true)
+                new autoDriveCmd(path1)
+                ,new AngleCmd(ANGLEPOS.PODIUM, false), new intakeCmd(RollerStatus.FORWARD),
+                new pivotCmd(PivotPos.OUT, true)
                 ));
-        //addCommands(new AngleCmd(ANGLEPOS.CENTERNOTE, true));
-        addCommands(new turnCmd(-27, 0.3));
-        addCommands(new cmdDelay(1).andThen(new LaunchCmd()));
-        addCommands(new cmdDelay(0).andThen(new AngleCmd(ANGLEPOS.START, true)));
-        addCommands(new turnCmd(90, 0.2));
-        addCommands(new turnCmd(0, 0.2));
 
+        addCommands(new turnCmd(30, 0.3));
+        addCommands(new cmdDelay(1).andThen(new LaunchCmd()));
+        addCommands(new cmdDelay(1).andThen(new AngleCmd(ANGLEPOS.START, true)));
+       
     }
 
 }

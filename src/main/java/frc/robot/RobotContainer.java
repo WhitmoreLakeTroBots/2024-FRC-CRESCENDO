@@ -8,6 +8,7 @@ import frc.robot.commands.LauncherCommands.*;
 import frc.robot.commands.autonCommands.B_5;
 import frc.robot.commands.autonCommands.C_CN_TN_1;
 import frc.robot.commands.autonCommands.bottomTwoNote;
+import frc.robot.commands.autonCommands.bottomTwoNoteDelay;
 import frc.robot.commands.autonCommands.centerFourNote;
 import frc.robot.commands.autonCommands.centerFourNoteBN;
 import frc.robot.commands.autonCommands.centerThreeNote;
@@ -15,6 +16,7 @@ import frc.robot.commands.autonCommands.centerTwoNote;
 import frc.robot.commands.autonCommands.driveStraight;
 import frc.robot.commands.autonCommands.topThreeNote;
 import frc.robot.commands.autonCommands.topTwoNote;
+import frc.robot.commands.autonCommands.topTwoNoteDelay;
 import frc.robot.commands.autonCommands.turnTest;
 import frc.robot.commands.autonCommands.visionSetup;
 import frc.robot.commands.climbCommands.ClimbCmd;
@@ -105,6 +107,8 @@ public class RobotContainer {
         m_Chooser.addOption("Center BN Four Note", new centerFourNoteBN());
         m_Chooser.addOption("C CN TN 1", new C_CN_TN_1());
         m_Chooser.addOption("B 5", new B_5());
+        m_Chooser.addOption("B2Delay", new bottomTwoNoteDelay());
+        m_Chooser.addOption("T2Delay", new topTwoNoteDelay());
 
         SmartDashboard.putData("AnglePrestart", new AngleCmd(ANGLEPOS.PRESTART, true));
         SmartDashboard.putData("Vision Pose Update", new setVisionPoseCmd());
