@@ -71,6 +71,10 @@ public class RobotContainer {
     public final WL_PhotonCamera m_cam1 = new WL_PhotonCamera(new PhotonCamera(Constants.Cam1Constants.name),
             Constants.Cam1Constants.cam2robotTransform3d);
     public final Climb m_Climb = new Climb();
+  public final CommandXboxController m_driverController = new CommandXboxController(0);
+    public final CommandXboxController m_articController = new CommandXboxController(1);
+ 
+    public final Vibration m_Vibration = new Vibration();
   //  public final HealthCheck m_HealthCheck = new HealthCheck();
 
    // public final WL_PhotonCamera m_cam2 = new WL_PhotonCamera (new
@@ -81,9 +85,7 @@ public class RobotContainer {
 
     SendableChooser<Command> m_Chooser = new SendableChooser<>();
     // The driver's controller
-    public final CommandXboxController m_driverController = new CommandXboxController(0);
-    public final CommandXboxController m_articController = new CommandXboxController(1);
-    private boolean bRed = false;
+       private boolean bRed = false;
     /**
      * The container for the robot. Contains subsystems, OI devices, and commands.
      */
@@ -97,22 +99,21 @@ public class RobotContainer {
         //m_Chooser.addOption("Test Path Straight", new PathPlannerAuto("test_auto2"));
         m_Chooser.addOption("centerTwoNote", new centerTwoNote());
         m_Chooser.addOption("centerThreeNote", new centerThreeNote());
-        m_Chooser.addOption("visionSetup", new visionSetup());
+       // m_Chooser.addOption("visionSetup", new visionSetup());
         m_Chooser.addOption("topTwoNote", new topTwoNote());
         m_Chooser.addOption("topThreeNote", new topThreeNote());
         m_Chooser.addOption("BottomTwoNote", new bottomTwoNote());
         m_Chooser.addOption("Test Turn", new turnTest());
         m_Chooser.addOption("drive straight", new driveStraight());
-        m_Chooser.addOption("Center Four Note", new centerFourNote());
-        m_Chooser.addOption("Center BN Four Note", new centerFourNoteBN());
-        m_Chooser.addOption("C CN TN 1", new C_CN_TN_1());
+       // m_Chooser.addOption("Center Four Note", new centerFourNote()); // does not work
+        m_Chooser.addOption("C Four Note BN", new centerFourNoteBN());
+        m_Chooser.addOption("C Four Note TN", new C_CN_TN_1());
         m_Chooser.addOption("B 5", new B_5());
         m_Chooser.addOption("B2Delay", new bottomTwoNoteDelay());
         m_Chooser.addOption("T2Delay", new topTwoNoteDelay());
 
         SmartDashboard.putData("AnglePrestart", new AngleCmd(ANGLEPOS.PRESTART, true));
         SmartDashboard.putData("Vision Pose Update", new setVisionPoseCmd());
-        SmartDashboard.putData("AnglePrestart", new resetFaultCount());
 
         SmartDashboard.putData("Auto Mode", m_Chooser);
 

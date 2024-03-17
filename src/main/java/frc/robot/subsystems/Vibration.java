@@ -15,24 +15,20 @@ import edu.wpi.first.wpilibj.GenericHID.RumbleType;
  */
 public class Vibration extends SubsystemBase {
 
-    private CommandXboxController driverController;
-    private CommandXboxController articController;
+   // private CommandXboxController driverController;
+   // private CommandXboxController articController;
 
     private double curTime;
 
-    private STATUS dStatus = STATUS.STOPPED;
-    private STATUS aStatus = STATUS.STOPPED;
-
-
-    private double dDur;
+     private double dDur;
     private double aDur;
 
     /**
     *
     */
     public Vibration() {
-        driverController = RobotContainer.getInstance().m_driverController;
-        articController = RobotContainer.getInstance().m_articController;
+     //   driverController = RobotContainer.getInstance().m_driverController;
+     //   articController = RobotContainer.getInstance().m_articController;
     }
 
     @Override
@@ -42,7 +38,8 @@ public class Vibration extends SubsystemBase {
         //driverController.getHID().setRumble(RumbleType.kBothRumble, 1);
 
         //call runVib() to check and end vibs
-    
+        RunVibDrive();
+        RunVibArtic();
     }
 
     @Override
@@ -59,15 +56,16 @@ public class Vibration extends SubsystemBase {
         switch (newAlert.con) {
             case DRIVE:
                 //start vib 
-                driverController.getHID().setRumble(newAlert.rum, newAlert.intense);
-                //set timer target  
+                RobotContainer.getInstance().m_driverController.getHID().setRumble(newAlert.rum, newAlert.intense);
+                //set timer target 
+                dDur = RobotMath.getTime() + newAlert.sec;
                 break;
 
             case ARTIC:
                 //start vib
-                driverController.getHID().setRumble(newAlert.rum, newAlert.intense);
+                RobotContainer.getInstance().m_articController.getHID().setRumble(newAlert.rum, newAlert.intense);
                 //set timer target
-
+                aDur = RobotMath.getTime() + newAlert.sec;
                 break;  
         
             default:
@@ -77,41 +75,54 @@ public class Vibration extends SubsystemBase {
 
     }
 
-    private void RunVib(){
+    private void RunVibDrive(){
         //should check the status of both Driver and Artic controller vibrations and end based on timmers
-
+        
         //look for difference between driver vib time target vs runtime
         
         //example for get current time in Seconds
-        //RobotMath.getTime();
-
+        //curTime = RobotMath.getTime();
+        if(RobotMath.getTime() >= dDur){
+            RobotContainer.getInstance().m_driverController.getHID().setRumble(RumbleType.kBothRumble, 0);
+        }
         //look for difference between artic vib time target vs runtime
 
     }
+
+  private void RunVibArtic(){
+        //should check the status of both Driver and Artic controller vibrations and end based on timmers
+        
+        //look for difference between driver vib time target vs runtime
+        
+        //example for get current time in Seconds
+        //curTime = RobotMath.getTime();
+          if(RobotMath.getTime() >= aDur){
+            RobotContainer.getInstance().m_articController.getHID().setRumble(RumbleType.kBothRumble, 0);
+        }
+        //look for difference between artic vib time target vs runtime
+    }
+
+    
 
     public enum CTRL{
             DRIVE,
             ARTIC;
         }
 
-    public enum STATUS{
-            STOPPED,
-            VIBING;
 
-    }
 
     public enum VIBALERT{
 
-        DRIVERLONG(CTRL.DRIVE, RumbleType.kBothRumble, 0.8, 750),
-        DRIVERSHORT(CTRL.DRIVE, RumbleType.kBothRumble, 0.8, 400),
-        ARTICLONG(CTRL.ARTIC, RumbleType.kBothRumble, 0.8, 750),
-        ARTICSHORT(CTRL.ARTIC, RumbleType.kBothRumble, 0.8, 400);
+        DRIVERLONG(CTRL.DRIVE, RumbleType.kBothRumble, 1, 0.750),
+        DRIVERSHORT(CTRL.DRIVE, RumbleType.kBothRumble, 1, 0.400),
+        ARTICLONG(CTRL.ARTIC, RumbleType.kBothRumble, 1, 0.750),
+        ARTICSHORT(CTRL.ARTIC, RumbleType.kBothRumble, 1, 0.400);
         
         
         private CTRL con;
         private RumbleType rum;
         private double intense;
-        private long msec;
+        private double sec;
 
         public CTRL getCon() {
             return con;
@@ -121,19 +132,19 @@ public class Vibration extends SubsystemBase {
             return intense;
         }
 
-        public long getMsec() {
-            return msec;
+        public double getSec() {
+            return sec;
         }
 
         public RumbleType getRum() {
             return rum;
         }
 
-        VIBALERT(CTRL con, RumbleType rum, double intense, long msec){
+        VIBALERT(CTRL con, RumbleType rum, double intense, double sec){
             this.con = con;
             this.rum = rum;
             this.intense = intense;
-            this.msec = msec;
+            this.sec = sec;
         }
 
     }

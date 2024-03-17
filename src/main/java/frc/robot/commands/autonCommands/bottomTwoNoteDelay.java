@@ -41,7 +41,7 @@ public class bottomTwoNoteDelay extends SequentialCommandGroup {
         addCommands(new turnCmd(-43, 0.3));
         addCommands(new cmdDelay(1));
         addCommands(new LaunchCmd());
-        
+        addCommands(new cmdDelay(8));
         addCommands(new ParallelCommandGroup(
             new autoDriveCmd(path1),
             new AngleCmd(ANGLEPOS.APODIUM, false)

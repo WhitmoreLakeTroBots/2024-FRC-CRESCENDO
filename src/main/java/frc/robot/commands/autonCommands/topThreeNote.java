@@ -56,8 +56,7 @@ public class topThreeNote extends SequentialCommandGroup {
                                 new pivotCmd(PivotPos.OUT, true)));
                 addCommands(new ParallelCommandGroup(
                                 new autoDriveCmd(path3),
-                                new AngleCmd(ANGLEPOS.TOPLAUNCH, false), new intakeCmd(RollerStatus.FORWARD),
-                                new pivotCmd(PivotPos.OUT, true)));
+                                new AngleCmd(ANGLEPOS.TOPLAUNCH, false)));
                  //add cmd turn before launch 
                 addCommands(new turnCmd(10,0.2));               
                 addCommands(new cmdDelay(1).andThen(new LaunchCmd()));
