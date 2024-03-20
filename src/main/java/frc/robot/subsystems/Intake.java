@@ -192,7 +192,7 @@ public class Intake extends SubsystemBase {
         IN(9.5, 0.0025, 0.0),
         OUT(205, 0.003, 0.0),
 
-        AMP(80, 0.003, 0.0);
+        AMP(78, 0.003, 0.0);
 
         private final double pos;
         private final double P;

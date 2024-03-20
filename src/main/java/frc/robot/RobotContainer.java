@@ -14,6 +14,7 @@ import frc.robot.commands.autonCommands.centerFourNoteBN;
 import frc.robot.commands.autonCommands.centerThreeNote;
 import frc.robot.commands.autonCommands.centerTwoNote;
 import frc.robot.commands.autonCommands.driveStraight;
+import frc.robot.commands.autonCommands.topThreeAA;
 import frc.robot.commands.autonCommands.topThreeNote;
 import frc.robot.commands.autonCommands.topTwoNote;
 import frc.robot.commands.autonCommands.topTwoNoteDelay;
@@ -111,7 +112,7 @@ public class RobotContainer {
         m_Chooser.addOption("B 5", new B_5());
         m_Chooser.addOption("B2Delay", new bottomTwoNoteDelay());
         m_Chooser.addOption("T2Delay", new topTwoNoteDelay());
-
+        m_Chooser.addOption("Top 3 AnnArbo",new topThreeAA());
         SmartDashboard.putData("AnglePrestart", new AngleCmd(ANGLEPOS.PRESTART, true));
         SmartDashboard.putData("Vision Pose Update", new setVisionPoseCmd());
 
