@@ -55,10 +55,10 @@ public class Intake extends SubsystemBase {
         pivMotor.set(CommonLogic.CapMotorPower(
                 CommonLogic.gotoPosPIDF(pivP, pivF, getCurPivotPos(), targetPivotPos.pos),
                 minPivPower, maxPivPower));
-    
+
         if ((getCurRollerStatus() == RollerStatus.FORWARD) && (Math.abs(rotMotor.getAppliedOutput()) > 0.0)
          && (RobotContainer.getInstance().m_Sensors.getBB1() == true)) {
-           
+
             if(!justDetected){
                     startTime = RobotMath.getTime();
                     endTime = startTime + delayTime;
@@ -78,9 +78,9 @@ public class Intake extends SubsystemBase {
         }
 
          if ((getCurRollerStatus() == RollerStatus.REVERSE) && (Math.abs(rotMotor.getAppliedOutput()) != 0.0)
-         && (RobotContainer.getInstance().m_Sensors.getBB1() == false)&& 
+         && (RobotContainer.getInstance().m_Sensors.getBB1() == false)&&
             (RobotContainer.getInstance().m_Intake.getTargPivotPos() == PivotPos.AMP)) {
-           
+
             if(justDetected){
                     startTime = RobotMath.getTime();
                     endTime = startTime + delayTime2;
@@ -94,7 +94,7 @@ public class Intake extends SubsystemBase {
 
         }
         }
-        
+
 
     }
 
@@ -137,6 +137,10 @@ public class Intake extends SubsystemBase {
     // here. Call these from Commands.
     public RollerStatus getCurRollerStatus() {
         return CRollerStatus;
+    }
+
+    public boolean isInPos (double position) {
+        return (CommonLogic.isInRange(getCurPivotPos(), position, pivPosTol));
     }
 
     public boolean getPivotStatus(){

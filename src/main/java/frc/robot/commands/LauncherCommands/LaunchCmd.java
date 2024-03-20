@@ -1,24 +1,30 @@
 package frc.robot.commands.LauncherCommands;
 
 import edu.wpi.first.wpilibj2.command.Command;
-import frc.robot.Robot;
 import frc.robot.RobotContainer;
-import frc.robot.subsystems.Intake;
-import frc.robot.subsystems.Launcher;
 import frc.robot.subsystems.Intake.RollerStatus;
+import frc.robot.subsystems.Intake.PivotPos;
 import frc.robot.subsystems.Lighting.lightPattern;
 import frc.utils.RobotMath;
 
-//import java.util.function.DoubleSupplier;
 
 /**
  *
  */
 public class LaunchCmd extends Command {
     private boolean bDone = false;
-    public double startTime = 0;
-    public double endTime = 0;
-    public double delayTime = 1;
+    private double currTime = 0;
+
+    private double pivot_delayTime = 1.0;
+    private double pivot_startTime = 0;
+    private double pivot_endTime = 0;
+
+
+    private double launch_startTime = 0;
+    private double launch_endTimeOut = 0;
+    private double launch_endTimeSense = 0;
+    private final double launchSenseDelay = 0.4;
+    private final double launch_delayTime = 1.0;
 
     public LaunchCmd() {
 
@@ -29,28 +35,43 @@ public class LaunchCmd extends Command {
     public void initialize() {
         RobotContainer.getInstance().m_Lighting.setNewBaseColor(lightPattern.RAINWAVES);
         bDone = false;
-        startTime = RobotMath.getTime();
-        endTime = startTime + delayTime;
-        System.err.println("Delay for a bit");
-        RobotContainer.getInstance().m_Intake.setRollerStatus(RollerStatus.REVERSE);
+        currTime = RobotMath.getTime();
+        pivot_startTime = currTime;
+        pivot_endTime = pivot_startTime + pivot_delayTime;
+
+        launch_startTime = pivot_endTime;
+        launch_endTimeOut = launch_startTime + launch_delayTime;
+        launch_endTimeSense = launch_startTime + launchSenseDelay;
+
     }
 
     // Called every time the scheduler runs while the command is scheduled.
     @Override
     public void execute() {
-        if (RobotMath.getTime() >= endTime) {
-            bDone = true;
-        RobotContainer.getInstance().m_Intake.setRollerStatus(RollerStatus.STOP);
 
+        currTime = RobotMath.getTime();
+        if ((RobotContainer.getInstance().m_Intake.isInPos(PivotPos.IN.getPos())  || (currTime >= pivot_endTime) )) {
+            RobotContainer.getInstance().m_Intake.setRollerStatus(RollerStatus.REVERSE);
+            launch_startTime = currTime;
+            launch_endTimeOut = launch_startTime + launch_delayTime;
+            launch_endTimeSense = launch_startTime + launchSenseDelay;
         }
-      /*  if (RobotContainer.getInstance().m_Sensors.getBB1() == false) {
-            bDone = true; 
-        }*/
+
+        // timeout end
+        if (currTime >= launch_endTimeOut) {
+            this.end(false);
+        }
+
+        // sensor says note is gone... only delay a little bit.
+        if ((RobotContainer.getInstance().m_Sensors.getBB1() == false) &&  (currTime > (launch_endTimeSense))) {
+            this.end(false);
+        }
     }
 
     // Called once the command ends or is interrupted.
     @Override
     public void end(boolean interrupted) {
+        bDone = true;
         RobotContainer.getInstance().m_Intake.setRollerStatus(RollerStatus.STOP);
     }
 

@@ -74,27 +74,17 @@ public class centerFourNote extends Command {
 
         switch (cStep) {
             case PRESTART:
-                System.err.println("PRESTART");
                 if (preStartCmd == null) {
-                    System.err.println("start command");
-
-                    preStartCmd = new SequentialCommandGroup(
-                            new cmdDelay(5));
-                    // new cmdResetGyro(),
-                    /*
-                     * preStartCmd.addCommands(new cmdDelay(5),
-                     * new setPoseCmd(_CToCN, 180)
-                     * );
-                     */
-                    preStartCmd.schedule();
-
-                    System.err.println("scheduled");
-                    // int I = 10/0;
+                    preStartCmd = new SequentialCommandGroup();
+                    preStartCmd.addCommands(new cmdResetGyro().alongWith(new setPoseCmd(_CToCN, 180)));
+                    preStartCmd.initialize();
+                } else {
+                    preStartCmd.execute();
                 }
-                System.err.println(preStartCmd.isFinished());
+
                 if (preStartCmd.isFinished()) {
+                    preStartCmd.end(false);
                     cStep = Step.NOTEONE;
-                    System.err.println("is finished");
                 }
                 break;
 
@@ -104,9 +94,12 @@ public class centerFourNote extends Command {
                             new AngleCmd(ANGLEPOS.UNDERSPEAKER, true),
                             new cmdDelay(1),
                             new LaunchCmd());
-                    noteOneCmd.schedule();
+                    noteOneCmd.initialize();
+                } else {
+                    noteOneCmd.execute();
                 }
                 if (noteOneCmd.isFinished()) {
+                    noteOneCmd.end(false);
                     cStep = Step.GETNOTETWO;
                 }
 
@@ -123,9 +116,12 @@ public class centerFourNote extends Command {
                                     new AngleCmd(ANGLEPOS.CENTERNOTE, false), new intakeCmd(RollerStatus.FORWARD),
                                     new pivotCmd(PivotPos.OUT, true)),
                             new cmdDelay(1).andThen(new LaunchCmd()));
-                    getNoteTwoCmd.schedule();
+                    getNoteTwoCmd.initialize();
+                } else {
+                    getNoteTwoCmd.execute();
                 }
                 if (getNoteTwoCmd.isFinished()) {
+                    getNoteTwoCmd.end(false);
                     cStep = Step.GETNOTETHREE;
                 }
                 break;
@@ -140,9 +136,12 @@ public class centerFourNote extends Command {
                                                     new cmdDelay(1.8),
                                                     new intakeCmd(RollerStatus.FORWARD),
                                                     new pivotCmd(PivotPos.OUT, true)))));
-                    getNoteThreeCmd.schedule();
+                    getNoteThreeCmd.initialize();
+                } else {
+                    getNoteThreeCmd.execute();
                 }
                 if (getNoteThreeCmd.isFinished()) {
+                    getNoteThreeCmd.end(false);
                     if (RobotContainer.getInstance().m_Sensors.getBB1()) {
                         cStep = Step.LAUNCHNOTETHREE;
                     } else {
@@ -164,10 +163,11 @@ public class centerFourNote extends Command {
                             new AngleCmd(ANGLEPOS.CENTERNOTE, true),
                             new cmdDelay(1),
                             new LaunchCmd());
-                    launchNoteThreeCmd.schedule();
+                    launchNoteThreeCmd.initialize();
                 }
 
                 if (launchNoteThreeCmd.isFinished()) {
+                    launchNoteThreeCmd.end(false);
                     cStep = Step.GETNOTEFOUR;
                 }
                 break;
@@ -182,9 +182,10 @@ public class centerFourNote extends Command {
                                             new cmdDelay(1.8),
                                             new intakeCmd(RollerStatus.FORWARD),
                                             new pivotCmd(PivotPos.OUT, true))));
-                    getNoteFourDirectCmd.schedule();
+                    getNoteFourDirectCmd.initialize();
                 }
                 if (getNoteFourDirectCmd.isFinished()) {
+                    getNoteFourDirectCmd.end(false);
                     cStep = Step.LAUNCHNOTEFOUR;
                 }
                 break;
@@ -199,13 +200,13 @@ public class centerFourNote extends Command {
                                             new cmdDelay(1.8),
                                             new intakeCmd(RollerStatus.FORWARD),
                                             new pivotCmd(PivotPos.OUT, true))));
-                    getNoteFourCmd.schedule();
+                    getNoteFourCmd.initialize();
                 }
 
                 if (getNoteFourCmd.isFinished()) {
+                    getNoteFourCmd.end(false);
                     cStep = Step.LAUNCHNOTEFOUR;
                 }
-
                 break;
 
             case LAUNCHNOTEFOUR:
@@ -219,24 +220,29 @@ public class centerFourNote extends Command {
                                             new AngleCmd(ANGLEPOS.CENTERNOTE, true),
                                             new cmdDelay(2.5),
                                             new LaunchCmd())));
+                } else {
+                    launchNoteFourCmd.execute();
                 }
                 if (launchNoteFourCmd.isFinished())
-                    cStep = Step.SHUTDOWN;
-
+                    launchNoteFourCmd.end(false);
+                cStep = Step.SHUTDOWN;
                 break;
+
             case SHUTDOWN:
                 if (shutdownCmd == null) {
                     shutdownCmd = new SequentialCommandGroup(
                             new pivotCmd(PivotPos.IN, false),
                             new intakeCmd(RollerStatus.STOP),
                             new SetLauncherRPM(0.0));
-                    shutdownCmd.schedule();
+                    shutdownCmd.initialize();
                 }
                 // TODO -- Stop things and brace for impact of another bot crashing into us.
                 if (shutdownCmd.isFinished()) {
+                    shutdownCmd.end(false);
                     bDone = true;
                 }
                 break;
+
             default:
                 cStep = Step.SHUTDOWN;
                 break;
@@ -247,6 +253,8 @@ public class centerFourNote extends Command {
     @Override
     public void end(boolean interrupted) {
         bDone = true;
+        // TODO    Look at the value of cStep and call end on the currently running command group.
+
     }
 
     // Returns true when the command should end.
