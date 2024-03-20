@@ -72,11 +72,15 @@ public class RobotContainer {
     public final WL_PhotonCamera m_cam1 = new WL_PhotonCamera(new PhotonCamera(Constants.Cam1Constants.name),
             Constants.Cam1Constants.cam2robotTransform3d);
     public final Climb m_Climb = new Climb();
+<<<<<<< Updated upstream
   public final CommandXboxController m_driverController = new CommandXboxController(0);
     public final CommandXboxController m_articController = new CommandXboxController(1);
  
     public final Vibration m_Vibration = new Vibration();
   //  public final HealthCheck m_HealthCheck = new HealthCheck();
+=======
+    public final HealthCheck m_HealthCheck = new HealthCheck();
+>>>>>>> Stashed changes
 
    // public final WL_PhotonCamera m_cam2 = new WL_PhotonCamera (new
      //PhotonCamera(Constants.Cam2Constants.name),
