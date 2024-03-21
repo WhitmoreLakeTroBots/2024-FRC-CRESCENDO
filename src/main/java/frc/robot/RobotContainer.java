@@ -106,7 +106,7 @@ public class RobotContainer {
         m_Chooser.addOption("topThreeNote", new topThreeNote());
         m_Chooser.addOption("BottomTwoNote", new bottomTwoNote());
         m_Chooser.addOption("Test Turn", new turnTest());
-        m_Chooser.addOption("drive straight", new driveStraight());
+        m_Chooser.addOption("Test", new driveStraight());
        // m_Chooser.addOption("Center Four Note", new centerFourNote()); // does not work
         m_Chooser.addOption("C Four Note BN", new centerFourNoteBN());
         m_Chooser.addOption("C Four Note TN", new C_CN_TN_1());
