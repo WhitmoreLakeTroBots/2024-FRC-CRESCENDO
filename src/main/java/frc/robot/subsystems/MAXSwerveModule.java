@@ -22,8 +22,8 @@ import frc.robot.RobotContainer;
 import frc.robot.Constants.ModuleConstants;
 
 public class MAXSwerveModule {
-  private final CANSparkMax m_drivingSparkMax;
-  private final CANSparkMax m_turningSparkMax;
+  public final CANSparkMax m_drivingSparkMax;
+  public final CANSparkMax m_turningSparkMax;
 
   private final RelativeEncoder m_drivingEncoder;
   private final AbsoluteEncoder m_turningEncoder;
@@ -42,10 +42,8 @@ public class MAXSwerveModule {
    */
   public MAXSwerveModule(int drivingCANId, int turningCANId, double chassisAngularOffset) {
     m_drivingSparkMax = new CANSparkMax(drivingCANId, MotorType.kBrushless);
-    RobotContainer.getInstance().m_HealthCheck.registerSparkMAx(String.valueOf(m_drivingSparkMax.getDeviceId()) , m_drivingSparkMax);
 
     m_turningSparkMax = new CANSparkMax(turningCANId, MotorType.kBrushless);
-    RobotContainer.getInstance().m_HealthCheck.registerSparkMAx(String.valueOf(m_turningSparkMax.getDeviceId()) , m_turningSparkMax);
 
     // Factory reset, so we get the SPARKS MAX to a known state before configuring
     // them. This is useful in case a SPARK MAX is swapped out.
