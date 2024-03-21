@@ -77,7 +77,7 @@ public class RobotContainer {
  
     public final Vibration m_Vibration = new Vibration();
 
-    public final HealthCheck m_HealthCheck = new HealthCheck();
+   // public final HealthCheck m_HealthCheck = new HealthCheck();
 
    // public final WL_PhotonCamera m_cam2 = new WL_PhotonCamera (new
      //PhotonCamera(Constants.Cam2Constants.name),

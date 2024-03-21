@@ -152,12 +152,12 @@ public class Constants {
     public static final double kMaxAngularSpeedRadiansPerSecond = Math.PI;
     public static final double kMaxAngularSpeedRadiansPerSecondSquared = Math.PI;
 
-    public static final double kDrivingP = 0.07;
+    public static final double kDrivingP = 0.075;
     public static final double kDrivingI = 0.0;
     public static final double kDrivingD = 0;
     public static final double kDrivingFF = 1 / ModuleConstants.kDriveWheelFreeSpeedRps;
 
-    public static final double kTurningP = 0.97;
+    public static final double kTurningP = 0.9538;
     public static final double kTurningI = 0;
     public static final double kTurningD = 0;
     public static final double kTurningFF = 0;
