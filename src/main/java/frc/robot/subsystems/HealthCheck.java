@@ -46,6 +46,14 @@ public class HealthCheck extends SubsystemBase {
 
     }
 
+    public void registerSparkMAx(String SparkName, CANSparkMax newSpark) {
+        // make method that allows us to register each SparkMax so that we can loop
+        // through for health checks
+        RobotSparks.put(SparkName, newSpark);
+     
+
+    }
+
     @Override
     public void periodic() {
         // This method will be called once per scheduler run
