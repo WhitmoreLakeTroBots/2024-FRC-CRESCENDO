@@ -6,6 +6,7 @@ import frc.robot.Robot;
 import frc.robot.RobotContainer;
 import frc.robot.Constants.CANIDs;
 import frc.robot.subsystems.Lighting.lightPattern;
+import frc.robot.subsystems.Vibration.VIBALERT;
 import frc.utils.CommonLogic;
 import frc.utils.RobotMath;
 
@@ -41,7 +42,7 @@ public class Intake extends SubsystemBase {
     */
     public Intake() {
         rotMotor = new CANSparkMax(CANIDs.RotMotorId, CANSparkMax.MotorType.kBrushless);
-        CommonLogic.setSparkParamsBase(rotMotor, false, 30, 40, IdleMode.kBrake);
+        CommonLogic.setSparkParamsBase(rotMotor, false, 30, 40, IdleMode.kCoast);
 
         pivMotor = new CANSparkMax(CANIDs.PivMotorId, CANSparkMax.MotorType.kBrushless);
         pivMotor.getAbsoluteEncoder().setPositionConversionFactor(360);
@@ -64,13 +65,17 @@ public class Intake extends SubsystemBase {
                     endTime = startTime + delayTime;
                     justDetected = true;
                     setPivotPos(PivotPos.IN);
+                    RobotContainer.getInstance().m_Vibration.StartVib(VIBALERT.DRIVERLONG);
+                    RobotContainer.getInstance().m_Vibration.StartVib(VIBALERT.ARTICLONG);
+
+                RobotContainer.getInstance().m_Lighting.setNewBaseColor(lightPattern.ORANGE);
+
 
             }
 
         if (RobotMath.getTime() >= endTime) {
              rotMotor.set(0);
             setRollerStatus(RollerStatus.STOP);
-            RobotContainer.getInstance().m_Lighting.setNewBaseColor(lightPattern.LIME);
         }
         }
         else{
@@ -191,7 +196,7 @@ public class Intake extends SubsystemBase {
         IN(9.5, 0.0025, 0.0),
         OUT(205, 0.003, 0.0),
 
-        AMP(77, 0.003, 0.0);
+        AMP(78, 0.003, 0.0);
 
         private final double pos;
         private final double P;

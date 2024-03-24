@@ -89,6 +89,9 @@ public class Swerve extends SubsystemBase {
   private final double capSpeed = 0.75;
 
   public Swerve() {
+   // RobotContainer.getInstance().m_HealthCheck.registerSparkMAx(String.valueOf(m_frontLeft.m_drivingSparkMax.getDeviceId()) , m_frontLeft.m_drivingSparkMax);
+   // RobotContainer.getInstance().m_HealthCheck.registerSparkMAx(String.valueOf(m_frontLeft.m_turningSparkMax.getDeviceId()) , m_frontLeft.m_turningSparkMax);
+
 
     m_odometry = new SwerveDrivePoseEstimator(
         DriveConstants.kDriveKinematics,

@@ -28,13 +28,13 @@ import com.pathplanner.lib.controllers.PathFollowingController;
 import com.pathplanner.lib.path.PathPlannerPath;
 import com.pathplanner.lib.util.PathPlannerLogging;
 
-public class topThreeNote extends SequentialCommandGroup {
+public class topThreeAA extends SequentialCommandGroup {
 
-        public topThreeNote() {
+        public topThreeAA() {
 
                 final String path1 = "T_To_TN";
                 final String path2 = "TN_To_1";
-                final String path3 = "1_To_Shoot";
+                final String path3 = "1_To_TN";
 
                 addCommands(new cmdResetGyro().alongWith(new setPoseCmd(path1, 180)));
                 addCommands(new AngleCmd(ANGLEPOS.TOPNOTEWING, true));
@@ -56,9 +56,9 @@ public class topThreeNote extends SequentialCommandGroup {
                                 new pivotCmd(PivotPos.OUT, true)));
                 addCommands(new ParallelCommandGroup(
                                 new autoDriveCmd(path3),
-                                new AngleCmd(ANGLEPOS.TOPLAUNCH, false)));
+                                new AngleCmd(ANGLEPOS.TOPNOTEWING, false)));
                  //add cmd turn before launch 
-                addCommands(new turnCmd(10,0.2));               
+                addCommands(new turnCmd(30,0.2));                                                          
                 addCommands(new cmdDelay(1).andThen(new LaunchCmd()));
 
         }

@@ -17,7 +17,7 @@ public class resetFaultCount extends Command {
     // Called when the command is initially scheduled.
     @Override
     public void initialize() {
-      // RobotContainer.getInstance().m_HealthCheck.resetFaultCount();
+       //RobotContainer.getInstance().m_HealthCheck.resetFaultCount();
         bDone = true;
         end(bDone);
     }
