@@ -33,7 +33,7 @@ public class centerThreeNote extends SequentialCommandGroup {
         final String path1 = "C_To_CN";
         final String path2 = "CN_To_3";
         final String path3 = "3_To_CN";
-
+/*
         addCommands(new cmdResetGyro().alongWith(new setPoseCmd(path1, 180)));
         addCommands(new AngleCmd(ANGLEPOS.UNDERSPEAKER, true));
         addCommands(new cmdDelay(1));
@@ -45,9 +45,9 @@ public class centerThreeNote extends SequentialCommandGroup {
             new pivotCmd(PivotPos.OUT, true)
                 ));
         //addCommands(new AngleCmd(ANGLEPOS.CENTERNOTE, true));
-        addCommands(new cmdDelay(1).andThen(new LaunchCmd()));
+        addCommands(new cmdDelay(1).andThen(new LaunchCmd())); */
         //addCommands(new cmdDelay(0).andThen(new AngleCmd(ANGLEPOS.START, true)));
-
+        addCommands(new centerTwoNote());
         // start note 3
         addCommands(new AngleCmd(ANGLEPOS.START, true));
         addCommands(new cmdDelay(0.5).andThen(
@@ -70,7 +70,6 @@ public class centerThreeNote extends SequentialCommandGroup {
             //,new AngleCmd(ANGLEPOS.CENTERNOTE, true)
             )));
         addCommands(new AngleCmd(ANGLEPOS.CENTERNOTE, true));
-        addCommands(new cmdDelay(1));
         addCommands(new LaunchCmd());
     }
 

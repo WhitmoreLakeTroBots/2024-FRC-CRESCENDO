@@ -38,7 +38,6 @@ public class centerTwoNote extends SequentialCommandGroup {
         
         addCommands(new cmdResetGyro().alongWith(new setPoseCmd(path1, 180)));
         addCommands(new AngleCmd(ANGLEPOS.UNDERSPEAKER, true));
-        addCommands(new cmdDelay(1));
         addCommands(new LaunchCmd());
         addCommands(new ParallelCommandGroup(
             new autoDriveCmd(path1),
@@ -47,7 +46,7 @@ public class centerTwoNote extends SequentialCommandGroup {
             new pivotCmd(PivotPos.OUT, true)
                 ));
         //addCommands(new AngleCmd(ANGLEPOS.CENTERNOTE, true));
-        addCommands(new cmdDelay(1).andThen(new LaunchCmd()));
+        addCommands(new LaunchCmd());
        // addCommands(new cmdDelay(0).andThen(new AngleCmd(ANGLEPOS.START, true)));
         //addCommands(new turnCmdSwerve(90, 0.3));
         //addCommands(new turnCmdSwerve(0, 0.3));

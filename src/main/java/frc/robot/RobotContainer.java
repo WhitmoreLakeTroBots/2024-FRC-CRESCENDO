@@ -115,6 +115,7 @@ public class RobotContainer {
         m_Chooser.addOption("B2Delay", new bottomTwoNoteDelay());
         m_Chooser.addOption("T2Delay", new topTwoNoteDelay());
         m_Chooser.addOption("Top 3 AnnArbo",new topThreeAA());
+        m_Chooser.addOption("Test4", new centerFourNote());
         SmartDashboard.putData("AnglePrestart", new AngleCmd(ANGLEPOS.PRESTART, true));
         SmartDashboard.putData("Vision Pose Update", new setVisionPoseCmd());
 

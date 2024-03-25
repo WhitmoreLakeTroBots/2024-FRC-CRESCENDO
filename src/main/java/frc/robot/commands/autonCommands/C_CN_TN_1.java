@@ -39,22 +39,21 @@ public class C_CN_TN_1 extends SequentialCommandGroup {
 
                 addCommands(new cmdResetGyro().alongWith(new setPoseCmd(path1, 180)));
                 addCommands(new AngleCmd(ANGLEPOS.UNDERSPEAKER, true));
-                addCommands(new cmdDelay(1));
                 addCommands(new LaunchCmd());
                 addCommands(new ParallelCommandGroup(
                         new autoDriveCmd(path1),
                         new AngleCmd(ANGLEPOS.CENTERNOTE, false), new intakeCmd(RollerStatus.FORWARD),
                         new pivotCmd(PivotPos.OUT, true)));
         
-                addCommands(new cmdDelay(1).andThen(new LaunchCmd()));
+                addCommands(new LaunchCmd());
                 addCommands(new cmdDelay(0).andThen(new AngleCmd(ANGLEPOS.START, true)));
                  //go to TN
                 addCommands(new ParallelCommandGroup(
                         new autoDriveCmd(path4),
-                        new AngleCmd(ANGLEPOS.PODIUM, false), new intakeCmd(RollerStatus.FORWARD),
+                        new AngleCmd(ANGLEPOS.APODIUM, false), new intakeCmd(RollerStatus.FORWARD),
                         new pivotCmd(PivotPos.OUT, true)));
                 addCommands(new turnCmd(25, 0.2));
-                addCommands(new cmdDelay(1).andThen(new LaunchCmd()));
+                addCommands(new LaunchCmd());
                 addCommands(new cmdDelay(0).andThen(new AngleCmd(ANGLEPOS.START, true)));
 
                 addCommands(new ParallelCommandGroup(
@@ -67,7 +66,7 @@ public class C_CN_TN_1 extends SequentialCommandGroup {
                                 new pivotCmd(PivotPos.IN, true)));
                  //add cmd turn before launch 
                 addCommands(new turnCmd(10,0.2));               
-                addCommands(new cmdDelay(1).andThen(new LaunchCmd()));
+                addCommands(new cmdDelay(0).andThen(new LaunchCmd()));
 
         }
 
