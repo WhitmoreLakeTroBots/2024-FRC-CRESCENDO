@@ -92,7 +92,7 @@ public class centerFourNote extends Command {
                 if (noteOneCmd == null) {
                     noteOneCmd = new SequentialCommandGroup(
                             new AngleCmd(ANGLEPOS.UNDERSPEAKER, true),
-                            new cmdDelay(1),
+                            new cmdDelay(0),
                             new LaunchCmd());
                     noteOneCmd.initialize();
                 } else {
@@ -115,7 +115,7 @@ public class centerFourNote extends Command {
                                     new autoDriveCmd(_CToCN),
                                     new AngleCmd(ANGLEPOS.CENTERNOTE, false), new intakeCmd(RollerStatus.FORWARD),
                                     new pivotCmd(PivotPos.OUT, true)),
-                            new cmdDelay(1).andThen(new LaunchCmd()));
+                            new cmdDelay(0).andThen(new LaunchCmd()));
                     getNoteTwoCmd.initialize();
                 } else {
                     getNoteTwoCmd.execute();
@@ -161,7 +161,7 @@ public class centerFourNote extends Command {
                                     new SequentialCommandGroup(
                                             new cmdDelay(2))),
                             new AngleCmd(ANGLEPOS.CENTERNOTE, true),
-                            new cmdDelay(1),
+                            new cmdDelay(0),
                             new LaunchCmd());
                     launchNoteThreeCmd.initialize();
                 }
@@ -216,10 +216,8 @@ public class centerFourNote extends Command {
                                     new autoDriveCmd(_2ToShoot),
                                     new pivotCmd(PivotPos.IN, false),
                                     new intakeCmd(RollerStatus.STOP),
-                                    new SequentialCommandGroup(
-                                            new AngleCmd(ANGLEPOS.CENTERNOTE, true),
-                                            new cmdDelay(2.5),
-                                            new LaunchCmd())));
+                                    new AngleCmd(ANGLEPOS.CENTERNOTE, true)),
+                            new LaunchCmd());
                 } else {
                     launchNoteFourCmd.execute();
                 }

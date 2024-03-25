@@ -50,7 +50,8 @@ public class LaunchCmd extends Command {
     public void execute() {
 
         currTime = RobotMath.getTime();
-        if ((RobotContainer.getInstance().m_Intake.isInPos(PivotPos.IN.getPos())  || (currTime >= pivot_endTime) )) {
+        if ((RobotContainer.getInstance().m_Intake.isInPos(PivotPos.IN.getPos()) || (currTime >= pivot_endTime) )&&
+            RobotContainer.getInstance().m_Intake.getCurRollerStatus() != RollerStatus.REVERSE ) {
             RobotContainer.getInstance().m_Intake.setRollerStatus(RollerStatus.REVERSE);
             launch_startTime = currTime;
             launch_endTimeOut = launch_startTime + launch_delayTime;
@@ -59,11 +60,13 @@ public class LaunchCmd extends Command {
 
         // timeout end
         if (currTime >= launch_endTimeOut) {
+            bDone = true;
             this.end(false);
         }
 
         // sensor says note is gone... only delay a little bit.
         if ((RobotContainer.getInstance().m_Sensors.getBB1() == false) &&  (currTime > (launch_endTimeSense))) {
+            bDone = true;
             this.end(false);
         }
     }
