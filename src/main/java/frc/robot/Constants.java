@@ -88,6 +88,13 @@ public class Constants {
     public static final int ClimbMotorLeftId = 15;
     public static final int ClimbMotorRightId = 16;
 
+    public enum SparkMaxCANIds {
+      kFrontLeftDrivingCanId;
+
+      
+
+    }
+
   }
 
   public static final class ModuleConstants {
