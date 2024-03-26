@@ -89,9 +89,25 @@ public class Constants {
     public static final int ClimbMotorRightId = 16;
 
     public enum SparkMaxCANIds {
-      kFrontLeftDrivingCanId;
+      kFrontLeftDrivingCanId("kFrontLeftDrivingCanId", 5),
+      kRearLeftDrivingCanId("kRearLeftDrivingCanId", 3),
+      kFrontRightDrivingCanId("kFrontRightDrivingCanId",1),
+      kRearRightDrivingCanId("kRearRightDrivingCanId",7);
 
-      
+      private String name;
+      private int Id;
+
+    public String getName() {
+      return name;
+    }      
+    public int getid(){
+      return Id;
+    }
+
+    SparkMaxCANIds(String name, int Id){
+      this.name = name;
+      this.Id = Id;
+    }
 
     }
 
