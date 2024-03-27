@@ -236,13 +236,12 @@ public class Launcher extends SubsystemBase {
 
     // return true is the current velocity is commanded velocity and NOT zero
     public boolean isAtVelocity() {
-        return CommonLogic.isInRange(getActualRPM(), getTargetRPM(), getTargetRPM() * 0.075) &&
-        LaunchMotorTop.get() != 0;
+        return (CommonLogic.isInRange(getActualRPM(), getTargetRPM(), getTargetRPM() * 0.075) && (LaunchMotorTop.get() != 0));
     }
 
     // return true if the current angle is the commanded angle
     public boolean isAtAngle() {
-        return CommonLogic.isInRange(getAnglePosActual(), getAnglePos().getpos(), angleMotorTol);
+        return (CommonLogic.isInRange(getAnglePosActual(), getAnglePos().getpos(), angleMotorTol));
     }
 
     public boolean isReady() {

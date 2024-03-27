@@ -74,7 +74,7 @@ public class LaunchCmd extends Command {
                 if ((RobotContainer.getInstance().m_Sensors.getBB1() == false) && (currTime > (launch_endTimeSense))) {
                     curr_step = LAUNCH_STEPS.POST_LAUNCH;
                 }
-
+                break;
             default:
                 end(false);
         }
