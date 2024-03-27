@@ -5,18 +5,18 @@ import com.revrobotics.SparkAbsoluteEncoder.Type;
 import com.revrobotics.CANSparkBase.IdleMode;
 
 import frc.robot.Constants;
+import frc.robot.RobotContainer;
 import frc.robot.subsystems.Intake.PivotPos;
 import frc.utils.*;
 
 //import frc.robot.commands.*;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
-   
 
 /**
  *
  */
 public class Launcher extends SubsystemBase {
- private double kP, kI, kD, kIz, kFF, maxRPM, minVEL;
+    private double kP, kI, kD, kIz, kFF, maxRPM, minVEL;
     public final double kMaxOutput = 1.0;
     public final double kMinOutput = 0.0;
     public PID PIDcalc;
@@ -56,6 +56,7 @@ public class Launcher extends SubsystemBase {
     }
 
     private LauncherModes currLauncherMode = LauncherModes.STOPPED;
+
     /**
     *
     */
@@ -75,30 +76,29 @@ public class Launcher extends SubsystemBase {
         FeederMotor = new CANSparkMax(Constants.CANIDs.FeederMotorId, CANSparkMax.MotorType.kBrushless);
         CommonLogic.setSparkParamsBase(FeederMotor, false, 20, 30, IdleMode.kCoast);
 
-        LaunchAngleMotor = new CANSparkMax(Constants.CANIDs.LaunchAngleMotorId , CANSparkMax.MotorType.kBrushless);
+        LaunchAngleMotor = new CANSparkMax(Constants.CANIDs.LaunchAngleMotorId, CANSparkMax.MotorType.kBrushless);
         LaunchAngleMotor.getAbsoluteEncoder().setPositionConversionFactor(360);
         CommonLogic.setSparkParamsBase(LaunchAngleMotor, false, 40, 50, IdleMode.kBrake);
 
     }
 
-    private void setLaunchPwr(double pwr){
+    private void setLaunchPwr(double pwr) {
         LaunchMotorTop.set(pwr);
         LaunchMotorBottom.set(pwr);
-        FeederMotor.set(pwr*FeederMotorOffset);
-    
+        FeederMotor.set(pwr * FeederMotorOffset);
+
     }
 
     @Override
     public void periodic() {
         // This method will be called once per scheduler run
-            iActualRPM = LaunchMotorTop.getEncoder().getVelocity();
+        iActualRPM = LaunchMotorTop.getEncoder().getVelocity();
 
-            LaunchAngleMotor.set(CommonLogic.CapMotorPower(
+        LaunchAngleMotor.set(CommonLogic.CapMotorPower(
                 CommonLogic.gotoPosPIDF(pivP, pivF, getAnglePosActual(), curAnglePos.pos),
                 angleMinPow, angleMaxPow));
 
-                   switch (currLauncherMode)
-        {
+        switch (currLauncherMode) {
             case RAMPING:
                 // we are ramping to corret power
                 // Ramping ends if our power is near where we want it OR if we have steped
@@ -139,10 +139,9 @@ public class Launcher extends SubsystemBase {
                 currLauncherMode = LauncherModes.STOPPED;
         }
 
-
     }
 
-   public void setTargetRPM(Double newTargetRPM) {
+    public void setTargetRPM(Double newTargetRPM) {
 
         // Saftey check if setting to 0 then just call stop and quit
         if (CommonLogic.isInRange(newTargetRPM, 0.0, 5)) {
@@ -218,28 +217,43 @@ public class Launcher extends SubsystemBase {
         bAutoRPMEnabled = !bAutoRPMEnabled;
     }
 
-    public boolean getAngleStatus(){
-        return(CommonLogic.isInRange(getAnglePosActual(), curAnglePos.pos, angleMotorTol));
+    public boolean getAngleStatus() {
+        return (CommonLogic.isInRange(getAnglePosActual(), curAnglePos.pos, angleMotorTol));
     }
 
-      public void setAnglePos(ANGLEPOS newPos) {
+    public void setAnglePos(ANGLEPOS newPos) {
         curAnglePos = newPos;
         setTargetRPM(curAnglePos.RPM);
     }
 
-    public ANGLEPOS getAnglePos(){
+    public ANGLEPOS getAnglePos() {
         return curAnglePos;
     }
 
-    public double getAnglePosActual(){
-        return LaunchAngleMotor.getAbsoluteEncoder(Type.kDutyCycle).getPosition() ;
+    public double getAnglePosActual() {
+        return LaunchAngleMotor.getAbsoluteEncoder(Type.kDutyCycle).getPosition();
     }
 
-    public enum ANGLEPOS{
-        MAX(56,61,0),
+    // return true is the current velocity is commanded velocity and NOT zero
+    public boolean isAtVelocity() {
+        return CommonLogic.isInRange(getActualRPM(), getTargetRPM(), getTargetRPM() * 0.075) &&
+        LaunchMotorTop.get() != 0;
+    }
+
+    // return true if the current angle is the commanded angle
+    public boolean isAtAngle() {
+        return CommonLogic.isInRange(getAnglePosActual(), getAnglePos().getpos(), angleMotorTol);
+    }
+
+    public boolean isReady() {
+        return (isAtVelocity() && isAtAngle());
+    }
+
+    public enum ANGLEPOS {
+        MAX(56, 61, 0),
         PRESTART(55, 60, 0),
         // Auton Angles
-        CENTERNOTE(40,45,3500),
+        CENTERNOTE(40, 45, 3500),
 
         TOPNOTEWING(50, 55, 2500),
         TOPLAUNCH(27, 30, 3500),
@@ -247,35 +261,35 @@ public class Launcher extends SubsystemBase {
         // Standard Angles
         START(25.0, 30.0, 0), // DDown //B
         TEST(30.0, 35.0, 0),
-        UNDERSPEAKER(60.0, 65, 2500), //DUp
-        AMP(55.0, 60, 800), //A
-        PASS(50,55, 1700),
-        MIDRANGE(27, 32, 4000), //DRight
-        PODIUM(36,41,3000), //DLeft
+        UNDERSPEAKER(60.0, 65, 2500), // DUp
+        AMP(55.0, 60, 800), // A
+        PASS(50, 55, 1700),
+        MIDRANGE(27, 32, 4000), // DRight
+        PODIUM(36, 41, 3000), // DLeft
         THROW(12, 17, 2500);
-        
 
         private final double angle;
         private final double pos;
         private final double RPM;
 
-    public double getangle(){
-        return angle;
-    }
-    public double getpos(){
-        return pos;
-    }
-    public double getRPM(){
-        return RPM;
-    }
+        public double getangle() {
+            return angle;
+        }
 
-ANGLEPOS(double angle, double pos, double RPM){
-    this.angle = angle;
-    this.pos = pos;
-    this.RPM = RPM;
-}
+        public double getpos() {
+            return pos;
+        }
+
+        public double getRPM() {
+            return RPM;
+        }
+
+        ANGLEPOS(double angle, double pos, double RPM) {
+            this.angle = angle;
+            this.pos = pos;
+            this.RPM = RPM;
+        }
 
     }
-    
 
 }

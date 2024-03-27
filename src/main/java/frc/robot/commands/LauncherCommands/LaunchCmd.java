@@ -25,6 +25,7 @@ public class LaunchCmd extends Command {
     private double launch_endTimeSense = 0;
     private final double launchSenseDelay = 0.4;
     private final double launch_delayTime = 1.0;
+    private LAUNCH_STEPS curr_step = LAUNCH_STEPS.PRE_LAUNCH_CHECKS;
 
     public LaunchCmd() {
 
@@ -35,6 +36,7 @@ public class LaunchCmd extends Command {
     public void initialize() {
         RobotContainer.getInstance().m_Lighting.setNewBaseColor(lightPattern.RAINWAVES);
         bDone = false;
+        curr_step = LAUNCH_STEPS.PRE_LAUNCH_CHECKS;
         currTime = RobotMath.getTime();
         pivot_startTime = currTime;
         pivot_endTime = pivot_startTime + pivot_delayTime;
@@ -50,29 +52,33 @@ public class LaunchCmd extends Command {
     public void execute() {
 
         currTime = RobotMath.getTime();
-        if ((RobotContainer.getInstance().m_Intake.isInPos(PivotPos.IN.getPos()) || (currTime >= pivot_endTime)) &&
-                (RobotContainer.getInstance().m_Intake.getCurRollerStatus() != RollerStatus.REVERSE)
-                && (CommonLogic.isInRange(RobotContainer.getInstance().m_Launcher.getActualRPM(),
-                        RobotContainer.getInstance().m_Launcher.getTargetRPM(), 250)
-                        && CommonLogic.isInRange(RobotContainer.getInstance().m_Launcher.getAnglePosActual(),
-                                RobotContainer.getInstance().m_Launcher.getAnglePos().getpos(), 2))) {
-            RobotContainer.getInstance().m_Intake.setRollerStatus(RollerStatus.REVERSE);
-            launch_startTime = currTime;
-            launch_endTimeOut = launch_startTime + launch_delayTime;
-            launch_endTimeSense = launch_startTime + launchSenseDelay;
+
+        switch (curr_step) {
+            case PRE_LAUNCH_CHECKS:
+
+                if ((RobotContainer.getInstance().m_Intake.isInPos(PivotPos.IN.getPos()) || (currTime >= pivot_endTime))
+                        && RobotContainer.getInstance().m_Launcher.isReady()) {
+                    RobotContainer.getInstance().m_Intake.setRollerStatus(RollerStatus.REVERSE);
+                    launch_startTime = currTime;
+                    launch_endTimeOut = launch_startTime + launch_delayTime;
+                    launch_endTimeSense = launch_startTime + launchSenseDelay;
+                    curr_step = LAUNCH_STEPS.LAUNCH;
+                }
+                break;
+
+            case LAUNCH:
+                if (currTime >= launch_endTimeOut) {
+                    curr_step = LAUNCH_STEPS.POST_LAUNCH;
+                }
+                // sensor says note is gone... only delay a little bit.
+                if ((RobotContainer.getInstance().m_Sensors.getBB1() == false) && (currTime > (launch_endTimeSense))) {
+                    curr_step = LAUNCH_STEPS.POST_LAUNCH;
+                }
+
+            default:
+                end(false);
         }
 
-        // timeout end
-        if (currTime >= launch_endTimeOut) {
-            bDone = true;
-            this.end(false);
-        }
-
-        // sensor says note is gone... only delay a little bit.
-        if ((RobotContainer.getInstance().m_Sensors.getBB1() == false) && (currTime > (launch_endTimeSense))) {
-            bDone = true;
-            this.end(false);
-        }
     }
 
     // Called once the command ends or is interrupted.
@@ -92,5 +98,11 @@ public class LaunchCmd extends Command {
     public boolean runsWhenDisabled() {
         return false;
 
+    }
+
+    private enum LAUNCH_STEPS {
+        PRE_LAUNCH_CHECKS,
+        LAUNCH,
+        POST_LAUNCH
     }
 }
