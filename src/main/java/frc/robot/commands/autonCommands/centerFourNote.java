@@ -145,7 +145,7 @@ public class centerFourNote extends Command {
                     if (RobotContainer.getInstance().m_Sensors.getBB1()) {
                         cStep = Step.LAUNCHNOTETHREE;
                     } else {
-                        cStep = Step.GETNOTEFOUR;
+                        cStep = Step.GETNOTEFOURDIRECT;
                     }
                 }
 
