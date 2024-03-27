@@ -243,7 +243,7 @@ public class Launcher extends SubsystemBase {
 
         TOPNOTEWING(50, 55, 2500),
         TOPLAUNCH(27, 30, 3500),
-        APODIUM(36, 40, 3000),
+        APODIUM(36, 41, 3000),
         // Standard Angles
         START(25.0, 30.0, 0), // DDown //B
         TEST(30.0, 35.0, 0),
@@ -251,7 +251,7 @@ public class Launcher extends SubsystemBase {
         AMP(55.0, 60, 800), //A
         PASS(50,55, 1700),
         MIDRANGE(27, 32, 4000), //DRight
-        PODIUM(36,41,3000), //DLeft
+        PODIUM(38,43,3000), //DLeft
         THROW(12, 17, 2500);
         
 

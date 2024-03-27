@@ -37,7 +37,7 @@ public class Constants {
     public static final double kMaxAngularSpeed = 4 * Math.PI; // radians per second
 
     public static final double kDirectionSlewRate = 2.0; // radians per second
-    public static final double kMagnitudeSlewRate = 1.5; // percent per second (1 = 100%)
+    public static final double kMagnitudeSlewRate = 1.9; // percent per second (1 = 100%)
     public static final double kRotationalSlewRate = 1.5; // percent per second (1 = 100%)
 
     // Chassis configuration
@@ -120,14 +120,14 @@ public class Constants {
     public static final double kTurningEncoderPositionPIDMinInput = 0; // radians
     public static final double kTurningEncoderPositionPIDMaxInput = kTurningEncoderPositionFactor; // radians
 
-    public static final double kDrivingP = 0.05;
+    public static final double kDrivingP = 0.062; //.05
     public static final double kDrivingI = 0.0;
     public static final double kDrivingD = 0;
     public static final double kDrivingFF = 1 / kDriveWheelFreeSpeedRps;
     public static final double kDrivingMinOutput = -1;
     public static final double kDrivingMaxOutput = 1;
 
-    public static final double kTurningP = 1.0;
+    public static final double kTurningP = 0.9438; //1
     public static final double kTurningI = 0;
     public static final double kTurningD = 0;
     public static final double kTurningFF = 0;
@@ -147,8 +147,8 @@ public class Constants {
   }
 
   public static final class AutoConstants {
-    public static final double kMaxSpeedMetersPerSecond = 4.11;
-    public static final double kMaxAccelerationMetersPerSecondSquared = 3;
+   // public static final double kMaxSpeedMetersPerSecond = 4.11;
+   // public static final double kMaxAccelerationMetersPerSecondSquared = 3;
     public static final double kMaxAngularSpeedRadiansPerSecond = Math.PI;
     public static final double kMaxAngularSpeedRadiansPerSecondSquared = Math.PI;
 
