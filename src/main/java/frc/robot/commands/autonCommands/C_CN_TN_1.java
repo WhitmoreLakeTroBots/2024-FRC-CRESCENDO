@@ -46,7 +46,7 @@ public class C_CN_TN_1 extends SequentialCommandGroup {
                         new pivotCmd(PivotPos.OUT, true)));
         
                 addCommands(new LaunchCmd());
-                addCommands(new cmdDelay(0).andThen(new AngleCmd(ANGLEPOS.START, true)));
+                addCommands(new cmdDelay(0).andThen(new AngleCmd(ANGLEPOS.APODIUM, false)));
                  //go to TN
                 addCommands(new ParallelCommandGroup(
                         new autoDriveCmd(path4),

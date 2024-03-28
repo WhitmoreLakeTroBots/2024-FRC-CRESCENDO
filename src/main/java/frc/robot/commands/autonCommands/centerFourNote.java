@@ -133,14 +133,15 @@ public class centerFourNote extends Command {
                                     new ParallelCommandGroup(
                                             new autoDriveCmd(_CNTo3),
                                             new SequentialCommandGroup(
-                                                    new cmdDelay(1.8),
+                                                    new cmdDelay(0.8),
                                                     new intakeCmd(RollerStatus.FORWARD),
-                                                    new pivotCmd(PivotPos.OUT, true)))));
+                                                    new pivotCmd(PivotPos.OUT, false)))));
                     getNoteThreeCmd.initialize();
                 } else {
                     getNoteThreeCmd.execute();
                 }
                 if (getNoteThreeCmd.isFinished()) {
+                    System.err.println("GetNote Three is finished");
                     getNoteThreeCmd.end(false);
                     if (RobotContainer.getInstance().m_Sensors.getBB1()) {
                         cStep = Step.LAUNCHNOTETHREE;
@@ -164,6 +165,8 @@ public class centerFourNote extends Command {
                             new cmdDelay(0),
                             new LaunchCmd());
                     launchNoteThreeCmd.initialize();
+                } else {
+                    launchNoteThreeCmd.execute();
                 }
 
                 if (launchNoteThreeCmd.isFinished()) {
@@ -183,6 +186,8 @@ public class centerFourNote extends Command {
                                             new intakeCmd(RollerStatus.FORWARD),
                                             new pivotCmd(PivotPos.OUT, true))));
                     getNoteFourDirectCmd.initialize();
+                } else {
+                    getNoteFourDirectCmd.execute();
                 }
                 if (getNoteFourDirectCmd.isFinished()) {
                     getNoteFourDirectCmd.end(false);
@@ -201,6 +206,8 @@ public class centerFourNote extends Command {
                                             new intakeCmd(RollerStatus.FORWARD),
                                             new pivotCmd(PivotPos.OUT, true))));
                     getNoteFourCmd.initialize();
+                } else {
+                    getNoteFourCmd.execute();
                 }
 
                 if (getNoteFourCmd.isFinished()) {
@@ -233,6 +240,8 @@ public class centerFourNote extends Command {
                             new intakeCmd(RollerStatus.STOP),
                             new SetLauncherRPM(0.0));
                     shutdownCmd.initialize();
+                } else {
+                    shutdownCmd.execute();
                 }
                 // TODO -- Stop things and brace for impact of another bot crashing into us.
                 if (shutdownCmd.isFinished()) {

@@ -23,7 +23,7 @@ public class LaunchCmd extends Command {
     private double launch_startTime = 0;
     private double launch_endTimeOut = 0;
     private double launch_endTimeSense = 0;
-    private final double launchSenseDelay = 0.4;
+    private final double launchSenseDelay = 0.3;
     private final double launch_delayTime = 1.0;
     private LAUNCH_STEPS curr_step = LAUNCH_STEPS.PRE_LAUNCH_CHECKS;
 
