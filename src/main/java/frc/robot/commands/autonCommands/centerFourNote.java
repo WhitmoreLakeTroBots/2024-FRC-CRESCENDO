@@ -178,13 +178,12 @@ public class centerFourNote extends Command {
             case GETNOTEFOURDIRECT:
                 if (getNoteFourDirectCmd == null) {
                     getNoteFourDirectCmd = new SequentialCommandGroup(
-                            new AngleCmd(ANGLEPOS.START, true),
+                            new AngleCmd(ANGLEPOS.START, false),
                             new ParallelCommandGroup(
                                     new autoDriveCmd(_3To2),
                                     new SequentialCommandGroup(
-                                            new cmdDelay(1.8),
                                             new intakeCmd(RollerStatus.FORWARD),
-                                            new pivotCmd(PivotPos.OUT, true))));
+                                            new pivotCmd(PivotPos.OUT, false))));
                     getNoteFourDirectCmd.initialize();
                 } else {
                     getNoteFourDirectCmd.execute();
@@ -198,13 +197,13 @@ public class centerFourNote extends Command {
             case GETNOTEFOUR:
                 if (getNoteFourCmd == null) {
                     getNoteFourCmd = new SequentialCommandGroup(
-                            new AngleCmd(ANGLEPOS.START, true),
+                            new AngleCmd(ANGLEPOS.START, false),
                             new ParallelCommandGroup(
                                     new autoDriveCmd(_CNTo2),
                                     new SequentialCommandGroup(
                                             new cmdDelay(1.8),
                                             new intakeCmd(RollerStatus.FORWARD),
-                                            new pivotCmd(PivotPos.OUT, true))));
+                                            new pivotCmd(PivotPos.OUT, false))));
                     getNoteFourCmd.initialize();
                 } else {
                     getNoteFourCmd.execute();
@@ -223,8 +222,11 @@ public class centerFourNote extends Command {
                                     new autoDriveCmd(_2ToShoot),
                                     new pivotCmd(PivotPos.IN, false),
                                     new intakeCmd(RollerStatus.STOP),
-                                    new AngleCmd(ANGLEPOS.CENTERNOTE, true)),
-                            new LaunchCmd());
+                                    new AngleCmd(ANGLEPOS.CENTERNOTE, false)),
+                                    new LaunchCmd());
+
+                            launchNoteFourCmd.initialize();
+                            System.err.println("launch four initialized");
                 } else {
                     launchNoteFourCmd.execute();
                 }
