@@ -152,10 +152,11 @@ public class RobotContainer {
         Trigger DUp_drive = m_driverController.povUp();
         DUp_drive.onTrue(new ClimbCmd(ClimbMode.PRECLIMB));
         Trigger DLeft_drive = m_driverController.povLeft();
-        DLeft_drive.onTrue(new ClimbCmd(ClimbMode.START));
+        DLeft_drive.onTrue(new AngleCmd(ANGLEPOS.START, false));
         Trigger DDown_drive = m_driverController.povDown();
         DDown_drive.onTrue(new ClimbCmd(ClimbMode.HOLD));
         Trigger DRight_drive = m_driverController.povRight();
+        DRight_drive.onTrue(new AngleCmd(ANGLEPOS.FULLCOURT, false));
 
         Trigger BACK_drive = m_driverController.back();
         BACK_drive.whileTrue(new RunCommand(
@@ -254,6 +255,7 @@ public class RobotContainer {
         SmartDashboard.putBoolean("LaunchAngleStatus", m_Launcher.getAngleStatus());
         SmartDashboard.putNumber("LaunchTargetAngle", m_Launcher.getAnglePos().getangle());
         SmartDashboard.putBoolean("Gyro Connected", m_robotDrive.m_gyro.isConnected());
+        SmartDashboard.putNumber("TagAlign", m_cam1.getSpeakerDEG());
        // SmartDashboard.putNumber("Error Count", m_HealthCheck.getFaultCount());
        // SmartDashboard.putBoolean("Error", (m_HealthCheck.getFaultCount() == 0));
 

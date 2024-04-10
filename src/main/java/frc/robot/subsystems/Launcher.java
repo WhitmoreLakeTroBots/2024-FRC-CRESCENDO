@@ -267,6 +267,7 @@ public class Launcher extends SubsystemBase {
         PASS(50,55, 1700),
         MIDRANGE(27, 32, 4000), //DRight
         PODIUM(38,43,3000), //DLeft
+        FULLCOURT(42,47,5000),
         THROW(12, 17, 2500);
 
         private final double angle;
