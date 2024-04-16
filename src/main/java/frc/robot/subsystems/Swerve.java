@@ -66,6 +66,7 @@ public class Swerve extends SubsystemBase {
       CANIDs.kRearRightTurningCanId,
       DriveConstants.kBackRightChassisAngularOffset);
 
+  private PID visionPID = new PID(0.006, 0.0 , 0.0);
   // private List<MAXSwerveModule> m_swerveModules;
 
   // moved to a subsystem with all of the WLRobotics functions
@@ -366,10 +367,10 @@ public class Swerve extends SubsystemBase {
     } else if (RobotContainer.getInstance().m_driverController.b().getAsBoolean()) {
       turn(90,leftX, leftY);
     }else if (RobotContainer.getInstance().m_driverController.y().getAsBoolean()) { 
-    // Drive the bot
-    turn(RobotContainer.getInstance().m_cam1.getSpeakerDEG(), leftX, leftY);
+      // auto align speaker
+      RobotContainer.getInstance().m_robotDrive.drive(leftY, leftX, calcVisionTurn(), true, true);
   }else {
-
+    // Drive the bot
     RobotContainer.getInstance().m_robotDrive.drive(leftY, leftX, rightX, true, true);
   }
   }
@@ -416,6 +417,13 @@ public class Swerve extends SubsystemBase {
 
   }
 
+  private double calcVisionTurn(){
+    double speakerDEG = RobotContainer.getInstance().m_cam1.getSpeakerDEG();
+    double calcPID = -visionPID.calcPID(0, speakerDEG);
+    //System.err.println(calcPID);
+    return calcPID;
+  }
+    
   public void turn(double heading, double leftX, double leftY) {
     double targetHeading = heading;
     double targetHeadingRAD = 0;
@@ -424,7 +432,7 @@ public class Swerve extends SubsystemBase {
    if (!RobotContainer.getInstance().isRed()) {
       targetHeading = -targetHeading;
     } 
-    
+
     
     // double current = this.m_odometry.getEstimatedPosition().getRotation()
     // .getRadians();

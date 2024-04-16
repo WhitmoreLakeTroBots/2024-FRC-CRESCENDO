@@ -2,6 +2,7 @@ package frc.robot.subsystems;
 
 import edu.wpi.first.math.geometry.Pose3d;
 import java.io.IOException;
+import java.rmi.server.RemoteObjectInvocationHandler;
 import java.util.Optional;
 
 import org.photonvision.*;
@@ -9,6 +10,8 @@ import org.photonvision.targeting.PhotonPipelineResult;
 import org.photonvision.targeting.PhotonTrackedTarget;
 import edu.wpi.first.math.geometry.Transform3d;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import frc.robot.Constants;
+import frc.robot.RobotContainer;
 import frc.utils.CommonLogic;
 import edu.wpi.first.apriltag.AprilTagFieldLayout;
 import edu.wpi.first.apriltag.AprilTagFields;
@@ -41,6 +44,7 @@ public class WL_PhotonCamera extends SubsystemBase {
             System.err.println("Could not load april tag field layout");
             System.out.println(e);
         }
+
     }
 
     // this gets put in the periodic to cause the rPi to compute a pose
@@ -85,12 +89,16 @@ public class WL_PhotonCamera extends SubsystemBase {
             speakerTagVisible = false;
             result.targets.forEach(tag -> {
                 if (tag.getFiducialId() == ourSpeakerTag) {
-                    speakerAlignmentRad = tag.getYaw();
-                    speakerTagVisible = true;
+                    Optional<Pose3d> tagPose3d = this.aprilTagFieldLayout.getTagPose(ourSpeakerTag);
+                    if (tagPose3d.isPresent()) {
+                        speakerAlignmentRad = PhotonUtils
+                                .getYawToPose(currPose3d.toPose2d(), tagPose3d.get().toPose2d()).getRadians() + Math.toRadians(180);
+                        speakerTagVisible = true;
+                    }
                 }
             });
 
-            if (! speakerTagVisible) {
+            if (!speakerTagVisible) {
                 speakerAlignmentRad = 0;
             }
         }
@@ -131,8 +139,10 @@ public class WL_PhotonCamera extends SubsystemBase {
             ourSpeakerTag = 7;
         }
     }
-    public double getSpeakerDEG(){
-        return Math.toDegrees(speakerAlignmentRad);
+
+    public double getSpeakerDEG() {
+        return RobotContainer.getInstance().m_robotDrive.m_gyro
+                .gyroNormalize(Math.toDegrees(speakerAlignmentRad));
     }
 
 }

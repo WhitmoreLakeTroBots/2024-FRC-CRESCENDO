@@ -20,7 +20,7 @@ public class Constants {
     public static final String name = "Cam11A";
     public static final Transform3d camrobotTransform3d = new Transform3d (
       RobotMath.inchesToMeters(-12), RobotMath.inchesToMeters(-2.5), RobotMath.inchesToMeters(11.5),
-      new Rotation3d (Math.toRadians(0.0), Math.toRadians(28.0), Math.toRadians(191)));
+      new Rotation3d (Math.toRadians(0.0), Math.toRadians(34.5), Math.toRadians(191)));
   } // -6, 0, 11.0, 0, 57, 191
 
   public static final class Cam2Constants {

@@ -19,14 +19,14 @@ public class AllianceCmd extends Command {
     @Override
     public void initialize() {
        RobotContainer.getInstance().setRed(alliance);
-        bDone = true;
-        end(bDone);
+
     }
 
     // Called every time the scheduler runs while the command is scheduled.
     @Override
     public void execute() {
         bDone = true;
+        end(bDone);
     }
 
     // Called once the command ends or is interrupted.
