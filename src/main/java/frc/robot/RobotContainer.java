@@ -277,7 +277,9 @@ public class RobotContainer {
      */
     public void setRed(boolean value) {
         bRed = value;
-        m_CameraHelper.setRed(bRed);
+     // m_CameraHelper.setRed(bRed);
+        m_cam1.setRed(bRed);
+        System.err.println("setting red");
     }
 
 }

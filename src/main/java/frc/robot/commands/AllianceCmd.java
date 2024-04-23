@@ -5,7 +5,7 @@ import frc.robot.RobotContainer;
 
 public class AllianceCmd extends Command {
     private boolean bDone = false;
-    private boolean alliance = false;
+    private boolean alliance;
     public AllianceCmd(boolean AL) {
         alliance = AL;
         // m_subsystem = subsystem;
@@ -18,15 +18,16 @@ public class AllianceCmd extends Command {
     // Called when the command is initially scheduled.
     @Override
     public void initialize() {
-       RobotContainer.getInstance().setRed(alliance);
 
     }
 
     // Called every time the scheduler runs while the command is scheduled.
     @Override
     public void execute() {
+        RobotContainer.getInstance().setRed(alliance);
+        System.out.println("executing alliancecmd");
         bDone = true;
-        end(bDone);
+       // end(bDone);
     }
 
     // Called once the command ends or is interrupted.
