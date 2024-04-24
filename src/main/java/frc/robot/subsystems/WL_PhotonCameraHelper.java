@@ -4,6 +4,7 @@ import java.util.Map;
 import java.util.HashMap;
 import edu.wpi.first.math.geometry.Pose3d;
 import edu.wpi.first.math.geometry.Rotation3d;
+import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.RobotContainer;
 
@@ -111,10 +112,10 @@ public class WL_PhotonCameraHelper extends SubsystemBase {
         return AveragePoseString;
     }
 
-    public void setRed(boolean isRed) {
+    public void setAlliance(DriverStation.Alliance AL) {
 
         for (Map.Entry<String, WL_PhotonCamera> e : cameras.entrySet()) {
-            e.getValue().setRed(isRed);
+            e.getValue().setAlliance(AL);
         }
     }
 }

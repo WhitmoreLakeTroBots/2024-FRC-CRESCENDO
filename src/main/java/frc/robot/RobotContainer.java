@@ -37,6 +37,7 @@ import com.pathplanner.lib.commands.PathPlannerAuto;
 
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
+import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -76,7 +77,7 @@ public class RobotContainer {
     public final Climb m_Climb = new Climb();
     public final CommandXboxController m_driverController = new CommandXboxController(0);
     public final CommandXboxController m_articController = new CommandXboxController(1);
- 
+
     public final Vibration m_Vibration = new Vibration();
 
 
@@ -88,7 +89,7 @@ public class RobotContainer {
 
     SendableChooser<Command> m_Chooser = new SendableChooser<>();
     // The driver's controller
-       private boolean bRed = false;
+       private DriverStation.Alliance alliance = DriverStation.Alliance.Blue;
     /**
      * The container for the robot. Contains subsystems, OI devices, and commands.
      */
@@ -123,8 +124,8 @@ public class RobotContainer {
 
         m_CameraHelper.add(m_cam1);
         //m_CameraHelper.add(m_cam2);
-        m_Alliance.addOption("Red", new AllianceCmd(true));
-        m_Alliance.addOption("Blue", new AllianceCmd(false));
+        m_Alliance.addOption("Red", new AllianceCmd(DriverStation.Alliance.Red));
+        m_Alliance.addOption("Blue", new AllianceCmd(DriverStation.Alliance.Blue));
         SmartDashboard.putData("Alliance", m_Alliance);
     }
 
@@ -267,7 +268,7 @@ public class RobotContainer {
     }
 
     public boolean isRed() {
-        return bRed;
+        return (alliance == DriverStation.Alliance.Red);
     }
 
     /*
@@ -275,10 +276,10 @@ public class RobotContainer {
      * return !bRed;
      * }
      */
-    public void setRed(boolean value) {
-        bRed = value;
+    public void setAlliance(DriverStation.Alliance value) {
+        alliance = value;
      // m_CameraHelper.setRed(bRed);
-        m_cam1.setRed(bRed);
+        m_cam1.setAlliance(alliance);
         System.err.println("setting red");
     }
 

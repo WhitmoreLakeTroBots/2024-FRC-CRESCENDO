@@ -4,7 +4,7 @@ import edu.wpi.first.math.geometry.Pose3d;
 import java.io.IOException;
 import java.rmi.server.RemoteObjectInvocationHandler;
 import java.util.Optional;
-
+import edu.wpi.first.wpilibj.DriverStation;
 import org.photonvision.*;
 import org.photonvision.targeting.PhotonPipelineResult;
 import org.photonvision.targeting.PhotonTrackedTarget;
@@ -132,11 +132,15 @@ public class WL_PhotonCamera extends SubsystemBase {
         return msg;
     }
 
-    public void setRed(boolean isRed) {
-        if (isRed) {
-            ourSpeakerTag = 4;
-        } else {
-            ourSpeakerTag = 7;
+    public void setAlliance(DriverStation.Alliance AL) {
+
+        switch(AL){
+            case Red:
+                ourSpeakerTag = 4;
+                break;
+            case Blue:
+                ourSpeakerTag = 7;
+                break;
         }
     }
 
