@@ -80,6 +80,7 @@ public class RobotContainer {
 
     public final Vibration m_Vibration = new Vibration();
 
+    private int updateCounter = 0;
 
    // public final WL_PhotonCamera m_cam2 = new WL_PhotonCamera (new
      //PhotonCamera(Constants.Cam2Constants.name),
@@ -230,36 +231,42 @@ public class RobotContainer {
     }
 
     public void updateSmartDashboard() {
+
+        if (updateCounter%2 == 0){
+            SmartDashboard.putNumber("Distance Traveled",
+                    m_robotDrive.getDistanceTraveledInches(new Pose2d(2.0, 7.0, new Rotation2d())));
+            SmartDashboard.putData("Auto Mode", m_Chooser);
+            SmartDashboard.putString("odo", m_robotDrive.getPose2dString());
+            SmartDashboard.putString("visAVG", m_CameraHelper.getAveragePoseString());
+            SmartDashboard.putString(Constants.Cam1Constants.name,
+                    m_CameraHelper.getCamString(Constants.Cam1Constants.name));
+            SmartDashboard.putString(Constants.Cam2Constants.name,
+                    m_CameraHelper.getCamString(Constants.Cam2Constants.name));
+        } else {
+            SmartDashboard.putNumber("PivotLocation", m_Intake.getCurPivotPos());
+            SmartDashboard.putNumber("RollerStatus", m_Intake.getCurRollerStatus().getPow());
+            SmartDashboard.putNumber("LauncherTargetRPM", m_Launcher.getTargetRPM());
+            SmartDashboard.putBoolean("Gyro Connected", m_robotDrive.m_gyro.isConnected());
+            SmartDashboard.putNumber("Climb Pos", m_Climb.getCLimbPos());
+
+        }
+        // important stuff
         SmartDashboard.putNumber("heading", m_robotDrive.m_gyro.getNormaliziedNavxAngle());
-        SmartDashboard.putData("Auto Mode", m_Chooser);
-        SmartDashboard.putNumber("Distance Traveled",
-                m_robotDrive.getDistanceTraveledInches(new Pose2d(2.0, 7.0, new Rotation2d())));
-        SmartDashboard.putNumber("PivotLocation", m_Intake.getCurPivotPos());
-        SmartDashboard.putNumber("RollerStatus", m_Intake.getCurRollerStatus().getPow());
         SmartDashboard.putBoolean("BeamBreak1", m_Sensors.getBB1());
+
         SmartDashboard.putBoolean("Launcher",
                 CommonLogic.isInRange(m_Launcher.getActualRPM(), m_Launcher.getTargetRPM(), 250));
 
-        SmartDashboard.putString("odo", m_robotDrive.getPose2dString());
-        SmartDashboard.putString("visAVG", m_CameraHelper.getAveragePoseString());
-        SmartDashboard.putString(Constants.Cam1Constants.name,
-                m_CameraHelper.getCamString(Constants.Cam1Constants.name));
-        SmartDashboard.putString(Constants.Cam2Constants.name,
-                m_CameraHelper.getCamString(Constants.Cam2Constants.name));
-
         SmartDashboard.putNumber("launcher angle", m_Launcher.getAnglePosActual()-5);
 
-        SmartDashboard.putNumber("Climb Pos", m_Climb.getCLimbPos());
         // Launcher
-        SmartDashboard.putNumber("LauncherTargetRPM", m_Launcher.getTargetRPM());
         SmartDashboard.putNumber("LauncherActualRPM", m_Launcher.getActualRPM());
         SmartDashboard.putBoolean("LaunchAngleStatus", m_Launcher.getAngleStatus());
         SmartDashboard.putNumber("LaunchTargetAngle", m_Launcher.getAnglePos().getangle());
-        SmartDashboard.putBoolean("Gyro Connected", m_robotDrive.m_gyro.isConnected());
         SmartDashboard.putNumber("TagAlign", m_cam1.getSpeakerDEG());
        // SmartDashboard.putNumber("Error Count", m_HealthCheck.getFaultCount());
        // SmartDashboard.putBoolean("Error", (m_HealthCheck.getFaultCount() == 0));
-
+    updateCounter = updateCounter + 1;
     }
 
     public static RobotContainer getInstance() {

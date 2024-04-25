@@ -122,6 +122,7 @@ public class Robot extends TimedRobot {
      */
     @Override
     public void autonomousPeriodic() {
+
     }
 
     @Override
@@ -142,6 +143,7 @@ public class Robot extends TimedRobot {
     @Override
     public void teleopPeriodic() {
         RobotContainer.getInstance().m_robotDrive.cmdTeleOp();
+        RobotContainer.getInstance().updateSmartDashboard();
     }
 
     @Override

@@ -12,20 +12,18 @@ public class AllianceCmd extends Command {
         // addRequirements(m_subsystem);
 
     }
-    // if fixedDist = false => stagPosition is suposed to recieve the percantage to
-    // be traversed in stag, in 0.xx format
 
     // Called when the command is initially scheduled.
     @Override
     public void initialize() {
-
+    System.err.println("alliance command inizializing");
     }
 
     // Called every time the scheduler runs while the command is scheduled.
     @Override
     public void execute() {
         RobotContainer.getInstance().setAlliance(alliance);
-        System.out.println("executing alliancecmd");
+        System.err.println("executing alliancecmd");
         bDone = true;
        // end(bDone);
     }
@@ -44,7 +42,7 @@ public class AllianceCmd extends Command {
 
     @Override
     public boolean runsWhenDisabled() {
-        return false;
+        return true;
 
     }
 }
