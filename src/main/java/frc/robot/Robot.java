@@ -67,7 +67,7 @@ public class Robot extends TimedRobot {
     public void disabledInit() {
 
         if (RobotContainer.getInstance() !=  null ) {
-
+            RobotContainer.getInstance().setAlliance(RobotContainer.getInstance().getAlliance());
             // stop the drive
             if (RobotContainer.getInstance().m_robotDrive != null){
                 RobotContainer.getInstance().m_robotDrive.stopDrive();
@@ -108,6 +108,7 @@ public class Robot extends TimedRobot {
      */
     @Override
     public void autonomousInit() {
+        RobotContainer.getInstance().setAlliance(RobotContainer.getInstance().getAlliance());
         RobotContainer.getInstance().m_Alliance.getSelected().schedule();
         m_autonomousCommand = m_robotContainer.getAutonomousCommand();
 
@@ -115,6 +116,7 @@ public class Robot extends TimedRobot {
         if (m_autonomousCommand != null) {
             m_autonomousCommand.schedule();
         }
+
     }
 
     /**
@@ -131,6 +133,7 @@ public class Robot extends TimedRobot {
         // teleop starts running. If you want the autonomous to
         // continue until interrupted by another command, remove
         // this line or comment it out.
+        RobotContainer.getInstance().setAlliance(RobotContainer.getInstance().getAlliance());
         if (m_autonomousCommand != null) {
             m_autonomousCommand.cancel();
         }
@@ -149,6 +152,7 @@ public class Robot extends TimedRobot {
     @Override
     public void testInit() {
         // Cancels all running commands at the start of test mode.
+        RobotContainer.getInstance().setAlliance(RobotContainer.getInstance().getAlliance());
         CommandScheduler.getInstance().cancelAll();
     }
 
