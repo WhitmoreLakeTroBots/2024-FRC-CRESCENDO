@@ -26,7 +26,7 @@ public class WL_PhotonCameraHelper extends SubsystemBase {
     public void add(WL_PhotonCamera cam) {
 
         cameras.put(cam.getCamName(), cam);
-        cam.setAlliance(RobotContainer.getInstance().getAlliance());
+        //cam.setAlliance(RobotContainer.getInstance().getAlliance());
 
     }
 

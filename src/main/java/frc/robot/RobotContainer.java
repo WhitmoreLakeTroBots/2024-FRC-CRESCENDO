@@ -126,6 +126,8 @@ public class RobotContainer {
                 SmartDashboard.putData("Auto Mode", m_Chooser);
 
                 m_CameraHelper.add(m_cam1);
+                m_cam1.setAlliance(alliance);
+
                 // m_CameraHelper.add(m_cam2);
                 m_Alliance.addOption("Red", new AllianceCmd(DriverStation.Alliance.Red));
                 m_Alliance.addOption("Blue", new AllianceCmd(DriverStation.Alliance.Blue));
@@ -284,7 +286,18 @@ public class RobotContainer {
                 alliance = value;
                 // m_CameraHelper.setRed(bRed);
                 m_cam1.setAlliance(alliance);
-                System.err.println("setting red");
+                //System.err.println("setting " + alliance.toString());
+                switch (alliance) {
+                        case Red:
+                                //System.err.println("Setting Red");
+                                break;
+
+                        case Blue:
+                                //System.err.println("Setting Blue");
+                                break;
+                        default:
+                                break;
+                }
         }
 
         public DriverStation.Alliance getAlliance() {

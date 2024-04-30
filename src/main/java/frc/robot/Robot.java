@@ -17,7 +17,7 @@ import frc.robot.subsystems.Intake.RollerStatus;
  * the project.
  */
 public class Robot extends TimedRobot {
-
+    private int disableLoopCounter = 0;
     private Command m_autonomousCommand;
 
     private RobotContainer m_robotContainer;
@@ -99,8 +99,17 @@ public class Robot extends TimedRobot {
          * }
          * }
          */
-
-    }
+        if (disableLoopCounter%50 == 0){
+         try {
+            RobotContainer.getInstance().m_Alliance.getSelected().schedule();        }
+        catch(Exception e) {
+            // do nothing
+        } finally {
+            // do nothing
+        }
+        }
+        disableLoopCounter = disableLoopCounter + 1;
+        }
 
     /**
      * This autonomous runs the autonomous command selected by your
@@ -109,7 +118,7 @@ public class Robot extends TimedRobot {
     @Override
     public void autonomousInit() {
         RobotContainer.getInstance().setAlliance(RobotContainer.getInstance().getAlliance());
-        RobotContainer.getInstance().m_Alliance.getSelected().schedule();
+
         m_autonomousCommand = m_robotContainer.getAutonomousCommand();
 
         // schedule the autonomous command (example)

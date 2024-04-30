@@ -16,14 +16,14 @@ public class AllianceCmd extends Command {
     // Called when the command is initially scheduled.
     @Override
     public void initialize() {
-    System.err.println("alliance command inizializing");
+    //System.err.println("alliance command inizializing");
     }
 
     // Called every time the scheduler runs while the command is scheduled.
     @Override
     public void execute() {
         RobotContainer.getInstance().setAlliance(alliance);
-        System.err.println("executing alliancecmd");
+        //System.err.println("executing alliancecmd");
         bDone = true;
        // end(bDone);
     }
