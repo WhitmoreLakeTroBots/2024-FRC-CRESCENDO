@@ -236,19 +236,19 @@ public class RobotContainer {
 
         public void updateSmartDashboard() {
                 // seams this is causing command loop overruns and bogging down the roborio
-                if (updateCounter % 3 == 0) {
+                //if (updateCounter % 3 == 0) {
                         SmartDashboard.putNumber("Distance Traveled",
                                         m_robotDrive.getDistanceTraveledInches(new Pose2d(2.0, 7.0, new Rotation2d())));
                         SmartDashboard.putData("Auto Mode", m_Chooser);
                         SmartDashboard.putString("odo", m_robotDrive.getPose2dString());
                         SmartDashboard.putString("visAVG", m_CameraHelper.getAveragePoseString());
-                } else if (updateCounter % 3 == 1) {
+                //} else if (updateCounter % 3 == 1) {
                         SmartDashboard.putNumber("PivotLocation", m_Intake.getCurPivotPos());
                         SmartDashboard.putNumber("RollerStatus", m_Intake.getCurRollerStatus().getPow());
                         SmartDashboard.putNumber("LauncherTargetRPM", m_Launcher.getTargetRPM());
                         SmartDashboard.putNumber("LaunchTargetAngle", m_Launcher.getAnglePos().getangle());
                         SmartDashboard.putNumber("heading", m_robotDrive.m_gyro.getNormaliziedNavxAngle());
-                } else if (updateCounter % 3 == 2) {
+                //} else if (updateCounter % 3 == 2) {
                         SmartDashboard.putBoolean("Gyro Connected", m_robotDrive.m_gyro.isConnected());
                         SmartDashboard.putNumber("Climb Pos", m_Climb.getCLimbPos());
                         SmartDashboard.putString(Constants.Cam1Constants.name,
@@ -257,7 +257,7 @@ public class RobotContainer {
                                         m_CameraHelper.getCamString(Constants.Cam2Constants.name));
                         SmartDashboard.putNumber("LauncherActualRPM", m_Launcher.getActualRPM());
 
-                }
+                //}
                 // important stuff
 
                 SmartDashboard.putBoolean("BeamBreak1", m_Sensors.getBB1());
@@ -287,17 +287,6 @@ public class RobotContainer {
                 // m_CameraHelper.setRed(bRed);
                 m_cam1.setAlliance(alliance);
                 //System.err.println("setting " + alliance.toString());
-                switch (alliance) {
-                        case Red:
-                                //System.err.println("Setting Red");
-                                break;
-
-                        case Blue:
-                                //System.err.println("Setting Blue");
-                                break;
-                        default:
-                                break;
-                }
         }
 
         public DriverStation.Alliance getAlliance() {

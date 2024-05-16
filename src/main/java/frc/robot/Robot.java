@@ -17,7 +17,7 @@ import frc.robot.subsystems.Intake.RollerStatus;
  * the project.
  */
 public class Robot extends TimedRobot {
-    private int disableLoopCounter = 0;
+    private int disableLoopCounter = 1;
     private Command m_autonomousCommand;
 
     private RobotContainer m_robotContainer;
@@ -66,20 +66,20 @@ public class Robot extends TimedRobot {
     @Override
     public void disabledInit() {
 
-        if (RobotContainer.getInstance() !=  null ) {
+        if (RobotContainer.getInstance() != null) {
             RobotContainer.getInstance().setAlliance(RobotContainer.getInstance().getAlliance());
             // stop the drive
-            if (RobotContainer.getInstance().m_robotDrive != null){
+            if (RobotContainer.getInstance().m_robotDrive != null) {
                 RobotContainer.getInstance().m_robotDrive.stopDrive();
             }
 
             // Stop the roller
-            if (RobotContainer.getInstance().m_Intake != null){
+            if (RobotContainer.getInstance().m_Intake != null) {
                 RobotContainer.getInstance().m_Intake.setRollerStatus(RollerStatus.STOP);
             }
 
             // stop the launcher
-            if (RobotContainer.getInstance().m_Launcher != null){
+            if (RobotContainer.getInstance().m_Launcher != null) {
                 RobotContainer.getInstance().m_Launcher.setTargetRPM(0.0);
             }
 
@@ -89,27 +89,21 @@ public class Robot extends TimedRobot {
 
     @Override
     public void disabledPeriodic() {
-        /*
-         * var alliance = DriverStation.getAlliance();
-         * if (alliance.isPresent()) {
-         * if (alliance.get() == DriverStation.Alliance.Red){
-         * RobotContainer.getInstance().setRed(true);
-         * }else {
-         * RobotContainer.getInstance().setRed(false);
-         * }
-         * }
-         */
-        if (disableLoopCounter%50 == 0){
-         try {
-            RobotContainer.getInstance().m_Alliance.getSelected().schedule();        }
-        catch(Exception e) {
-            // do nothing
-        } finally {
-            // do nothing
-        }
+        // This checks things about once every 1.5 seconds
+        if (disableLoopCounter % 50 == 0) {
+            try {
+                disableLoopCounter = 1;
+                RobotContainer.getInstance().m_Alliance.getSelected().schedule();
+            } catch (NullPointerException e) {
+                System.out.print("NullPointerException caught");
+            }
+
+            finally {
+                // do nothing
+            }
         }
         disableLoopCounter = disableLoopCounter + 1;
-        }
+    }
 
     /**
      * This autonomous runs the autonomous command selected by your
