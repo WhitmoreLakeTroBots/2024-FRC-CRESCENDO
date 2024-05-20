@@ -149,7 +149,8 @@ public class Launcher extends SubsystemBase {
             return;
         }
         iTargetRPM = newTargetRPM;
-        currRequestedPower = iTargetRPM / LAUNCHER_MAX_RPM;
+        //currRequestedPower = iTargetRPM / LAUNCHER_MAX_RPM;
+        currActualPower = iActualRPM / LAUNCHER_MAX_RPM;
         currLauncherMode = LauncherModes.RAMPING;
         currPowerStepCounter = 0;
         currPowerStep = Math.signum(currRequestedPower - currActualPower) * POWER_STEP_INCREMENT;
