@@ -23,9 +23,9 @@ public class setVisionPoseCmd extends Command {
     // Called when the command is initially scheduled.
     @Override
     public void initialize() {
-         Pose3d pose = RobotContainer.getInstance().m_CameraHelper.getAveragePose3d();
+         //Pose3d pose = RobotContainer.getInstance().m_CameraHelper.getAveragePose3d();
 
-      RobotContainer.getInstance().m_robotDrive.resetOdometry(new Pose2d(pose.getX(),pose.getY(), pose.getRotation().toRotation2d()));
+      // RobotContainer.getInstance().m_robotDrive.resetOdometry(new Pose2d(pose.getX(),pose.getY(), pose.getRotation().toRotation2d()));
     }
     // Called every time the scheduler runs while the command is scheduled.
     @Override

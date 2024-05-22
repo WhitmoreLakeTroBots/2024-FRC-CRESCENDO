@@ -31,7 +31,12 @@ deploy {
                     // JAS   Profiling the Java Program on the RIO  -- Comment out the frcJava line below
                     // https://docs.wpilib.org/en/stable/docs/software/advanced-gradlerio/profiling-with-visualvm.html
                     // https://visualvm.github.io/
+                    // https://docs.wpilib.org/en/stable/docs/software/basic-programming/java-gc.html
                     // Enable VisualVM connection
+                    //jvmArgs.add("-XX:+HeapDumpOnOutOfMemoryError")
+                    //jvmArgs.add("-XX:HeapDumpPath=/u/jeff-dir/heapdump.hprof")
+                      jvmArgs.add("-Xmx:128m")
+                      jvmArgs.add("-Xms:128m")
                     //jvmArgs.add("-Dcom.sun.management.jmxremote=true")
                     //jvmArgs.add("-Dcom.sun.management.jmxremote.port=1198")
                     //jvmArgs.add("-Dcom.sun.management.jmxremote.local.only=false")

@@ -133,7 +133,7 @@ public class Swerve extends SubsystemBase {
         this // Reference to this subsystem to set requirements
     );
 
-    
+
 
 
   }
@@ -366,7 +366,7 @@ public class Swerve extends SubsystemBase {
       turn(0, leftX, leftY);
     } else if (RobotContainer.getInstance().m_driverController.b().getAsBoolean()) {
       turn(90,leftX, leftY);
-    }else if (RobotContainer.getInstance().m_driverController.y().getAsBoolean()) { 
+    }else if (RobotContainer.getInstance().m_driverController.y().getAsBoolean()) {
       // auto align speaker
       RobotContainer.getInstance().m_robotDrive.drive(leftY, leftX, calcVisionTurn(), true, true);
   }else {
@@ -418,29 +418,29 @@ public class Swerve extends SubsystemBase {
   }
 
   private double calcVisionTurn(){
-    double speakerDEG = RobotContainer.getInstance().m_cam1.getSpeakerDEG();
+    double speakerDEG = 0; //RobotContainer.getInstance().m_cam1.getSpeakerDEG();
     double calcPID = -visionPID.calcPID(0, speakerDEG);
     //System.err.println(calcPID);
     return calcPID;
   }
-    
+
   public void turn(double heading, double leftX, double leftY) {
     double targetHeading = heading;
     double targetHeadingRAD = 0;
     double current = Math.toRadians(m_gyro.getNormaliziedNavxAngle());
-    double stepSizeRAD = Math.toRadians(1); 
+    double stepSizeRAD = Math.toRadians(1);
    if (!RobotContainer.getInstance().isRed()) {
       targetHeading = -targetHeading;
-    } 
+    }
 
-    
+
     // double current = this.m_odometry.getEstimatedPosition().getRotation()
     // .getRadians();
 
       /*if(m_gyro.gyroInTol(Math.toDegrees(current), Math.toDegrees(targetHeadingRAD), 3)){
        // this.stopDrive();
      } else {*/
-     
+
     this.drive(leftY, leftX,
         (CommonLogic.CapMotorPower(CommonLogic.gotoPosPIDF
         (0.008,0,RobotContainer.getInstance().m_robotDrive.m_gyro.getNormaliziedNavxAngle(), targetHeading),

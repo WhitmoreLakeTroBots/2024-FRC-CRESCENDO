@@ -72,8 +72,8 @@ public class RobotContainer {
         public final Sensors m_Sensors = new Sensors();
         public final Launcher m_Launcher = new Launcher();
         public final Lighting m_Lighting = new Lighting();
-        public final WL_PhotonCamera m_cam1 = new WL_PhotonCamera(new PhotonCamera(Constants.Cam1Constants.name),
-                        Constants.Cam1Constants.camrobotTransform3d);
+        //public final WL_PhotonCamera m_cam1 = new WL_PhotonCamera(new PhotonCamera(Constants.Cam1Constants.name),
+        //                Constants.Cam1Constants.camrobotTransform3d);
         public final Climb m_Climb = new Climb();
         public final CommandXboxController m_driverController = new CommandXboxController(0);
         public final CommandXboxController m_articController = new CommandXboxController(1);
@@ -86,7 +86,7 @@ public class RobotContainer {
         // PhotonCamera(Constants.Cam2Constants.name),
         // Constants.Cam2Constants.cam2robotTransform3d);
 
-        public final WL_PhotonCameraHelper m_CameraHelper = new WL_PhotonCameraHelper();
+        //public final WL_PhotonCameraHelper m_CameraHelper = new WL_PhotonCameraHelper();
 
         SendableChooser<Command> m_Chooser = new SendableChooser<>();
         // The driver's controller
@@ -125,8 +125,8 @@ public class RobotContainer {
 
                 SmartDashboard.putData("Auto Mode", m_Chooser);
 
-                m_CameraHelper.add(m_cam1);
-                m_cam1.setAlliance(alliance);
+                //m_CameraHelper.add(m_cam1);
+                //m_cam1.setAlliance(alliance);
 
                 // m_CameraHelper.add(m_cam2);
                 m_Alliance.addOption("Red", new AllianceCmd(DriverStation.Alliance.Red));
@@ -241,7 +241,7 @@ public class RobotContainer {
                                         m_robotDrive.getDistanceTraveledInches(new Pose2d(2.0, 7.0, new Rotation2d())));
                         SmartDashboard.putData("Auto Mode", m_Chooser);
                         SmartDashboard.putString("odo", m_robotDrive.getPose2dString());
-                        SmartDashboard.putString("visAVG", m_CameraHelper.getAveragePoseString());
+                        //SmartDashboard.putString("visAVG", m_CameraHelper.getAveragePoseString());
                 //} else if (updateCounter % 3 == 1) {
                         SmartDashboard.putNumber("PivotLocation", m_Intake.getCurPivotPos());
                         SmartDashboard.putNumber("RollerStatus", m_Intake.getCurRollerStatus().getPow());
@@ -251,10 +251,10 @@ public class RobotContainer {
                 //} else if (updateCounter % 3 == 2) {
                         SmartDashboard.putBoolean("Gyro Connected", m_robotDrive.m_gyro.isConnected());
                         SmartDashboard.putNumber("Climb Pos", m_Climb.getCLimbPos());
-                        SmartDashboard.putString(Constants.Cam1Constants.name,
-                                        m_CameraHelper.getCamString(Constants.Cam1Constants.name));
-                        SmartDashboard.putString(Constants.Cam2Constants.name,
-                                        m_CameraHelper.getCamString(Constants.Cam2Constants.name));
+                        //SmartDashboard.putString(Constants.Cam1Constants.name,
+                        //                m_CameraHelper.getCamString(Constants.Cam1Constants.name));
+                        //SmartDashboard.putString(Constants.Cam2Constants.name,
+                        //                m_CameraHelper.getCamString(Constants.Cam2Constants.name));
                         SmartDashboard.putNumber("LauncherActualRPM", m_Launcher.getActualRPM());
 
                 //}
@@ -267,7 +267,7 @@ public class RobotContainer {
 
                 // Launcher
                 SmartDashboard.putBoolean("LaunchAngleStatus", m_Launcher.getAngleStatus());
-                SmartDashboard.putNumber("TagAlign", m_cam1.getSpeakerDEG());
+                //SmartDashboard.putNumber("TagAlign", m_cam1.getSpeakerDEG());
                 // SmartDashboard.putNumber("Error Count", m_HealthCheck.getFaultCount());
                 // SmartDashboard.putBoolean("Error", (m_HealthCheck.getFaultCount() == 0));
                 updateCounter = updateCounter + 1;
@@ -285,7 +285,7 @@ public class RobotContainer {
         public void setAlliance(DriverStation.Alliance value) {
                 alliance = value;
                 // m_CameraHelper.setRed(bRed);
-                m_cam1.setAlliance(alliance);
+                //m_cam1.setAlliance(alliance);
                 //System.err.println("setting " + alliance.toString());
         }
 
