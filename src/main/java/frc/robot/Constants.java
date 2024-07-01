@@ -33,12 +33,12 @@ public class Constants {
 
   public static final class DriveConstants {
 
-    public static final double kMaxSpeedMetersPerSecond = 6.76;
-    public static final double kMaxAngularSpeed = 4 * Math.PI; // radians per second
+    public static final double kMaxSpeedMetersPerSecond = 6.76*0.75;
+    public static final double kMaxAngularSpeed = 3 * Math.PI; // radians per second
 
-    public static final double kDirectionSlewRate = 2.0; // radians per second
-    public static final double kMagnitudeSlewRate = 1.9; // percent per second (1 = 100%)
-    public static final double kRotationalSlewRate = 1.5; // percent per second (1 = 100%)
+    public static final double kDirectionSlewRate = 1.0; // radians per second
+    public static final double kMagnitudeSlewRate = 1.0; // percent per second (1 = 100%)
+    public static final double kRotationalSlewRate = 1.0; // percent per second (1 = 100%)
 
     // Chassis configuration
     public static final double kTrackWidth = Units.inchesToMeters(20.5); // Distance between centers of right and left
