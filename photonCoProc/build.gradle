@@ -1,0 +1,102 @@
+//import edu.wpi.first.gradlerio.deploy.roborio.RoboRIO
+plugins {
+    id 'base'
+    id 'java'
+}
+
+java {
+    sourceCompatibility = JavaVersion.VERSION_17
+    targetCompatibility = JavaVersion.VERSION_17
+}
+
+def robotDeployDir = "${rootProject.projectDir}/src/main/deploy"
+
+def isWindows (){
+  return (System.properties['os.name'].toLowerCase().contains("windows"))
+}
+
+def isLinux() {
+  return (System.properties['os.name'].toLowerCase().contains("linux"))
+}
+
+Task photonServiceDeployUpdate() {
+    group = "photonCoProc"
+    description " deploys a photonvision jar to co-processor as an update"
+    doLast {
+        /*
+        def remoteMachine = "YourRemoteMachine"
+        def credential = new Object() // UsernamePasswordCredentials("username", "password")
+        def localJarPath = "C:/path/to/your/photonvision.jar"
+        def remoteJarPath = "\\$remoteMachine\\C:/path/to/destination/photonvision.jar"
+        def serviceName = "PhotonVisionService"
+
+        def psScriptFile = new File("deploy.ps1")
+        def psScriptContent = psScriptFile.text
+
+        def process = ["powershell", "-File", psScriptFile.absolutePath, "-remoteMachine", remoteMachine, "-credential", credential, "-localJarPath", localJarPath, "-remoteJarPath", remoteJarPath, "-serviceName", serviceName]
+        def proc = process.run()
+        proc.start()
+
+        proc.waitFor()
+        int exitValue = proc.exitValue()
+        if (exitValue != 0) {
+            // Handle error
+            throw new GradleException("PowerShell script failed with exit code $exitValue")
+        }
+        */
+        println "Photon Service Deploy Update "
+    }
+}
+
+task photonServiceInstall () {
+    //dependsOn "deployPhotonVision"
+    description "Installs the photon vision jar as a new windows service"
+    group = "photonCoProc"
+    doLast {
+        println "Installing the photon jar as a new windows service"
+    }
+}
+
+task photonServiceStart () {
+    //dependsOn "deployPhotonVision"
+    description "Starts the photon vision service"
+    group = "photonCoProc"
+    doLast {
+        println "Starting the photon jar as a windows service"
+    }
+}
+
+task photonServiceStop () {
+    description "Stops the photon vision jar as a windows service"
+    group = "photonCoProc"
+    doLast {
+        println "Stoping the photon vision jar as a windows service"
+    }
+}
+
+task photonServiceRestart () {
+    description "Stops & Restarts the photon vision jar as a windows service"
+    group = "photonCoProc"
+    doLast {
+        println "Stopping the photon vision windows service."
+        println "Starting the photon vision windows service."
+
+    }
+}
+
+task photonServiceClearLog () {
+    description "clears the log file for the photonService"
+    group = "photonCoProc"
+    doLast {
+        println "Clearing the log file for the photon service."
+    }
+}
+
+
+task photonServiceFetchLog () {
+    description "Fetches the log file for the photonService"
+    group = "photonCoProc"
+    doLast {
+        println "Fetching the log file for the photon service."
+    }
+}
