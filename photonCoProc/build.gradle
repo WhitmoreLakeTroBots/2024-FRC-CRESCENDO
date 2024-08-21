@@ -19,7 +19,7 @@ def isLinux() {
   return (System.properties['os.name'].toLowerCase().contains("linux"))
 }
 
-Task photonServiceDeployUpdate() {
+tasks.register("photonDeployUpdate") {
     group = "photonCoProc"
     description " deploys a photonvision jar to co-processor as an update"
     doLast {
@@ -48,7 +48,7 @@ Task photonServiceDeployUpdate() {
     }
 }
 
-task photonServiceInstall () {
+tasks.register("photonInstall") {
     //dependsOn "deployPhotonVision"
     description "Installs the photon vision jar as a new windows service"
     group = "photonCoProc"
@@ -57,7 +57,7 @@ task photonServiceInstall () {
     }
 }
 
-task photonServiceStart () {
+tasks.register("photonStart") {
     //dependsOn "deployPhotonVision"
     description "Starts the photon vision service"
     group = "photonCoProc"
@@ -66,7 +66,7 @@ task photonServiceStart () {
     }
 }
 
-task photonServiceStop () {
+tasks.register("photonStop") {
     description "Stops the photon vision jar as a windows service"
     group = "photonCoProc"
     doLast {
@@ -74,7 +74,7 @@ task photonServiceStop () {
     }
 }
 
-task photonServiceRestart () {
+tasks.register("photonRestart") {
     description "Stops & Restarts the photon vision jar as a windows service"
     group = "photonCoProc"
     doLast {
@@ -84,8 +84,8 @@ task photonServiceRestart () {
     }
 }
 
-task photonServiceClearLog () {
-    description "clears the log file for the photonService"
+tasks.register("photonClearLog") {
+    description "clears the log file for the photon"
     group = "photonCoProc"
     doLast {
         println "Clearing the log file for the photon service."
@@ -93,8 +93,8 @@ task photonServiceClearLog () {
 }
 
 
-task photonServiceFetchLog () {
-    description "Fetches the log file for the photonService"
+tasks.register("photonFetchLog") {
+    description "Fetches the log file for the photon"
     group = "photonCoProc"
     doLast {
         println "Fetching the log file for the photon service."
