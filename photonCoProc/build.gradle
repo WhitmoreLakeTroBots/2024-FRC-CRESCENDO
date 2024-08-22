@@ -4,6 +4,10 @@ plugins {
     id 'java'
 }
 
+ext {
+    visionProcessors = ["10.36.68.12", "10.36.68.13"]
+}
+
 java {
     sourceCompatibility = JavaVersion.VERSION_17
     targetCompatibility = JavaVersion.VERSION_17
@@ -17,6 +21,10 @@ def isWindows (){
 
 def isLinux() {
   return (System.properties['os.name'].toLowerCase().contains("linux"))
+}
+
+project.ext.visionProcessors.each { processor ->
+    println "INFO: Vision processor $processor is defined for this build."
 }
 
 tasks.register("photonDeployUpdate") {
@@ -98,5 +106,22 @@ tasks.register("photonFetchLog") {
     group = "photonCoProc"
     doLast {
         println "Fetching the log file for the photon service."
+    }
+}
+
+
+tasks.register("photonAirplaneModeOn") {
+    description "Puts the GMKTec mini into airplane mode"
+    group = "photonCoProc"
+    doLast {
+        println "Airplan Mode activated"
+    }
+}
+
+tasks.register("photonAirplaneModeOff") {
+    description "Puts the GMKTec mini out of airplane mode"
+    group = "photonCoProc"
+    doLast {
+        println "Airplan Mode deactivated"
     }
 }
