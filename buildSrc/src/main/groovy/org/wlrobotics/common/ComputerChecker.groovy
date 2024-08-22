@@ -1,18 +1,13 @@
+package org.wlrobotics.common
 import java.net.InetAddress
-import java.util.logging.Logger
 
-class ComputerChecker {
-    //static def logger = Logger.getLogger('computer_check')
-
-    static boolean findOnlineComputer(String computerName) {
+ class ComputerChecker {
+    boolean findOnlineComputer(String computerName) {
         boolean returnValue = true
 
         try {
-            // logger.info("Pinging ${computerName}")
-            // println "THERE"
-            InetAddress.getByName(computerName).isReachable(1000) // 1000ms timeout
+            returnValue = InetAddress.getByName(computerName).isReachable(1000) // 1000ms timeout
         } catch (Exception e) {
-            //logger.severe("Failed to ping ${computerName}: ${e.message}")
             returnValue = false
         }
         return returnValue

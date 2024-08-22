@@ -1,17 +1,20 @@
-//import edu.wpi.first.gradlerio.deploy.roborio.RoboRIO
+import org.wlrobotics.common.*
+
 plugins {
     id 'base'
+    id 'groovy'
     id 'java'
 }
 
 ext {
-    visionProcessors = ["10.36.68.12", "10.36.68.13"]
+    visionProcessors = ["10.36.68.12", "10.36.68.13", "kudu", "localhost"]
 }
 
 java {
     sourceCompatibility = JavaVersion.VERSION_17
     targetCompatibility = JavaVersion.VERSION_17
 }
+
 
 def robotDeployDir = "${rootProject.projectDir}/src/main/deploy"
 
@@ -23,8 +26,21 @@ def isLinux() {
   return (System.properties['os.name'].toLowerCase().contains("linux"))
 }
 
-project.ext.visionProcessors.each { processor ->
-    println "INFO: Vision processor $processor is defined for this build."
+tasks.register("testcc") {
+    dependsOn 'build'
+    doLast {
+        println "testcc has run"
+        def checker = new ComputerChecker()
+        project.ext.visionProcessors.each { processor ->
+            if (checker.findOnlineComputer(processor)) {
+                println "INFO: Vision processor $processor is online for this build."
+            }
+            else {
+                println "INFO: Vision processor $processor is Offline for this build."
+            }
+        }
+
+    }
 }
 
 tasks.register("photonDeployUpdate") {
