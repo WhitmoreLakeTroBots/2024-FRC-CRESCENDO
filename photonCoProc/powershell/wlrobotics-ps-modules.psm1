@@ -15,16 +15,17 @@ function Write-Log {
 function IsComputerOnline {
     param(
         [string]$ComputerName,
-        [string]$LogFile = "online_check.log"
+        [string]$logFile = "log.txt"
     )
 
     try {
         Write-Log "Checking online status for $ComputerName"
         $result = Test-Connection -ComputerName $ComputerName -Count 1 -Quiet
-        if ($result) {
+        if ($result -eq $true) {
             Write-Log "$ComputerName is online"
             return $true
-        } else {
+        }
+         else {
             Write-Log "$ComputerName is offline"
             return $false
         }
@@ -34,5 +35,6 @@ function IsComputerOnline {
     }
 }
 
-export-modulemember Write-Log
-export-modulemember IsComputerOnline
+Export-Modulemember -Function Write-Log
+Export-Modulemember -Function IsComputerOnline
+

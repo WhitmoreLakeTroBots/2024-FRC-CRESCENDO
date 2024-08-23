@@ -8,6 +8,7 @@ plugins {
 
 ext {
     visionProcessors = ["10.36.68.12", "10.36.68.13", "kudu", "localhost"]
+    ipMask = "10.36.68"
 }
 
 java {
@@ -26,14 +27,21 @@ def isLinux() {
   return (System.properties['os.name'].toLowerCase().contains("linux"))
 }
 
-tasks.register("testcc") {
+tasks.register("photonProcessors") {
     dependsOn 'build'
+    group = "photonCoProc"
+    description "lists the status of all defined photon co-processors."
     doLast {
-        println "testcc has run"
+        String hostIP = ""
         def checker = new ComputerChecker()
         project.ext.visionProcessors.each { processor ->
             if (checker.findOnlineComputer(processor)) {
-                println "INFO: Vision processor $processor is online for this build."
+                hostIP = checker.getHostAddress(processor)
+                if (hostIP.startsWith(ipMask)) {
+                    println "INFO: Vision processor $processor [$hostIP] is online and onboard for this build."
+                }else {
+                    println "INFO: Vision processor $processor [$hostIP] is online and NOT onboard for this build."
+                }
             }
             else {
                 println "INFO: Vision processor $processor is Offline for this build."
@@ -45,7 +53,7 @@ tasks.register("testcc") {
 
 tasks.register("photonDeployUpdate") {
     group = "photonCoProc"
-    description " deploys a photonvision jar to co-processor as an update"
+    description "Deploys a photonvision jar to co-processor as an update"
     doLast {
         /*
         def remoteMachine = "YourRemoteMachine"

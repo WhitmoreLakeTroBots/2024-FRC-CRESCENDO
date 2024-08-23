@@ -10,11 +10,6 @@ java {
     targetCompatibility = JavaVersion.VERSION_17
 }
 
-
-dependencies {
-    implementation project(":photonCoProc")
-}
-
 tasks.wrapper {
     gradleVersion = '8.5'
 }
