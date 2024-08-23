@@ -54,6 +54,7 @@ tasks.register("photonProcessors") {
 tasks.register("photonDeployUpdate") {
     group = "photonCoProc"
     description "Deploys a photonvision jar to co-processor as an update"
+    dependsOn 'build'
     doLast {
         /*
         def remoteMachine = "YourRemoteMachine"
@@ -84,6 +85,7 @@ tasks.register("photonInstall") {
     //dependsOn "deployPhotonVision"
     description "Installs the photon vision jar as a new windows service"
     group = "photonCoProc"
+    dependsOn 'build'
     doLast {
         println "Installing the photon jar as a new windows service"
     }
@@ -93,6 +95,7 @@ tasks.register("photonStart") {
     //dependsOn "deployPhotonVision"
     description "Starts the photon vision service"
     group = "photonCoProc"
+    dependsOn 'build'
     doLast {
         println "Starting the photon jar as a windows service"
     }
@@ -101,6 +104,7 @@ tasks.register("photonStart") {
 tasks.register("photonStop") {
     description "Stops the photon vision jar as a windows service"
     group = "photonCoProc"
+    dependsOn 'build'
     doLast {
         println "Stoping the photon vision jar as a windows service"
     }
@@ -109,6 +113,7 @@ tasks.register("photonStop") {
 tasks.register("photonRestart") {
     description "Stops & Restarts the photon vision jar as a windows service"
     group = "photonCoProc"
+    dependsOn 'build'
     doLast {
         println "Stopping the photon vision windows service."
         println "Starting the photon vision windows service."
