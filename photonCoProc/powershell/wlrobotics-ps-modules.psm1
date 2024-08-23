@@ -14,7 +14,7 @@ function Write-Log {
 
 function IsComputerOnline {
     param(
-        [string]$ComputerName,
+        [string ]$ComputerName,
         [string]$logFile = "log.txt"
     )
 

@@ -7,9 +7,8 @@ param(
     [string]$LogFile = "disable_network.log"
 )
 
-PowerShell
 # Import the logging module
-Import-Module .\wlrobotics-psmodules.ps1m
+Import-Module .\wlrobotics-ps-modules.psm1
 
 
 function Disable-RemoteAdapters {

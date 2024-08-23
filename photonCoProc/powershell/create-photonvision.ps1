@@ -9,6 +9,10 @@ $serviceName = "PhotonVisionService"
 # Path to the Java executable on the remote machine (adjust accordingly)
 $javaPath = "\\$computerName\C:\Program Files\Java\jdk-11.0.17\bin\java.exe"
 
+# Import the logging module
+Import-Module .\wlrobotics-ps-modules.psm1
+
+
 # Function to copy the JAR file to the remote machine
 function Copy-JarToRemote {
     $remotePath = "\\$computerName\C:\path\to\destination\photonvision.jar"
