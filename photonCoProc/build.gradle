@@ -7,7 +7,7 @@ plugins {
 }
 
 ext {
-    visionProcessors = ["10.36.68.12", "10.36.68.13", "kudu", "localhost"]
+    visionProcessors = ["10.36.68.115", "DESKTOP-20J65MJ", "trobots-DS", "localhost"]
     ipMask = "10.36.68"
 }
 
@@ -78,6 +78,26 @@ tasks.register("photonDeployUpdate") {
         }
         */
         println "Photon Service Deploy Update "
+    }
+}
+
+def fRemoteHelloLog = "c:\\temp\\remoteHello.log"
+task remoteHello(type: Exec) {
+    description "runs hello World PS script on a remote to test connectivity"
+    group = "photonCoProc"
+    dependsOn 'build'
+    environment = ['USERNAME': 'Trobots', 'PASSWORD': '36663668']
+    commandLine 'powershell.exe', "-ExecutionPolicy", 'RemoteSigned',
+            '-File', "${project.rootDir}\\photonCoProc\\powershell\\Copy-And-ExecuteRemoteFile.ps1",
+            '-SrcFile', "${project.rootDir}\\photonCoProc\\powershell\\helloWorld.ps1",
+            '-DestComputer', 'DESKTOP-20J65MJ',
+            '-DestFile', 'c:\\temp\\helloWorld.ps1',
+            '-Log', fRemoteHelloLog,
+            "-VerbosePreference.Level", "2"
+
+
+    doFirst{
+        delete fRemoteHelloLog
     }
 }
 
