@@ -24,7 +24,7 @@ function Copy-And-ExecuteRemoteFile {
     try {
         # Check if the source file exists
         if (!(Test-Path $SourceFile)) {
-            Write-Log -logFile $LogFile  -message "Source file '$SourceFile' not found."
+            Write-Log -logFile $LogFile  -message "Source file '$SourceFile' not found =:("
             return
         }
         # Establish a remote session
@@ -33,12 +33,12 @@ function Copy-And-ExecuteRemoteFile {
         Write-Log -logFile $LogFile  -message  "Validating $DestinationComputer is on the network" -verboseLevel 3
         try {
            if (! (Test-Connection $DestinationComputer -Quiet)) {
-                Write-Log -logFile $LogFile  -message "$DestinationComputer is NOT on the network:: $DestinationComputer"
+                Write-Log -logFile $LogFile  -message "$DestinationComputer is NOT on the network =:("
                 return
             }
         }
         catch {
-            Write-Log -logFile $LogFile  -message "$DestinationComputer is NOT on the network: $($_.Exception.Message)"
+            Write-Log -logFile $LogFile  -message "$DestinationComputer is NOT on the network =:( $($_.Exception.Message)"
             throw $_.Exception
         }
         Write-Log -logFile $LogFile  -message  "$DestinationComputer is ONLINE =:)" -verboseLevel 3
@@ -56,7 +56,7 @@ function Copy-And-ExecuteRemoteFile {
         catch [System.Management.Automation.RemoteException] {
             Write-Log -logFile $LogFile  -message "***********************************************"
             Write-Log -logFile $LogFile  -message "You may need to run this powershell command in an 'Administrator Powershell Window' -> 'Enable-PSRemoting'"
-            Write-Log -logFile $LogFile  -message "ERROR: Failed to create remote session due to System.Management.Automation.RemoteException:"
+            Write-Log -logFile $LogFile  -message "ERROR: Failed to create remote session due to System.Management.Automation.RemoteException =:("
             Write-Log -logFile $LogFile  -message "$($_.Exception.Message)"
             Write-Log -logFile $LogFile  -message "***********************************************"
             throw $_.Exception
@@ -64,7 +64,7 @@ function Copy-And-ExecuteRemoteFile {
         catch [System.Management.Automation.PSSessionOpenFailedException] {
             Write-Log -logFile $LogFile  -message "***********************************************"
             Write-Log -logFile $LogFile  -message "You may need to run this powershell command in an 'Administrator Powershell Window' -> 'Enable-PSRemoting'"
-            Write-Log -logFile $LogFile  -message "ERROR: Failed to create remote session due to System.Management.Automation.PSSessionOpenFailedException exception:"
+            Write-Log -logFile $LogFile  -message "ERROR: Failed to create remote session due to System.Management.Automation.PSSessionOpenFailedException exception =:("
             Write-Log -logFile $LogFile  -message "$($_.Exception.Message)"
             Write-Log -logFile $LogFile  -message "***********************************************"
             throw $_.Exception
@@ -72,7 +72,7 @@ function Copy-And-ExecuteRemoteFile {
         catch {
             Write-Log -logFile $LogFile  -message "***********************************************"
             Write-Log -logFile $LogFile  -message "You may need to run this powershell command in an 'Administrator Powershell Window' -> 'Enable-PSRemoting'"
-            Write-Log -logFile $LogFile  -message "ERROR: Failed to create remote session due to general exception:"
+            Write-Log -logFile $LogFile  -message "ERROR: Failed to create remote session due to general exception =:("
             Write-Log -logFile $LogFile  -message "$($_.Exception.Message)"
             Write-Log -logFile $LogFile  -message "***********************************************"
             throw $_.Exception
@@ -82,7 +82,7 @@ function Copy-And-ExecuteRemoteFile {
         if (-not $Global:Session) {
             Write-Log -logFile $LogFile  -message "***********************************************"
             Write-Log -logFile $LogFile  -message "You may need to run this powershell command in an 'Administrator Powershell Window' -> 'Enable-PSRemoting'"
-            Write-Log -logFile $LogFile  -message "ERROR: Failed to create remote session due to unknown error"
+            Write-Log -logFile $LogFile  -message "ERROR: Failed to create remote session due to unknown error =:("
             Write-Log -logFile $LogFile  -message "***********************************************"
             return
         }
@@ -132,11 +132,11 @@ function Copy-And-ExecuteRemoteFile {
         # Wait-Job $Job -Timeout $TimeoutSeconds
 
         if ($Job.State -eq "Completed") {
-            Write-Log -logFile $LogFile  -message "Job completed successfully"
+            Write-Log -logFile $LogFile  -message "Job completed successfully =:)"
         } elseif ($Job.State -eq "Stopped") {
-            Write-Log -logFile $LogFile  -message  "Job timed out after $TimeoutSeconds seconds"
+            Write-Log -logFile $LogFile  -message  "Job timed out after $TimeoutSeconds seconds =:("
         } else {
-            Write-Log -logFile $LogFile  -message "Job failed with error: $($Job.ErrorDetails.Message)"
+            Write-Log -logFile $LogFile  -message "Job failed with error: $($Job.ErrorDetails.Message) =:("
         }
 
         # Remove the copied file from the remote machine
@@ -170,14 +170,14 @@ if ($PSSession.Runspace.ExecutionContext.SessionState.CurrentScope.SessionState.
     Write-Log -logFile $Log -message "WARNING: script $($MyInvocation.MyCommand.Path) is not running as administrator"
 }
 
-Write-Log -logFile $Log -message  "$User::********"
+Write-Log -logFile $Log -message  "Credential :: $User/********"
 $password = ConvertTo-SecureString -AsPlainText -Force -String "$PWord"
 $Credential = New-Object System.Management.Automation.PSCredential("$User", $password)
 
 Write-Log -logFile $Log -message "SourceFile :: $SrcFile"
 Write-Log -logFile $Log -message "DestinationComputer :: $DestComputer"
 Write-Log -logFile $Log -message "DestinationPath :: $DestFile"
-Write-Log -logFile $Log -message "Credential :: $Credential"
+#Write-Log -logFile $Log -message "Credential :: $Credential"
 Write-Log -logFile $Log -message "LogFile :: $Log"
 Write-Log -logFile $Log -message "TimeoutSeconds  :: $Timeout"
 
