@@ -1,4 +1,7 @@
 import org.wlrobotics.common.*
+import java.io.InputStreamReader
+import java.io.InputStream
+import groovy.json.JsonSlurper
 
 plugins {
     id 'base'
@@ -16,8 +19,32 @@ java {
     targetCompatibility = JavaVersion.VERSION_17
 }
 
+def passFile = "UNKNOWN"
 
-def robotDeployDir = "${rootProject.projectDir}/src/main/deploy"
+def pass_locations = [
+  "${System.env.USERPROFILE}/wlrobotics-pass/secrets.json",
+  "${System.env.WLROBOTICS_PASS_HOME}/wlrobotics-pass/secrets.json",
+  "${System.env.HOME}/wlrobotics-pass/secrets.json"
+ ]
+
+File f = null
+pass_locations.each { wl_loc ->
+    f = new File (wl_loc)
+    if (f.exists()) {
+        println "wlrobotics-pass/secrets were found at ${f.getPath()}"
+        passFile = wl_loc
+    }
+}
+
+if (passFile == "UNKNOWN") {
+    pass_locations.each { wl_loc ->
+        f = new File (wl_loc)
+        println "wlrobotics-pass/secrets.groovy not found at ${f.getPath()}"
+    }
+    throw new Exception("wlrobotics-pass not found !!!")
+}
+
+def json = new JsonSlurper().parse(new File(passFile))
 
 def isWindows (){
   return (System.properties['os.name'].toLowerCase().contains("windows"))
@@ -82,15 +109,28 @@ tasks.register("photonDeployUpdate") {
 }
 
 def fRemoteHelloLog = "c:\\temp\\remoteHello.log"
+def visionProc = null
+def cc = new ComputerChecker()
+json.computers.each { computer ->
+    if (cc.findOnlineComputer(computer.name)) {
+        println "$computer.name IS Online"
+        visionProc = computer
+        return
+    }
+    else {
+        println "$computer.name IS Offline"
+    }
+} ?: println("No computers online")
+
 task remoteHello(type: Exec) {
     description "runs hello World PS script on a remote to test connectivity"
     group = "photonCoProc"
     dependsOn 'build'
-    environment = ['USERNAME': 'Trobots', 'PASSWORD': '36663668']
+    environment = ['USERNAME': visionProc.username, 'PASSWORD': visionProc.password]
     commandLine 'powershell.exe', "-ExecutionPolicy", 'RemoteSigned',
             '-File', "${project.rootDir}\\photonCoProc\\powershell\\Copy-And-ExecuteRemoteFile.ps1",
             '-SrcFile', "${project.rootDir}\\photonCoProc\\powershell\\helloWorld.ps1",
-            '-DestComputer', 'DESKTOP-20J65MJ',
+            '-DestComputer', visionProc.name,
             '-DestFile', 'c:\\temp\\helloWorld.ps1',
             '-Log', fRemoteHelloLog,
             "-VerbosePreference.Level", "2"
@@ -98,6 +138,7 @@ task remoteHello(type: Exec) {
 
     doFirst{
         delete fRemoteHelloLog
+
     }
 }
 
