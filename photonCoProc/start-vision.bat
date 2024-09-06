@@ -1,0 +1,1 @@
+Powershell.exe  c:\shared\photonvision\run-vision.ps1 -RunAs
