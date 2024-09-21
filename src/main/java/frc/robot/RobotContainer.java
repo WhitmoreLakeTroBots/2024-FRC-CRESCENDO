@@ -14,6 +14,7 @@ import frc.robot.commands.autonCommands.centerFourNoteBN;
 import frc.robot.commands.autonCommands.centerThreeNote;
 import frc.robot.commands.autonCommands.centerTwoNote;
 import frc.robot.commands.autonCommands.driveStraight;
+import frc.robot.commands.autonCommands.launchAuton;
 import frc.robot.commands.autonCommands.topThreeAA;
 import frc.robot.commands.autonCommands.topThreeNote;
 import frc.robot.commands.autonCommands.topTwoNote;
@@ -107,6 +108,8 @@ public class RobotContainer {
                 m_Chooser.addOption("centerThreeNote", new centerThreeNote());
                 // m_Chooser.addOption("visionSetup", new visionSetup());
                 m_Chooser.addOption("topTwoNote", new topTwoNote());
+                                m_Chooser.addOption("topTwoNote Delay", new topTwoNoteDelay());
+                                m_Chooser.addOption("Launch", new launchAuton());
                 m_Chooser.addOption("topThreeNote", new topThreeNote());
                 m_Chooser.addOption("BottomTwoNote", new bottomTwoNote());
                 m_Chooser.addOption("Test Turn", new turnTest());

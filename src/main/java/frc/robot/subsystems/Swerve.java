@@ -365,7 +365,9 @@ public class Swerve extends SubsystemBase {
     if (RobotContainer.getInstance().m_driverController.a().getAsBoolean()){
       turn(0, leftX, leftY);
     } else if (RobotContainer.getInstance().m_driverController.b().getAsBoolean()) {
-      turn(90,leftX, leftY);
+      if (RobotContainer.getInstance().isRed()) {
+        turn(45,leftX, leftY);
+      } else turn(45,leftX,leftY);  
     }else if (RobotContainer.getInstance().m_driverController.y().getAsBoolean()) { 
       // auto align speaker
       RobotContainer.getInstance().m_robotDrive.drive(leftY, leftX, calcVisionTurn(), true, true);

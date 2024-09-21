@@ -40,7 +40,7 @@ public class topTwoNoteDelay extends SequentialCommandGroup {
         addCommands(new cmdDelay(1));
         addCommands(new LaunchCmd());
         addCommands(new cmdDelay(8));
-        addCommands(new ParallelCommandGroup(
+       /* addCommands(new ParallelCommandGroup(
                 new autoDriveCmd(path1)
                 ,new AngleCmd(ANGLEPOS.PODIUM, false), new intakeCmd(RollerStatus.FORWARD),
                 new pivotCmd(PivotPos.OUT, true)
@@ -48,7 +48,7 @@ public class topTwoNoteDelay extends SequentialCommandGroup {
 
         addCommands(new turnCmd(30, 0.3));
         addCommands(new cmdDelay(1).andThen(new LaunchCmd()));
-        addCommands(new cmdDelay(1).andThen(new AngleCmd(ANGLEPOS.START, true)));
+        addCommands(new cmdDelay(1).andThen(new AngleCmd(ANGLEPOS.START, true))); */
        
     }
 
